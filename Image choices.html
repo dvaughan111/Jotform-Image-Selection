@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jotform Image Selector Widget</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the widget */
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter font for a modern look */
+            background-color: #f0f4f8; /* Light background */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to start to prevent excessive vertical centering */
+            min-height: 100vh;
+            margin: 0;
+            padding: 1.5rem; /* Add some padding for smaller screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+        .widget-container {
+            background-color: #ffffff;
+            border-radius: 1rem; /* Rounded corners */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            padding: 2rem;
+            width: 100%;
+            max-width: 1000px; /* Max width for better readability on large screens */
+            text-align: center;
+        }
+        .image-card {
+            background-color: #fdfdfd;
+            border: 1px solid #e2e8f0; /* Light border */
+            border-radius: 0.75rem; /* Rounded corners for cards */
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            position: relative; /* For checkbox positioning */
+            min-height: 280px; /* Ensure consistent height for cards */
+        }
+        .image-card:hover {
+            border-color: #a7d9ff; /* Highlight on hover */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
+            transform: translateY(-2px); /* Slight lift */
+        }
+        .image-card.selected {
+            border-color: #3b82f6; /* Blue border when selected */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Blue ring when selected */
+        }
+        .image-card img {
+            width: 100%;
+            max-width: 150px; /* Max width for images */
+            height: auto;
+            border-radius: 0.5rem; /* Rounded image corners */
+            margin-bottom: 0.75rem;
+        }
+        .image-card input[type="checkbox"] {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            cursor: pointer;
+            accent-color: #3b82f6; /* Blue checkbox */
+        }
+        .image-card label {
+            cursor: pointer;
+            display: block; /* Make label take full width */
+            padding-top: 0.5rem; /* Space for checkbox */
+        }
+        .conditional-fields {
+            display: none; /* Hidden by default */
+            width: 100%;
+            margin-top: 1rem;
+            text-align: left; /* Align text within conditional fields */
+        }
+        .conditional-fields input[type="number"],
+        .conditional-fields textarea {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s ease-in-out;
+        }
+        .conditional-fields input[type="number"]:focus,
+        .conditional-fields textarea:focus {
+            border-color: #3b82f6;
+        }
+        .conditional-fields label {
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-top: 0.75rem;
+            display: block;
+        }
+        /* Ensure responsive grid for images */
+        @media (min-width: 640px) { /* sm breakpoint */
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .image-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .image-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="widget-container">
+        <h2 class="text-3xl font-extrabold mb-4 text-gray-900">Select Your Items</h2>
+        <p class="text-gray-600 mb-8">Choose the items you need. Additional fields will appear for selected items.</p>
+
+        <div id="imageGrid" class="image-grid grid grid-cols-1 gap-6">
+            <!-- Image cards will be dynamically inserted here by JavaScript -->
+        </div>
+
+        <!-- This div is for displaying the data that would conceptually be sent to Jotform -->
+        <div id="jotformOutput" class="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg text-left text-sm text-blue-800 hidden">
+            <h3 class="font-semibold mb-2">Data to be sent to Jotform:</h3>
+            <pre class="whitespace-pre-wrap font-mono text-xs"></pre>
+        </div>
+    </div>
+
+    <script>
+        // Global variables for Canvas environment (Firestore related, but not used in this example)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // Data for the 12 images
+        const imagesData = [
+            { id: 'item1', src: 'https://placehold.co/150x100/AEC6CF/000000?text=Item+1', description: 'Small Box' },
+            { id: 'item2', src: 'https://placehold.co/150x100/FFDDC1/000000?text=Item+2', description: 'Medium Box' },
+            { id: 'item3', src: 'https://placehold.co/150x100/DEA5A4/000000?text=Item+3', description: 'Large Box' },
+            { id: 'item4', src: 'https://placehold.co/150x100/B3E0FF/000000?text=Item+4', description: 'Fragile Item' },
+            { id: 'item5', src: 'https://placehold.co/150x100/CBAACB/000000?text=Item+5', description: 'Heavy Item' },
+            { id: 'item6', src: 'https://placehold.co/150x100/FFABAB/000000?text=Item+6', description: 'Perishable Goods' },
+            { id: 'item7', src: 'https://placehold.co/150x100/D4EE9F/000000?text=Item+7', description: 'Documents' },
+            { id: 'item8', src: 'https://placehold.co/150x100/ADD8E6/000000?text=Item+8', description: 'Electronics' },
+            { id: 'item9', src: 'https://placehold.co/150x100/F0E68C/000000?text=Item+9', description: 'Clothing' },
+            { id: 'item10', src: 'https://placehold.co/150x100/FFB6C1/000000?text=Item+10', description: 'Books' },
+            { id: 'item11', src: 'https://placehold.co/150x100/B0E0E6/000000?text=Item+11', description: 'Art Piece' },
+            { id: 'item12', src: 'https://placehold.co/150x100/FFE4B5/000000?text=Item+12', description: 'Furniture' }
+        ];
+
+        const imageGrid = document.getElementById('imageGrid');
+        const jotformOutputDiv = document.getElementById('jotformOutput');
+        const jotformOutputPre = jotformOutputDiv.querySelector('pre');
+
+        // Function to render the image cards
+        function renderImageCards() {
+            imageGrid.innerHTML = ''; // Clear existing content
+            imagesData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.setAttribute('data-id', item.id); // Custom attribute to easily identify the card
+
+                card.innerHTML = `
+                    <input type="checkbox" id="${item.id}" name="selectedItems" value="${item.id}">
+                    <label for="${item.id}">
+                        <img src="${item.src}" alt="${item.description}" class="mx-auto block">
+                        <p class="text-gray-700 font-medium mt-2">${item.description}</p>
+                    </label>
+                    <div class="conditional-fields" id="fields-${item.id}">
+                        <label for="boxes-${item.id}" class="mt-4">Estimated number of boxes:</label>
+                        <input type="number" id="boxes-${item.id}" min="1" value="1" class="w-full">
+                        <label for="notes-${item.id}">Short notes/comments:</label>
+                        <textarea id="notes-${item.id}" rows="3" placeholder="Enter notes here..." class="w-full resize-y"></textarea>
+                    </div>
+                `;
+                imageGrid.appendChild(card);
+
+                const checkbox = card.querySelector(`#${item.id}`);
+                const conditionalFields = card.querySelector(`#fields-${item.id}`);
+                const boxesInput = card.querySelector(`#boxes-${item.id}`);
+                const notesTextarea = card.querySelector(`#notes-${item.id}`);
+
+                // Add event listener for checkbox change
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        conditionalFields.style.display = 'block'; // Show fields
+                        card.classList.add('selected'); // Add selected class for styling
+                        // Ensure fields are cleared when re-checked, in case user unchecked and re-checked
+                        boxesInput.value = 1;
+                        notesTextarea.value = '';
+                    } else {
+                        conditionalFields.style.display = 'none'; // Hide fields
+                        card.classList.remove('selected'); // Remove selected class
+                        // Clear data when unchecked
+                        boxesInput.value = 1; // Reset to default or empty
+                        notesTextarea.value = '';
+                    }
+                    sendDataToJotform(); // Send updated data
+                });
+
+                // Add event listeners for input changes within conditional fields
+                boxesInput.addEventListener('input', sendDataToJotform);
+                notesTextarea.addEventListener('input', sendDataToJotform);
+
+                // Add event listener to the card itself to toggle checkbox
+                card.addEventListener('click', (event) => {
+                    // Only toggle if the click wasn't directly on the checkbox or its associated inputs
+                    if (event.target !== checkbox && event.target !== boxesInput && event.target !== notesTextarea) {
+                        checkbox.checked = !checkbox.checked;
+                        checkbox.dispatchEvent(new Event('change')); // Manually trigger change event
+                    }
+                });
+            });
+        }
+
+        // Function to collect and send data to Jotform (conceptual)
+        function sendDataToJotform() {
+            const selectedItemsData = [];
+            const checkboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
+
+            checkboxes.forEach(checkbox => {
+                const itemId = checkbox.value;
+                const card = document.querySelector(`.image-card[data-id="${itemId}"]`);
+                const boxesInput = card.querySelector(`#boxes-${itemId}`);
+                const notesTextarea = card.querySelector(`#notes-${itemId}`);
+
+                selectedItemsData.push({
+                    id: itemId,
+                    description: imagesData.find(item => item.id === itemId).description,
+                    boxes: parseInt(boxesInput.value, 10),
+                    notes: notesTextarea.value.trim()
+                });
+            });
+
+            // In a real Jotform widget, you would use window.parent.postMessage
+            // to send this 'selectedItemsData' array back to the parent Jotform frame.
+            // The exact message format would depend on Jotform's widget API.
+            // Example:
+            // if (window.parent) {
+            //     window.parent.postMessage({
+            //         type: 'JotForm_Widget_Data',
+            //         widgetId: 'imageSelectorWidget', // A unique ID for your widget instance
+            //         value: selectedItemsData
+            //     }, '*'); // '*' is for any origin, but specify Jotform's origin for security
+            // }
+
+            // For demonstration, display the data in a pre tag
+            if (selectedItemsData.length > 0) {
+                jotformOutputDiv.classList.remove('hidden');
+                jotformOutputPre.textContent = JSON.stringify(selectedItemsData, null, 2);
+            } else {
+                jotformOutputDiv.classList.add('hidden');
+                jotformOutputPre.textContent = '';
+            }
+
+            console.log('Data to send to Jotform:', selectedItemsData);
+        }
+
+        // Initial rendering of cards when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            renderImageCards();
+            sendDataToJotform(); // Send initial empty data
+        });
+    </script>
+</body>
+</html>
