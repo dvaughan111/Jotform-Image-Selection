@@ -124,6 +124,7 @@
 
         <div id="imageGrid" class="image-grid grid grid-cols-1 gap-6">
             <!-- Image cards will be dynamically inserted here by JavaScript -->
+            <p id="loadingMessage" class="text-gray-500">Loading images...</p>
         </div>
 
         <!-- This div is for displaying the data that would conceptually be sent to Jotform -->
@@ -137,31 +138,23 @@
         // Global variables for Canvas environment (Firestore related, but not used in this example)
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-        // Data for the 12 images
-        const imagesData = [
-            { id: 'item1', src: 'https://placehold.co/150x100/AEC6CF/000000?text=Item+1', description: 'Small Box' },
-            { id: 'item2', src: 'https://placehold.co/150x100/FFDDC1/000000?text=Item+2', description: 'Medium Box' },
-            { id: 'item3', src: 'https://placehold.co/150x100/DEA5A4/000000?text=Item+3', description: 'Large Box' },
-            { id: 'item4', src: 'https://placehold.co/150x100/B3E0FF/000000?text=Item+4', description: 'Fragile Item' },
-            { id: 'item5', src: 'https://placehold.co/150x100/CBAACB/000000?text=Item+5', description: 'Heavy Item' },
-            { id: 'item6', src: 'https://placehold.co/150x100/FFABAB/000000?text=Item+6', description: 'Perishable Goods' },
-            { id: 'item7', src: 'https://placehold.co/150x100/D4EE9F/000000?text=Item+7', description: 'Documents' },
-            { id: 'item8', src: 'https://placehold.co/150x100/ADD8E6/000000?text=Item+8', description: 'Electronics' },
-            { id: 'item9', src: 'https://placehold.co/150x100/F0E68C/000000?text=Item+9', description: 'Clothing' },
-            { id: 'item10', src: 'https://placehold.co/150x100/FFB6C1/000000?text=Item+10', description: 'Books' },
-            { id: 'item11', src: 'https://placehold.co/150x100/B0E0E6/000000?text=Item+11', description: 'Art Piece' },
-            { id: 'item12', src: 'https://placehold.co/150x100/FFE4B5/000000?text=Item+12', description: 'Furniture' }
-        ];
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? initialAuthToken : null;
 
         const imageGrid = document.getElementById('imageGrid');
+        const loadingMessage = document.getElementById('loadingMessage'); // Get reference to loading message
         const jotformOutputDiv = document.getElementById('jotformOutput');
         const jotformOutputPre = jotformOutputDiv.querySelector('pre');
+
+        let imagesData = []; // This will now be populated from the JSON file
 
         // Function to render the image cards
         function renderImageCards() {
             imageGrid.innerHTML = ''; // Clear existing content
+            if (imagesData.length === 0) {
+                imageGrid.innerHTML = '<p class="text-gray-500">No images found. Please check the images.json file.</p>';
+                return;
+            }
+
             imagesData.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'image-card';
@@ -263,10 +256,35 @@
             console.log('Data to send to Jotform:', selectedItemsData);
         }
 
+        // Function to fetch images data from a JSON file
+        async function fetchImagesData() {
+            try {
+                // Display loading message
+                if (loadingMessage) {
+                    loadingMessage.style.display = 'block';
+                }
+                
+                const response = await fetch('images.json'); // Path to your JSON file
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                imagesData = await response.json();
+                renderImageCards(); // Render cards after data is fetched
+                sendDataToJotform(); // Send initial data (likely empty)
+            } catch (error) {
+                console.error('Error fetching image data:', error);
+                imageGrid.innerHTML = '<p class="text-red-500">Failed to load images. Please ensure "images.json" exists and is valid at the same level as your HTML file. If testing in a local preview, this might be a browser security restriction.</p>';
+            } finally {
+                // Hide loading message once done, regardless of success or failure
+                if (loadingMessage) {
+                    loadingMessage.style.display = 'none';
+                }
+            }
+        }
+
         // Initial rendering of cards when the page loads
         document.addEventListener('DOMContentLoaded', () => {
-            renderImageCards();
-            sendDataToJotform(); // Send initial empty data
+            fetchImagesData(); // Fetch data and then render
         });
     </script>
 </body>
