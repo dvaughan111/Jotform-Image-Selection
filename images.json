@@ -1,0 +1,12 @@
+[
+    {
+        "id": "item1",
+        "src": "https://raw.githubusercontent.com/dvaughan111/Jotform-Image-Selection/main/images/Baby%20and%20Me.jpg",
+        "description": "Baby and Me Box"
+    },
+    {
+        "id": "item2",
+        "src": "https://raw.githubusercontent.com/dvaughan111/Jotform-Image-Selection/main/images/Charcutier%20II.jpeg",
+        "description": "Charcutier II Box"
+    }
+]
