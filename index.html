@@ -141,16 +141,23 @@
             const submitBtn = document.getElementById('submitBtn');
             const completionMessage = document.getElementById('completionMessage');
             
+            // Base URL for your images
+            const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
+            
             // Generate 8 rows of image pairs
             for (let i = 0; i < 8; i++) {
                 const row = document.createElement('div');
                 row.className = 'image-row';
                 
+                // Calculate image numbers (1-16)
+                const image1Number = i * 2 + 1;
+                const image2Number = i * 2 + 2;
+                
                 // First image
                 const image1 = document.createElement('div');
                 image1.className = 'image-option';
                 image1.dataset.choice = `pair-${i+1}-option1`;
-                image1.innerHTML = `<img src="https://placehold.co/200x200/3498db/ffffff?text=Image+${i*2+1}" alt="Option ${i*2+1}">`;
+                image1.innerHTML = `<img src="${baseImageUrl}${image1Number}.png" alt="Option ${image1Number}">`;
                 
                 // OR separator
                 const orSeparator = document.createElement('div');
@@ -161,7 +168,7 @@
                 const image2 = document.createElement('div');
                 image2.className = 'image-option';
                 image2.dataset.choice = `pair-${i+1}-option2`;
-                image2.innerHTML = `<img src="https://placehold.co/200x200/e74c3c/ffffff?text=Image+${i*2+2}" alt="Option ${i*2+2}">`;
+                image2.innerHTML = `<img src="${baseImageUrl}${image2Number}.png" alt="Option ${image2Number}">`;
                 
                 // Add click event listeners to images
                 image1.addEventListener('click', function() {
