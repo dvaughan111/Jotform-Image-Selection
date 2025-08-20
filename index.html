@@ -3,288 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jotform Image Selector Widget</title>
-    <!-- Tailwind CSS CDN for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Image Selection Widget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Futura:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles for the widget */
-        body {
-            font-family: 'Inter', sans-serif; /* Using Inter font for a modern look */
-            background-color: #f0f4f8; /* Light background */
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align to start to prevent excessive vertical centering */
-            min-height: 100vh;
+        * {
             margin: 0;
-            padding: 1.5rem; /* Add some padding for smaller screens */
-            box-sizing: border-box; /* Include padding in element's total width and height */
+            padding: 0;
+            box-sizing: border-box;
         }
-        .widget-container {
-            background-color: #ffffff;
-            border-radius: 1rem; /* Rounded corners */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
-            padding: 2rem;
-            width: 100%;
-            max-width: 1000px; /* Max width for better readability on large screens */
-            text-align: center;
-        }
-        .image-card {
-            background-color: #fdfdfd;
-            border: 1px solid #e2e8f0; /* Light border */
-            border-radius: 0.75rem; /* Rounded corners for cards */
-            padding: 1rem;
+        
+        body {
+            font-family: 'Futura', Arial, sans-serif;
+            background: transparent;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-align: center;
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-            position: relative; /* For checkbox positioning */
-            min-height: 280px; /* Ensure consistent height for cards */
+            justify-content: center;
+            padding: 20px;
         }
-        .image-card:hover {
-            border-color: #a7d9ff; /* Highlight on hover */
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
-            transform: translateY(-2px); /* Slight lift */
-        }
-        .image-card.selected {
-            border-color: #3b82f6; /* Blue border when selected */
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Blue ring when selected */
-        }
-        .image-card img {
+        
+        .widget-container {
+            background: transparent;
             width: 100%;
-            max-width: 150px; /* Max width for images */
-            height: auto;
-            border-radius: 0.5rem; /* Rounded image corners */
-            margin-bottom: 0.75rem;
+            max-width: 1000px;
         }
-        .image-card input[type="checkbox"] {
-            position: absolute;
-            top: 0.75rem;
-            left: 0.75rem;
-            width: 1.5rem;
-            height: 1.5rem;
+        
+        .image-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .image-option {
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
             cursor: pointer;
-            accent-color: #3b82f6; /* Blue checkbox */
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
-        .image-card label {
-            cursor: pointer;
-            display: block; /* Make label take full width */
-            padding-top: 0.5rem; /* Space for checkbox */
+        
+        .image-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
         }
-        .conditional-fields {
-            display: none; /* Hidden by default */
+        
+        .image-option.selected {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 4px #3498db, 0 8px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .image-option img {
             width: 100%;
-            margin-top: 1rem;
-            text-align: left; /* Align text within conditional fields */
-        }
-        .conditional-fields input[type="number"],
-        .conditional-fields textarea {
-            width: 100%;
-            padding: 0.6rem 0.8rem;
-            border: 1px solid #cbd5e0;
-            border-radius: 0.5rem;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            outline: none;
-            transition: border-color 0.2s ease-in-out;
-        }
-        .conditional-fields input[type="number"]:focus,
-        .conditional-fields textarea:focus {
-            border-color: #3b82f6;
-        }
-        .conditional-fields label {
-            font-size: 0.9rem;
-            color: #4a5568;
-            margin-top: 0.75rem;
+            height: 100%;
+            object-fit: cover;
             display: block;
         }
-        /* Ensure responsive grid for images */
-        @media (min-width: 640px) { /* sm breakpoint */
-            .image-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        
+        .or-separator {
+            font-family: 'Futura', Arial, sans-serif;
+            font-weight: 700;
+            font-size: 16pt;
+            color: #ffffff;
+            margin: 0 25px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
-        @media (min-width: 768px) { /* md breakpoint */
-            .image-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+        
+        .submit-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto 10px;
+            padding: 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            font-family: 'Futura', Arial, sans-serif;
         }
-        @media (min-width: 1024px) { /* lg breakpoint */
-            .image-grid {
-                grid-template-columns: repeat(4, 1fr);
+        
+        .submit-btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .completion-message {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #27ae60;
+            margin-top: 20px;
+            font-weight: 600;
+            height: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .image-row {
+                flex-direction: column;
+            }
+            
+            .or-separator {
+                margin: 15px 0;
+            }
+            
+            .image-option {
+                width: 180px;
+                height: 180px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="widget-container">
-        <h2 class="text-3xl font-extrabold mb-4 text-gray-900">Select Your Items</h2>
-        <p class="text-gray-600 mb-8">Choose the items you need. Additional fields will appear for selected items.</p>
-
-        <div id="imageGrid" class="image-grid grid grid-cols-1 gap-6">
-            <!-- Image cards will be dynamically inserted here by JavaScript -->
-            <p id="loadingMessage" class="text-gray-500">Loading images...</p>
-        </div>
-
-        <!-- This div is for displaying the data that would conceptually be sent to Jotform -->
-        <div id="jotformOutput" class="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg text-left text-sm text-blue-800 hidden">
-            <h3 class="font-semibold mb-2">Data to be sent to Jotform:</h3>
-            <pre class="whitespace-pre-wrap font-mono text-xs"></pre>
-        </div>
+    <div class="widget-container" id="widget">
+        <!-- Image pairs will be generated here -->
     </div>
+    
+    <button class="submit-btn" id="submitBtn">Submit Selections</button>
+    <div class="completion-message" id="completionMessage"></div>
 
     <script>
-        // Global variables for Canvas environment (Firestore related, but not used in this example)
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? initialAuthToken : null;
-
-        const imageGrid = document.getElementById('imageGrid');
-        const loadingMessage = document.getElementById('loadingMessage'); // Get reference to loading message
-        const jotformOutputDiv = document.getElementById('jotformOutput');
-        const jotformOutputPre = jotformOutputDiv.querySelector('pre');
-
-        let imagesData = []; // This will now be populated from the JSON file
-
-        // Function to render the image cards
-        function renderImageCards() {
-            imageGrid.innerHTML = ''; // Clear existing content
-            if (imagesData.length === 0) {
-                imageGrid.innerHTML = '<p class="text-gray-500">No images found. Please check the images.json file.</p>';
-                return;
-            }
-
-            imagesData.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'image-card';
-                card.setAttribute('data-id', item.id); // Custom attribute to easily identify the card
-
-                card.innerHTML = `
-                    <input type="checkbox" id="${item.id}" name="selectedItems" value="${item.id}">
-                    <label for="${item.id}">
-                        <img src="${item.src}" alt="${item.description}" class="mx-auto block">
-                        <p class="text-gray-700 font-medium mt-2">${item.description}</p>
-                    </label>
-                    <div class="conditional-fields" id="fields-${item.id}">
-                        <label for="boxes-${item.id}" class="mt-4">Estimated number of boxes:</label>
-                        <input type="number" id="boxes-${item.id}" min="1" value="1" class="w-full">
-                        <label for="notes-${item.id}">Short notes/comments:</label>
-                        <textarea id="notes-${item.id}" rows="3" placeholder="Enter notes here..." class="w-full resize-y"></textarea>
-                    </div>
-                `;
-                imageGrid.appendChild(card);
-
-                const checkbox = card.querySelector(`#${item.id}`);
-                const conditionalFields = card.querySelector(`#fields-${item.id}`);
-                const boxesInput = card.querySelector(`#boxes-${item.id}`);
-                const notesTextarea = card.querySelector(`#notes-${item.id}`);
-
-                // Add event listener for checkbox change
-                checkbox.addEventListener('change', () => {
-                    if (checkbox.checked) {
-                        conditionalFields.style.display = 'block'; // Show fields
-                        card.classList.add('selected'); // Add selected class for styling
-                        // Ensure fields are cleared when re-checked, in case user unchecked and re-checked
-                        boxesInput.value = 1;
-                        notesTextarea.value = '';
-                    } else {
-                        conditionalFields.style.display = 'none'; // Hide fields
-                        card.classList.remove('selected'); // Remove selected class
-                        // Clear data when unchecked
-                        boxesInput.value = 1; // Reset to default or empty
-                        notesTextarea.value = '';
-                    }
-                    sendDataToJotform(); // Send updated data
-                });
-
-                // Add event listeners for input changes within conditional fields
-                boxesInput.addEventListener('input', sendDataToJotform);
-                notesTextarea.addEventListener('input', sendDataToJotform);
-
-                // Add event listener to the card itself to toggle checkbox
-                card.addEventListener('click', (event) => {
-                    // Only toggle if the click wasn't directly on the checkbox or its associated inputs
-                    if (event.target !== checkbox && event.target !== boxesInput && event.target !== notesTextarea) {
-                        checkbox.checked = !checkbox.checked;
-                        checkbox.dispatchEvent(new Event('change')); // Manually trigger change event
-                    }
-                });
-            });
-        }
-
-        // Function to collect and send data to Jotform (conceptual)
-        function sendDataToJotform() {
-            const selectedItemsData = [];
-            const checkboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
-
-            checkboxes.forEach(checkbox => {
-                const itemId = checkbox.value;
-                const card = document.querySelector(`.image-card[data-id="${itemId}"]`);
-                const boxesInput = card.querySelector(`#boxes-${itemId}`);
-                const notesTextarea = card.querySelector(`#notes-${itemId}`);
-
-                selectedItemsData.push({
-                    id: itemId,
-                    description: imagesData.find(item => item.id === itemId).description,
-                    boxes: parseInt(boxesInput.value, 10),
-                    notes: notesTextarea.value.trim()
-                });
-            });
-
-            // In a real Jotform widget, you would use window.parent.postMessage
-            // to send this 'selectedItemsData' array back to the parent Jotform frame.
-            // The exact message format would depend on Jotform's widget API.
-            // Example:
-            // if (window.parent) {
-            //     window.parent.postMessage({
-            //         type: 'JotForm_Widget_Data',
-            //         widgetId: 'imageSelectorWidget', // A unique ID for your widget instance
-            //         value: selectedItemsData
-            //     }, '*'); // '*' is for any origin, but specify Jotform's origin for security
-            // }
-
-            // For demonstration, display the data in a pre tag
-            if (selectedItemsData.length > 0) {
-                jotformOutputDiv.classList.remove('hidden');
-                jotformOutputPre.textContent = JSON.stringify(selectedItemsData, null, 2);
-            } else {
-                jotformOutputDiv.classList.add('hidden');
-                jotformOutputPre.textContent = '';
-            }
-
-            console.log('Data to send to Jotform:', selectedItemsData);
-        }
-
-        // Function to fetch images data from a JSON file
-        async function fetchImagesData() {
-            try {
-                // Display loading message
-                if (loadingMessage) {
-                    loadingMessage.style.display = 'block';
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            const widgetContainer = document.getElementById('widget');
+            const submitBtn = document.getElementById('submitBtn');
+            const completionMessage = document.getElementById('completionMessage');
+            
+            // Generate 8 rows of image pairs
+            for (let i = 0; i < 8; i++) {
+                const row = document.createElement('div');
+                row.className = 'image-row';
                 
-                const response = await fetch('images.json'); // Path to your JSON file
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                imagesData = await response.json();
-                renderImageCards(); // Render cards after data is fetched
-                sendDataToJotform(); // Send initial data (likely empty)
-            } catch (error) {
-                console.error('Error fetching image data:', error);
-                imageGrid.innerHTML = '<p class="text-red-500">Failed to load images. Please ensure "images.json" exists and is valid at the same level as your HTML file. If testing in a local preview, this might be a browser security restriction.</p>';
-            } finally {
-                // Hide loading message once done, regardless of success or failure
-                if (loadingMessage) {
-                    loadingMessage.style.display = 'none';
-                }
+                // First image
+                const image1 = document.createElement('div');
+                image1.className = 'image-option';
+                image1.dataset.choice = `pair-${i+1}-option1`;
+                image1.innerHTML = `<img src="https://placehold.co/200x200/3498db/ffffff?text=Image+${i*2+1}" alt="Option ${i*2+1}">`;
+                
+                // OR separator
+                const orSeparator = document.createElement('div');
+                orSeparator.className = 'or-separator';
+                orSeparator.textContent = 'OR';
+                
+                // Second image
+                const image2 = document.createElement('div');
+                image2.className = 'image-option';
+                image2.dataset.choice = `pair-${i+1}-option2`;
+                image2.innerHTML = `<img src="https://placehold.co/200x200/e74c3c/ffffff?text=Image+${i*2+2}" alt="Option ${i*2+2}">`;
+                
+                // Add click event listeners to images
+                image1.addEventListener('click', function() {
+                    selectOption(this, image2);
+                });
+                
+                image2.addEventListener('click', function() {
+                    selectOption(this, image1);
+                });
+                
+                // Append elements to row
+                row.appendChild(image1);
+                row.appendChild(orSeparator);
+                row.appendChild(image2);
+                
+                // Append row to widget container
+                widgetContainer.appendChild(row);
             }
-        }
-
-        // Initial rendering of cards when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchImagesData(); // Fetch data and then render
+            
+            // Function to handle selection
+            function selectOption(selectedElement, otherElement) {
+                selectedElement.classList.add('selected');
+                otherElement.classList.remove('selected');
+            }
+            
+            // Submit button handler
+            submitBtn.addEventListener('click', function() {
+                // Check if all pairs have a selection
+                const selectedOptions = document.querySelectorAll('.image-option.selected');
+                
+                if (selectedOptions.length === 8) {
+                    completionMessage.textContent = 'Thank you for completing all selections!';
+                    completionMessage.style.color = '#27ae60';
+                    submitBtn.textContent = 'Completed!';
+                    submitBtn.style.background = '#27ae60';
+                    submitBtn.disabled = true;
+                    
+                    // Prepare data for submission
+                    const selections = [];
+                    selectedOptions.forEach(option => {
+                        selections.push(option.dataset.choice);
+                    });
+                    
+                    console.log('User selections:', selections);
+                } else {
+                    completionMessage.textContent = 'Please make a selection for each pair.';
+                    completionMessage.style.color = '#e74c3c';
+                    
+                    // Shake animation for feedback
+                    completionMessage.animate([
+                        { transform: 'translateX(0)' },
+                        { transform: 'translateX(-10px)' },
+                        { transform: 'translateX(10px)' },
+                        { transform: 'translateX(0)' }
+                    ], {
+                        duration: 300,
+                        iterations: 1
+                    });
+                }
+            });
         });
     </script>
 </body>
