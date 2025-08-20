@@ -6,35 +6,31 @@
     <title>Image Selection Widget</title>
     <link href="https://fonts.googleapis.com/css2?family=Futura:wght@700&display=swap" rel="stylesheet">
     <style>
-        * {
+        /* Reset with higher specificity to override JotForm styles */
+        #image-selection-widget * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            line-height: 1;
         }
         
-        body {
+        #image-selection-widget {
             font-family: 'Futura', Arial, sans-serif;
-            background: transparent;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            background: transparent !important;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
         }
         
-        .widget-container {
-            background: transparent;
-            width: 100%;
-            max-width: 800px;
-        }
-        
         .image-row {
-            display: flex;
+            display: flex !important;
             justify-content: center;
             align-items: center;
             margin-bottom: 30px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap !important;
+            flex-direction: row !important;
+            width: 100%;
         }
         
         .image-option {
@@ -46,6 +42,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             position: relative;
+            flex-shrink: 0;
         }
         
         .image-option:hover {
@@ -72,6 +69,7 @@
             color: #ffffff;
             margin: 0 25px;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            flex-shrink: 0;
         }
         
         .submit-btn {
@@ -111,29 +109,54 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
         
+        /* Force horizontal layout even on mobile */
         @media (max-width: 768px) {
             .image-row {
-                flex-direction: column;
+                flex-wrap: nowrap !important;
+                flex-direction: row !important;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 10px;
             }
             
             .or-separator {
-                margin: 15px 0;
+                margin: 0 15px;
+                flex-shrink: 0;
             }
             
             .image-option {
-                width: 180px;
-                height: 180px;
+                width: 150px;
+                height: 150px;
+                flex-shrink: 0;
             }
+            
+            /* Hide scrollbar for cleaner look but keep functionality */
+            .image-row::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .image-row {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+        
+        /* Additional specificity to override JotForm styles */
+        body #image-selection-widget .image-row {
+            display: flex !important;
+            flex-direction: row !important;
         }
     </style>
 </head>
 <body>
-    <div class="widget-container" id="widget">
-        <!-- Image pairs will be generated here -->
+    <div id="image-selection-widget">
+        <div class="widget-container" id="widget">
+            <!-- Image pairs will be generated here -->
+        </div>
+        
+        <button class="submit-btn" id="submitBtn">Submit Selections</button>
+        <div class="completion-message" id="completionMessage"></div>
     </div>
-    
-    <button class="submit-btn" id="submitBtn">Submit Selections</button>
-    <div class="completion-message" id="completionMessage"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
