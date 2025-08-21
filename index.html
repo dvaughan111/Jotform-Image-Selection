@@ -18,7 +18,7 @@
             font-family: 'Futura', Arial, sans-serif;
             background: transparent !important;
             width: 100%;
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -27,32 +27,32 @@
             display: flex !important;
             justify-content: center;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             flex-wrap: nowrap !important;
             flex-direction: row !important;
             width: 100%;
         }
         
         .image-option {
-            width: 200px;
-            height: 200px;
+            width: 400px; /* Doubled from 200px */
+            height: 400px; /* Doubled from 200px */
             border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             position: relative;
             flex-shrink: 0;
+            border: 2px solid transparent;
         }
         
         .image-option:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+            border-color: #3498db;
         }
         
         .image-option.selected {
-            transform: scale(1.05);
-            box-shadow: 0 0 0 4px #3498db, 0 8px 20px rgba(52, 152, 219, 0.4);
+            transform: scale(1.02);
+            border: 2px solid #3498db;
         }
         
         .image-option img {
@@ -65,52 +65,15 @@
         .or-separator {
             font-family: 'Futura', Arial, sans-serif;
             font-weight: 700;
-            font-size: 16pt;
+            font-size: 20pt; /* Slightly larger to match bigger images */
             color: #ffffff;
-            margin: 0 25px;
+            margin: 0 40px; /* 40px space before and after OR */
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
             flex-shrink: 0;
         }
         
-        .submit-btn {
-            display: block;
-            width: 200px;
-            margin: 30px auto 10px;
-            padding: 15px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
-            font-family: 'Futura', Arial, sans-serif;
-        }
-        
-        .submit-btn:hover {
-            background: #2980b9;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
-        }
-        
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-        
-        .completion-message {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #27ae60;
-            margin-top: 20px;
-            font-weight: 600;
-            height: 30px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        }
-        
         /* Force horizontal layout even on mobile */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .image-row {
                 flex-wrap: nowrap !important;
                 flex-direction: row !important;
@@ -120,13 +83,13 @@
             }
             
             .or-separator {
-                margin: 0 15px;
+                margin: 0 40px;
                 flex-shrink: 0;
             }
             
             .image-option {
-                width: 150px;
-                height: 150px;
+                width: 300px;
+                height: 300px;
                 flex-shrink: 0;
             }
             
@@ -138,6 +101,13 @@
             .image-row {
                 -ms-overflow-style: none;
                 scrollbar-width: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .image-option {
+                width: 250px;
+                height: 250px;
             }
         }
         
@@ -153,16 +123,11 @@
         <div class="widget-container" id="widget">
             <!-- Image pairs will be generated here -->
         </div>
-        
-        <button class="submit-btn" id="submitBtn">Submit Selections</button>
-        <div class="completion-message" id="completionMessage"></div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const widgetContainer = document.getElementById('widget');
-            const submitBtn = document.getElementById('submitBtn');
-            const completionMessage = document.getElementById('completionMessage');
             
             // Base URL for your images
             const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
@@ -216,42 +181,6 @@
                 selectedElement.classList.add('selected');
                 otherElement.classList.remove('selected');
             }
-            
-            // Submit button handler
-            submitBtn.addEventListener('click', function() {
-                // Check if all pairs have a selection
-                const selectedOptions = document.querySelectorAll('.image-option.selected');
-                
-                if (selectedOptions.length === 4) {
-                    completionMessage.textContent = 'Thank you for completing all selections!';
-                    completionMessage.style.color = '#27ae60';
-                    submitBtn.textContent = 'Completed!';
-                    submitBtn.style.background = '#27ae60';
-                    submitBtn.disabled = true;
-                    
-                    // Prepare data for submission
-                    const selections = [];
-                    selectedOptions.forEach(option => {
-                        selections.push(option.dataset.choice);
-                    });
-                    
-                    console.log('User selections:', selections);
-                } else {
-                    completionMessage.textContent = 'Please make a selection for each pair.';
-                    completionMessage.style.color = '#e74c3c';
-                    
-                    // Shake animation for feedback
-                    completionMessage.animate([
-                        { transform: 'translateX(0)' },
-                        { transform: 'translateX(-10px)' },
-                        { transform: 'translateX(10px)' },
-                        { transform: 'translateX(0)' }
-                    ], {
-                        duration: 300,
-                        iterations: 1
-                    });
-                }
-            });
         });
     </script>
 </body>
