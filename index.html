@@ -18,7 +18,7 @@
             font-family: 'Futura', Arial, sans-serif;
             background: transparent !important;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -34,8 +34,8 @@
         }
         
         .image-option {
-            width: 400px; /* Doubled from 200px */
-            height: 400px; /* Doubled from 200px */
+            width: 240px; /* Reduced by 40% from 400px */
+            height: 240px; /* Reduced by 40% from 400px */
             border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
@@ -65,14 +65,13 @@
         .or-separator {
             font-family: 'Futura', Arial, sans-serif;
             font-weight: 700;
-            font-size: 20pt; /* Slightly larger to match bigger images */
+            font-size: 20pt;
             color: #ffffff;
-            margin: 0 40px; /* 40px space before and after OR */
+            margin: 0 60px; /* Increased from 40px to 60px */
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
             flex-shrink: 0;
         }
         
-        /* Force horizontal layout even on mobile */
         @media (max-width: 1024px) {
             .image-row {
                 flex-wrap: nowrap !important;
@@ -88,12 +87,11 @@
             }
             
             .image-option {
-                width: 300px;
-                height: 300px;
+                width: 200px; /* Adjusted for tablet */
+                height: 200px; /* Adjusted for tablet */
                 flex-shrink: 0;
             }
             
-            /* Hide scrollbar for cleaner look but keep functionality */
             .image-row::-webkit-scrollbar {
                 display: none;
             }
@@ -106,12 +104,15 @@
         
         @media (max-width: 768px) {
             .image-option {
-                width: 250px;
-                height: 250px;
+                width: 180px; /* Adjusted for mobile */
+                height: 180px; /* Adjusted for mobile */
+            }
+            
+            .or-separator {
+                margin: 0 30px; /* Slightly less space on mobile */
             }
         }
         
-        /* Additional specificity to override JotForm styles */
         body #image-selection-widget .image-row {
             display: flex !important;
             flex-direction: row !important;
@@ -126,6 +127,9 @@
     </div>
 
     <script>
+        // Add a version number to the script to force fresh download
+        console.log("Widget script loaded (version 3 - spacing fix)");
+
         document.addEventListener('DOMContentLoaded', function() {
             const widgetContainer = document.getElementById('widget');
             
@@ -145,7 +149,8 @@
                 const image1 = document.createElement('div');
                 image1.className = 'image-option';
                 image1.dataset.choice = `pair-${i+1}-option1`;
-                image1.innerHTML = `<img src="${baseImageUrl}${image1Number}.png" alt="Option ${image1Number}">`;
+                // Add cache-buster to image URL
+                image1.innerHTML = `<img src="${baseImageUrl}${image1Number}.png?v=3" alt="Option ${image1Number}">`;
                 
                 // OR separator
                 const orSeparator = document.createElement('div');
@@ -156,7 +161,8 @@
                 const image2 = document.createElement('div');
                 image2.className = 'image-option';
                 image2.dataset.choice = `pair-${i+1}-option2`;
-                image2.innerHTML = `<img src="${baseImageUrl}${image2Number}.png" alt="Option ${image2Number}">`;
+                // Add cache-buster to image URL
+                image2.innerHTML = `<img src="${baseImageUrl}${image2Number}.png?v=3" alt="Option ${image2Number}">`;
                 
                 // Add click event listeners to images
                 image1.addEventListener('click', function() {
