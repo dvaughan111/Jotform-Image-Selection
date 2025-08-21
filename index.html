@@ -6,42 +6,71 @@
     <title>Image Selection Widget</title>
     <link href="https://fonts.googleapis.com/css2?family=Futura:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* Reset with higher specificity to override JotForm styles */
-        #image-selection-widget * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            line-height: 1;
         }
         
-        #image-selection-widget {
+        body {
             font-family: 'Futura', Arial, sans-serif;
-            background: transparent !important;
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
         
+        .container {
+            width: 800px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .instructions {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .widget-container {
+            background: transparent;
+            padding: 20px 0;
+        }
+        
         .image-row {
-            display: flex !important;
+            display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 40px;
-            flex-wrap: nowrap !important;
-            flex-direction: row !important;
-            width: 100%;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
         }
         
         .image-option {
-            width: 240px; /* Reduced by 40% from 400px */
-            height: 240px; /* Reduced by 40% from 400px */
+            width: 320px;
+            height: 320px;
             border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            flex-shrink: 0;
             border: 2px solid transparent;
         }
         
@@ -67,71 +96,104 @@
             font-weight: 700;
             font-size: 20pt;
             color: #ffffff;
-            margin: 0 60px; /* Increased from 40px to 60px */
+            margin: 0 20px;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-            flex-shrink: 0;
+            padding: 0 10px;
         }
         
-        @media (max-width: 1024px) {
-            .image-row {
-                flex-wrap: nowrap !important;
-                flex-direction: row !important;
-                overflow-x: auto;
-                justify-content: flex-start;
-                padding-bottom: 10px;
-            }
-            
-            .or-separator {
-                margin: 0 40px;
-                flex-shrink: 0;
+        .submit-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto 10px;
+            padding: 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Futura', Arial, sans-serif;
+        }
+        
+        .submit-btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .completion-message {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #27ae60;
+            margin-top: 20px;
+            font-weight: 600;
+            height: 30px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 850px) {
+            .container {
+                width: 95%;
+                padding: 20px;
             }
             
             .image-option {
-                width: 200px; /* Adjusted for tablet */
-                height: 200px; /* Adjusted for tablet */
-                flex-shrink: 0;
-            }
-            
-            .image-row::-webkit-scrollbar {
-                display: none;
-            }
-            
-            .image-row {
-                -ms-overflow-style: none;
-                scrollbar-width: none;
+                width: 280px;
+                height: 280px;
             }
         }
         
         @media (max-width: 768px) {
-            .image-option {
-                width: 180px; /* Adjusted for mobile */
-                height: 180px; /* Adjusted for mobile */
+            .image-row {
+                flex-direction: column;
             }
             
             .or-separator {
-                margin: 0 30px; /* Slightly less space on mobile */
+                margin: 15px 0;
             }
-        }
-        
-        body #image-selection-widget .image-row {
-            display: flex !important;
-            flex-direction: row !important;
+            
+            .image-option {
+                width: 240px;
+                height: 240px;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="image-selection-widget">
+    <div class="container">
+        <header>
+            <h1>Image Selection Widget</h1>
+            <p class="instructions">Select your preference from each pair of images. Click on the image you prefer.</p>
+        </header>
+        
         <div class="widget-container" id="widget">
             <!-- Image pairs will be generated here -->
         </div>
+        
+        <button class="submit-btn" id="submitBtn">Submit Selections</button>
+        <div class="completion-message" id="completionMessage"></div>
     </div>
+    
+    <footer>
+        <p>Created for JotForm | Hosted on GitHub</p>
+    </footer>
 
     <script>
-        // Add a version number to the script to force fresh download
-        console.log("Widget script loaded (version 3 - spacing fix)");
-
         document.addEventListener('DOMContentLoaded', function() {
             const widgetContainer = document.getElementById('widget');
+            const submitBtn = document.getElementById('submitBtn');
+            const completionMessage = document.getElementById('completionMessage');
             
             // Base URL for your images
             const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
@@ -149,8 +211,7 @@
                 const image1 = document.createElement('div');
                 image1.className = 'image-option';
                 image1.dataset.choice = `pair-${i+1}-option1`;
-                // Add cache-buster to image URL
-                image1.innerHTML = `<img src="${baseImageUrl}${image1Number}.png?v=3" alt="Option ${image1Number}">`;
+                image1.innerHTML = `<img src="${baseImageUrl}${image1Number}.png" alt="Option ${image1Number}">`;
                 
                 // OR separator
                 const orSeparator = document.createElement('div');
@@ -161,8 +222,7 @@
                 const image2 = document.createElement('div');
                 image2.className = 'image-option';
                 image2.dataset.choice = `pair-${i+1}-option2`;
-                // Add cache-buster to image URL
-                image2.innerHTML = `<img src="${baseImageUrl}${image2Number}.png?v=3" alt="Option ${image2Number}">`;
+                image2.innerHTML = `<img src="${baseImageUrl}${image2Number}.png" alt="Option ${image2Number}">`;
                 
                 // Add click event listeners to images
                 image1.addEventListener('click', function() {
@@ -187,6 +247,42 @@
                 selectedElement.classList.add('selected');
                 otherElement.classList.remove('selected');
             }
+            
+            // Submit button handler
+            submitBtn.addEventListener('click', function() {
+                // Check if all pairs have a selection
+                const selectedOptions = document.querySelectorAll('.image-option.selected');
+                
+                if (selectedOptions.length === 4) {
+                    completionMessage.textContent = 'Thank you for completing all selections!';
+                    completionMessage.style.color = '#27ae60';
+                    submitBtn.textContent = 'Completed!';
+                    submitBtn.style.background = '#27ae60';
+                    submitBtn.disabled = true;
+                    
+                    // Prepare data for submission
+                    const selections = [];
+                    selectedOptions.forEach(option => {
+                        selections.push(option.dataset.choice);
+                    });
+                    
+                    console.log('User selections:', selections);
+                } else {
+                    completionMessage.textContent = 'Please make a selection for each pair.';
+                    completionMessage.style.color = '#e74c3c';
+                    
+                    // Shake animation for feedback
+                    completionMessage.animate([
+                        { transform: 'translateX(0)' },
+                        { transform: 'translateX(-10px)' },
+                        { transform: 'translateX(10px)' },
+                        { transform: 'translateX(0)' }
+                    ], {
+                        duration: 300,
+                        iterations: 1
+                    });
+                }
+            });
         });
     </script>
 </body>
