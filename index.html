@@ -4,7 +4,7 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>What's Your Vibe? Personality Quiz v2</title>
-   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
    <style>
        * {
            margin: 0;
@@ -142,33 +142,33 @@
            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
            margin-top: -5px;
            /* Background image for results */
-           background-image: url('https://dvaughan111.github.io/Jotform-Image-Selection/or (4).png');
+           background-image: url('https://dvaughan111.github.io/Jotform-Image-Selection/Personality_Guess.png');
            background-size: cover;
            background-position: center;
-           color: white;
+           color: #000; /* Black text color */
        }
 
        .personality-type {
-           font-family: 'Playfair Display', serif;
-           font-weight: 700;
-           font-size: 28px;
-           color: #ffffff;
-           margin-bottom: 25px;
+           font-family: 'Futura', 'Montserrat', sans-serif;
+           font-weight: 900; /* Extra bold for title */
+           font-size: 36px; /* Larger font size */
+           color: #000000; /* Black color */
+           margin: 30px 40px 25px; /* Wide margins */
            text-align: center;
            line-height: 1.2;
-           text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+           text-transform: uppercase; /* All caps like your example */
+           letter-spacing: 1px;
        }
 
        .personality-description {
-           color: #ffffff;
-           font-family: 'Montserrat', sans-serif;
-           font-size: 16px;
+           color: #000000; /* Black color */
+           font-family: 'Futura', 'Montserrat', sans-serif;
+           font-size: 18px;
            line-height: 1.6;
            max-width: 500px;
-           margin: 0 auto;
+           margin: 0 40px; /* Wide margins */
            text-align: center;
-           font-weight: 400;
-           text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+           font-weight: 500;
        }
 
        h1 { display: none; }
@@ -182,6 +182,16 @@
            .result-wrapper {
                width: 95vw;
                max-width: 500px;
+           }
+           
+           .personality-type {
+               font-size: 28px;
+               margin: 25px 30px 20px;
+           }
+           
+           .personality-description {
+               font-size: 16px;
+               margin: 0 30px;
            }
        }
 
@@ -205,10 +215,12 @@
            
            .personality-type {
                font-size: 24px;
+               margin: 20px 25px 15px;
            }
            
            .personality-description {
                font-size: 14px;
+               margin: 0 25px;
            }
            
            .result-container {
@@ -341,19 +353,19 @@
                let personalityType, description;
 
                if (adventurousScore >= 3) {
-                   personalityType = "The Thrill Seeker";
+                   personalityType = "THE THRILL SEEKER";
                    description = "You're drawn to excitement and new experiences! Whether it's outdoor adventures, spontaneous travel, or trying something completely different, you thrive on variety and stimulation. You're not afraid to step outside your comfort zone and often inspire others to be more adventurous too.";
                }
                else if (sophisticatedScore >= 2) {
-                   personalityType = "The Refined Enthusiast";
+                   personalityType = "THE REFINED ENTHUSIAST";
                    description = "You have a taste for the finer things in life and appreciate quality over quantity. You enjoy cultural experiences, elegant settings, and meaningful conversations. You know how to balance sophistication with fun, and you bring a touch of class to everything you do.";
                }
                else if (homebodyScore >= 4) {
-                   personalityType = "The Comfort Connoisseur";
+                   personalityType = "THE COMFORT CONNOISSEUR";
                    description = "You find joy in life's simple pleasures and value comfort and coziness above all else. You prefer intimate gatherings over big crowds and know that the best moments often happen in familiar, comfortable spaces. You're the friend everyone turns to for a relaxing, stress-free good time.";
                }
                else {
-                   personalityType = "The Balanced Explorer";
+                   personalityType = "THE BALANCED EXPLORER";
                    description = "You're wonderfully adaptable and open to different experiences. You can appreciate both quiet nights in and exciting adventures out. You're social yet introspective, practical yet fun-loving. Your friends love that they can count on you for any kind of activity - you truly go with the flow!";
                }
 
