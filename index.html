@@ -3,7 +3,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>What's Your Vibe? Personality Quiz</title>
+   <title>What's Your Vibe? Personality Quiz v2</title>
    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
    <style>
        * {
@@ -14,7 +14,7 @@
 
        body {
            font-family: 'Montserrat', sans-serif;
-           background: transparent;
+           background: white;
            min-height: 100vh;
            display: flex;
            flex-direction: column;
@@ -58,14 +58,14 @@
 
        .image-option:hover {
            transform: translateY(-5px);
-           border-color: #C71585; /* Dark pink red for hover */
-           box-shadow: none; /* Removed drop shadow */
+           border-color: #C71585;
+           box-shadow: none;
        }
 
        .image-option.selected {
            transform: scale(1.03);
-           border: 3px solid #C71585; /* Dark pink red for selection */
-           box-shadow: none; /* Removed drop shadow */
+           border: 3px solid #C71585;
+           box-shadow: none;
        }
 
        .image-option img {
@@ -76,14 +76,14 @@
        }
 
        .or-separator {
-           font-family: 'Futura', 'Montserrat', sans-serif; /* Changed font to Futura or a fallback */
-           font-weight: bold; /* Bold font weight */
+           font-family: 'Futura', 'Montserrat', sans-serif;
+           font-weight: bold;
            font-size: 18pt;
            color: #ffffff;
            margin: 0 20px;
            padding: 0 10px;
            flex-shrink: 0;
-           text-shadow: none; /* Removed text shadow */
+           text-shadow: none;
        }
 
        .submit-btn {
@@ -91,15 +91,15 @@
            width: 220px;
            margin: 40px auto 20px;
            padding: 16px;
-           background: #C71585; /* Dark pink red for button */
+           background: #C71585;
            color: white;
            border: none;
            border-radius: 50px;
-           font-size: 16px; /* Changed font size */
-           font-weight: bold; /* Bold font weight */
+           font-size: 16px;
+           font-weight: bold;
            cursor: pointer;
            transition: all 0.3s ease;
-           font-family: 'Futura', 'Montserrat', sans-serif; /* Changed font to Futura or a fallback */
+           font-family: 'Futura', 'Montserrat', sans-serif;
        }
 
        .submit-btn:hover {
@@ -113,37 +113,42 @@
        .result-container {
            display: none;
            text-align: center;
-           margin-top: 30px;
-           padding: 25px;
-           background: rgba(255, 245, 245, 0.9);
+           margin: 40px auto;
+           padding: 40px;
+           background: white;
            border-radius: 15px;
+           width: 680px;
+           height: 680px;
+           display: none;
+           flex-direction: column;
+           justify-content: center;
+           align-items: center;
+           box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+       }
+
+       .result-container.show {
+           display: flex;
        }
 
        .personality-type {
-           font-family: 'Playfair Display', serif;
+           font-family: 'Futura', 'Montserrat', sans-serif;
+           font-weight: 900;
            font-size: 2.2rem;
-           color: #ff6b6b;
-           margin-bottom: 15px;
+           color: #000000;
+           margin-bottom: 30px;
+           text-align: center;
        }
 
        .personality-description {
-           color: #666;
+           color: #000000;
+           font-family: 'Futura', 'Montserrat', sans-serif;
            font-size: 1.1rem;
            line-height: 1.6;
-           max-width: 600px;
+           max-width: 500px;
            margin: 0 auto;
+           text-align: center;
        }
 
-       .personality-image {
-           width: 160px;
-           height: 160px;
-           border-radius: 50%;
-           object-fit: cover;
-           margin: 20px auto;
-           border: 4px solid #ff6b6b;
-       }
-
-       /* Removed header text styles as per request */
        h1 { display: none; }
 
        @media (max-width: 850px) {
@@ -166,18 +171,25 @@
                width: 200px;
                height: 200px;
            }
+
+           .result-container {
+               width: 90vw;
+               height: 90vw;
+               max-width: 500px;
+               max-height: 500px;
+           }
        }
    </style>
 </head>
 <body>
    <div class="container">
        <div class="widget-container" id="widget">
-           </div>
+       </div>
 
        <button class="submit-btn" id="submitBtn">What's My Vibe?</button>
 
        <div class="result-container" id="resultContainer">
-           </div>
+       </div>
    </div>
 
    <script>
@@ -186,10 +198,8 @@
            const submitBtn = document.getElementById('submitBtn');
            const resultContainer = document.getElementById('resultContainer');
 
-           // Base URL for your images
            const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
 
-           // Define what each image represents
            const imageMeanings = {
                1: "Introverted, homebody, enjoys quiet time",
                2: "Social, enjoys entertainment, external stimulation",
@@ -209,35 +219,29 @@
                16: "Adventurous, spontaneous, thrill-seeking"
            };
 
-           // Generate 8 rows of image pairs (from 1.png to 16.png)
            for (let i = 0; i < 8; i++) {
                const row = document.createElement('div');
                row.className = 'image-row';
 
-               // Calculate image numbers (1-16)
                const image1Number = (i * 2) + 1;
                const image2Number = (i * 2) + 2;
 
-               // First image
                const image1 = document.createElement('div');
                image1.className = 'image-option';
                image1.dataset.choice = `option${image1Number}`;
                image1.dataset.value = image1Number;
                image1.innerHTML = `<img src="${baseImageUrl}${image1Number}.png" alt="Option ${image1Number}">`;
 
-               // OR separator
                const orSeparator = document.createElement('div');
                orSeparator.className = 'or-separator';
                orSeparator.textContent = 'OR';
 
-               // Second image
                const image2 = document.createElement('div');
                image2.className = 'image-option';
                image2.dataset.choice = `option${image2Number}`;
                image2.dataset.value = image2Number;
                image2.innerHTML = `<img src="${baseImageUrl}${image2Number}.png" alt="Option ${image2Number}">`;
 
-               // Add click event listeners to images
                image1.addEventListener('click', function() {
                    selectOption(this, image2);
                });
@@ -246,43 +250,33 @@
                    selectOption(this, image1);
                });
 
-               // Append elements to row
                row.appendChild(image1);
                row.appendChild(orSeparator);
                row.appendChild(image2);
 
-               // Append row to widget container
                widgetContainer.appendChild(row);
            }
 
-           // Function to handle selection
            function selectOption(selectedElement, otherElement) {
                selectedElement.classList.add('selected');
                otherElement.classList.remove('selected');
            }
 
-           // Submit button handler
            submitBtn.addEventListener('click', function() {
-               // Check if all pairs have a selection
                const selectedOptions = document.querySelectorAll('.image-option.selected');
 
                if (selectedOptions.length === 8) {
-                   // Get all selected values
                    const selectedValues = Array.from(selectedOptions).map(option =>
                        parseInt(option.dataset.value));
 
-                   // Analyze selections to determine personality
                    const personality = analyzeSelections(selectedValues);
 
-                   // Display results
                    resultContainer.innerHTML = `
                        <h2 class="personality-type">${personality.type}</h2>
-                       <img src="${personality.image}" alt="${personality.type}" class="personality-image">
                        <p class="personality-description">${personality.description}</p>
                    `;
-                   resultContainer.style.display = 'block';
+                   resultContainer.classList.add('show');
 
-                   // Scroll to results
                    resultContainer.scrollIntoView({ behavior: 'smooth' });
 
                } else {
@@ -290,9 +284,7 @@
                }
            });
 
-           // Function to analyze selections and determine personality
            function analyzeSelections(selectedValues) {
-               // Count different types of selections
                let homebodyScore = 0;
                let adventurousScore = 0;
                let sophisticatedScore = 0;
@@ -305,38 +297,31 @@
                    if ([2, 8, 10, 12, 13, 14].includes(value)) casualScore++;
                });
 
-               // Determine personality type based on scores
-               let personalityType, description, image;
+               let personalityType, description;
 
                if (adventurousScore >= 3) {
                    personalityType = "The Thrill Seeker";
                    description = "You're drawn to excitement and new experiences! Whether it's outdoor adventures, spontaneous travel, or trying something completely different, you thrive on variety and stimulation. You're not afraid to step outside your comfort zone and often inspire others to be more adventurous too.";
-                   image = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80";
                }
                else if (sophisticatedScore >= 2) {
                    personalityType = "The Refined Enthusiast";
                    description = "You have a taste for the finer things in life and appreciate quality over quantity. You enjoy cultural experiences, elegant settings, and meaningful conversations. You know how to balance sophistication with fun, and you bring a touch of class to everything you do.";
-                   image = "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80";
                }
                else if (homebodyScore >= 4) {
                    personalityType = "The Comfort Connoisseur";
                    description = "You find joy in life's simple pleasures and value comfort and coziness above all else. You prefer intimate gatherings over big crowds and know that the best moments often happen in familiar, comfortable spaces. You're the friend everyone turns to for a relaxing, stress-free good time.";
-                   image = "https://images.unsplash.com/photo-1544816155-12df9643f363?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80";
                }
                else {
                    personalityType = "The Balanced Explorer";
                    description = "You're wonderfully adaptable and open to different experiences. You can appreciate both quiet nights in and exciting adventures out. You're social yet introspective, practical yet fun-loving. Your friends love that they can count on you for any kind of activity - you truly go with the flow!";
-                   image = "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80";
                }
 
                return {
                    type: personalityType,
-                   description: description,
-                   image: image
+                   description: description
                };
            }
        });
    </script>
 </body>
 </html>
-
