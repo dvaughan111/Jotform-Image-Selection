@@ -42,6 +42,7 @@
             align-items: center;
             margin-bottom: 35px;
             width: 100%;
+            flex-wrap: wrap; /* Allow wrapping on very small screens */
         }
         
         .image-option {
@@ -54,6 +55,7 @@
             position: relative;
             border: 3px solid transparent;
             flex-shrink: 0;
+            margin: 10px; /* Add some spacing */
         }
         
         .image-option:hover {
@@ -146,20 +148,32 @@
                 width: 180px;
                 height: 180px;
             }
+            
+            .or-separator {
+                margin: 0 10px;
+            }
         }
         
-        @media (max-width: 768px) {
-            .image-row {
-                flex-direction: row;
+        @media (max-width: 600px) {
+            .image-option {
+                width: 150px;
+                height: 150px;
             }
             
             .or-separator {
-                margin: 15px 0;
+                font-size: 16pt;
+                margin: 0 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .image-option {
+                width: 130px;
+                height: 130px;
             }
             
-            .image-option {
-                width: 200px;
-                height: 200px;
+            .or-separator {
+                font-size: 14pt;
             }
         }
     </style>
@@ -170,7 +184,7 @@
             <!-- Image pairs will be generated here -->
         </div>
         
-        <button class="submit-btn" id="submitBtn">Guess my vibe!</button>
+        <button class="submit-btn" id="submitBtn">What's My Vibe?</button>
         
         <div class="result-container" id="resultContainer">
             <!-- Results will be displayed here -->
@@ -336,4 +350,3 @@
     </script>
 </body>
 </html>
-
