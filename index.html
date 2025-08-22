@@ -58,12 +58,14 @@
 
         .image-option:hover {
             transform: translateY(-5px);
-            border-color: #ff6b6b;
+            border-color: #C71585; /* Dark pink red for hover */
+            box-shadow: none; /* Removed drop shadow */
         }
 
         .image-option.selected {
             transform: scale(1.03);
-            border: 3px solid #ff6b6b;
+            border: 3px solid #C71585; /* Dark pink red for selection */
+            box-shadow: none; /* Removed drop shadow */
         }
 
         .image-option img {
@@ -74,14 +76,14 @@
         }
 
         .or-separator {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
+            font-family: 'Futura', 'Montserrat', sans-serif; /* Changed font to Futura or a fallback */
+            font-weight: bold; /* Bold font weight */
             font-size: 18pt;
             color: #ffffff;
             margin: 0 20px;
             padding: 0 10px;
             flex-shrink: 0;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            text-shadow: none; /* Removed text shadow */
         }
 
         .submit-btn {
@@ -89,15 +91,15 @@
             width: 220px;
             margin: 40px auto 20px;
             padding: 16px;
-            background: linear-gradient(to right, #ff6b6b, #ff9e9e);
+            background: #C71585; /* Dark pink red for button */
             color: white;
             border: none;
             border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 16px; /* Changed font size */
+            font-weight: bold; /* Bold font weight */
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Futura', 'Montserrat', sans-serif; /* Changed font to Futura or a fallback */
         }
 
         .submit-btn:hover {
@@ -140,6 +142,9 @@
             margin: 20px auto;
             border: 4px solid #ff6b6b;
         }
+
+        /* Removed header text styles as per request */
+        h1 { display: none; }
 
         @media (max-width: 850px) {
             .image-option {
