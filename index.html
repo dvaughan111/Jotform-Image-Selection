@@ -14,7 +14,7 @@
         
         body {
             font-family: 'Montserrat', sans-serif;
-            background: transparent;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -27,8 +27,11 @@
         .container {
             width: 100%;
             max-width: 900px;
-            background: transparent;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            padding: 30px;
         }
         
         .widget-container {
@@ -42,7 +45,6 @@
             align-items: center;
             margin-bottom: 35px;
             width: 100%;
-            flex-wrap: wrap; /* Allow wrapping on very small screens */
         }
         
         .image-option {
@@ -55,17 +57,19 @@
             position: relative;
             border: 3px solid transparent;
             flex-shrink: 0;
-            margin: 10px; /* Add some spacing */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .image-option:hover {
             transform: translateY(-5px);
             border-color: #ff6b6b;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
         }
         
         .image-option.selected {
             transform: scale(1.03);
             border: 3px solid #ff6b6b;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
         }
         
         .image-option img {
@@ -79,11 +83,11 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
             font-size: 18pt;
-            color: #ffffff;
-            margin: 0 20px;
-            padding: 0 10px;
+            color: #ff6b6b;
+            margin: 0 25px;
+            padding: 0 15px;
             flex-shrink: 0;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         }
         
         .submit-btn {
@@ -100,10 +104,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
         }
         
         .submit-btn:hover {
             transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
         }
         
         .submit-btn:active {
@@ -114,9 +120,10 @@
             display: none;
             text-align: center;
             margin-top: 30px;
-            padding: 25px;
+            padding: 30px;
             background: rgba(255, 245, 245, 0.9);
             border-radius: 15px;
+            border: 2px solid #ff6b6b;
         }
         
         .personality-type {
@@ -141,6 +148,15 @@
             object-fit: cover;
             margin: 20px auto;
             border: 4px solid #ff6b6b;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            color: #ff6b6b;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
         }
         
         @media (max-width: 850px) {
@@ -150,36 +166,50 @@
             }
             
             .or-separator {
-                margin: 0 10px;
+                margin: 0 15px;
             }
         }
         
-        @media (max-width: 600px) {
+        @media (max-width: 700px) {
             .image-option {
                 width: 150px;
                 height: 150px;
             }
             
             .or-separator {
-                font-size: 16pt;
-                margin: 0 5px;
+                font-size: 16px;
+                margin: 0 10px;
             }
         }
         
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
             .image-option {
                 width: 130px;
                 height: 130px;
             }
             
             .or-separator {
-                font-size: 14pt;
+                font-size: 14px;
+                margin: 0 8px;
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .image-option {
+                width: 110px;
+                height: 110px;
+            }
+            
+            .or-separator {
+                font-size: 12px;
+                margin: 0 5px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <h1>What's Your Vibe?</h1>
         <div class="widget-container" id="widget">
             <!-- Image pairs will be generated here -->
         </div>
@@ -226,8 +256,8 @@
                 row.className = 'image-row';
                 
                 // Calculate image numbers (1-16)
-                const image1Number = i + 1;
-                const image2Number = i + 9;
+                const image1Number = i * 2 + 1;
+                const image2Number = i * 2 + 2;
                 
                 // First image
                 const image1 = document.createElement('div');
