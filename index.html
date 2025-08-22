@@ -14,14 +14,14 @@
 
        body {
            font-family: 'Montserrat', sans-serif;
-           background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); /* Pink gradient for demo */
+           background: white;
            min-height: 100vh;
            display: flex;
            flex-direction: column;
            align-items: center;
            justify-content: center;
            padding: 20px;
-           color: #fff;
+           color: #333;
        }
 
        .container {
@@ -79,18 +79,18 @@
            font-family: 'Futura', 'Montserrat', sans-serif;
            font-weight: bold;
            font-size: 18pt;
-           color: #ffffff; /* White text */
+           color: transparent; /* Changed from #ffffff to transparent */
            margin: 0 20px;
            padding: 0 10px;
            flex-shrink: 0;
-           text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+           text-shadow: none;
        }
 
        .page-break {
            width: 100%;
            height: 1px;
            margin: 30px 0;
-           border-top: 2px dashed #ffffff; /* White dashed line */
+           border-top: 2px dashed #C71585;
        }
 
        .result-wrapper {
@@ -114,7 +114,7 @@
        .result-container {
            text-align: center;
            padding: 40px;
-           background: transparent; /* Transparent background */
+           background: white;
            border-radius: 0 0 15px 15px;
            width: 650px;
            height: 650px;
@@ -124,24 +124,23 @@
            align-items: center;
            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
            margin-top: -5px;
-           border: 3px solid #ffffff; /* White border */
+           border: 3px solid #C71585;
        }
 
        .personality-type {
            font-family: 'Futura', 'Montserrat', sans-serif;
            font-weight: 900;
            font-size: 36px;
-           color: #ffffff; /* White text */
+           color: #000000;
            margin: 30px 40px 25px;
            text-align: center;
            line-height: 1.2;
            text-transform: uppercase;
            letter-spacing: 1px;
-           text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
        }
 
        .personality-description {
-           color: #ffffff; /* White text */
+           color: #000000;
            font-family: 'Futura', 'Montserrat', sans-serif;
            font-size: 18px;
            line-height: 1.6;
@@ -149,7 +148,6 @@
            margin: 0 40px;
            text-align: center;
            font-weight: 500;
-           text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
        }
 
        h1 { display: none; }
