@@ -15,7 +15,7 @@
 
        body {
            font-family: 'Montserrat', sans-serif;
-           background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); /* Pink gradient for demo */
+           background: transparent; /* Transparent background */
            min-height: 100vh;
            display: flex;
            flex-direction: column;
@@ -27,13 +27,13 @@
 
        .container {
            width: 100%;
-           max-width: 800px; /* Fixed width for form */
-           background: transparent; /* Transparent widget background */
+           max-width: 800px;
+           background: transparent;
            overflow: hidden;
        }
 
        .widget-container {
-           background: transparent; /* Transparent widget background */
+           background: transparent;
            padding: 20px 0;
        }
 
@@ -46,8 +46,8 @@
        }
 
        .image-option {
-           width: 300px; /* Increased by 50% from 200px */
-           height: 300px; /* Increased by 50% from 200px */
+           width: 300px;
+           height: 300px;
            border-radius: 15px;
            overflow: hidden;
            cursor: pointer;
@@ -55,19 +55,17 @@
            position: relative;
            border: 3px solid transparent;
            flex-shrink: 0;
-           background: transparent; /* Transparent image background */
+           background: transparent;
        }
 
        .image-option:hover {
            transform: translateY(-5px);
-           border-color: #ffffff; /* White border on hover */
-           /* Removed box-shadow */
+           border-color: #ffffff;
        }
 
        .image-option.selected {
            transform: scale(1.03);
-           border: 3px solid #ffffff; /* White border when selected */
-           /* Removed box-shadow */
+           border: 3px solid #ffffff;
        }
 
        .image-option img {
@@ -75,28 +73,27 @@
            height: 100%;
            object-fit: cover;
            display: block;
-           background: transparent; /* Transparent image background */
+           background: transparent;
        }
 
        .or-separator {
            font-family: 'Futura', 'Montserrat', sans-serif;
            font-weight: bold;
            font-size: 18pt;
-           color: #ffffff; /* White text */
-           margin: 0 30px; /* Increased padding by 10px (was 20px) */
+           color: #ffffff;
+           margin: 0 30px;
            padding: 0 10px;
            flex-shrink: 0;
            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
        }
 
-       /* Guess my vibe button */
        .guess-button {
            font-family: 'Futura', 'Montserrat', sans-serif;
-           font-weight: 700; /* Strong/bold */
+           font-weight: 700;
            font-size: 20px;
-           color: #ffffff; /* White text */
-           background: transparent; /* Transparent background */
-           border: 2px solid #ffffff; /* White outline at 2px */
+           color: #ffffff;
+           background: transparent;
+           border: 2px solid #ffffff;
            border-radius: 30px;
            padding: 15px 40px;
            cursor: pointer;
@@ -116,7 +113,7 @@
            width: 100%;
            height: 1px;
            margin: 30px 0;
-           border-top: 2px dashed #ffffff; /* White dashed line */
+           border-top: 2px dashed #ffffff;
        }
 
        .result-wrapper {
@@ -130,64 +127,53 @@
            display: block;
        }
 
-       .result-top-image {
-           width: 100%;
-           height: auto;
-           display: block;
-           border-radius: 15px 15px 0 0;
-       }
-
        .result-container {
            text-align: center;
            padding: 40px;
-           background: transparent; /* Transparent background */
-           border-radius: 0 0 15px 15px;
+           background: white; /* White background */
+           border-radius: 27px; /* Rounded corners at 27px */
            width: 650px;
            height: 650px;
            display: flex;
            flex-direction: column;
            justify-content: center;
            align-items: center;
-           /* Removed box-shadow */
-           margin-top: -5px;
-           border: 3px solid #ffffff; /* White border */
+           margin: 0 auto;
        }
 
        .personality-type {
-           font-family: 'Futura', 'Montserrat', sans-serif;
-           font-weight: 900;
-           font-size: 36px;
-           color: #ffffff; /* White text */
-           margin: 30px 40px 25px;
+           font-family: 'Futura', sans-serif;
+           font-weight: 700; /* Bold */
+           font-size: 20px; /* Header size 20 */
+           color: #000000; /* Black text */
+           margin: 25px 25px 25px; /* 25pt margin left and right */
            text-align: center;
            line-height: 1.2;
            text-transform: uppercase;
            letter-spacing: 1px;
-           text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
        }
 
        .personality-description {
-           color: #ffffff; /* White text */
-           font-family: 'Futura', 'Montserrat', sans-serif;
-           font-size: 18px;
+           color: #000000; /* Black text */
+           font-family: 'Futura', sans-serif;
+           font-size: 16px; /* Text size 16 */
            line-height: 1.6;
-           max-width: 500px;
-           margin: 0 40px;
+           max-width: 600px; /* Adjusted for 25pt margins */
+           margin: 0 25px; /* 25pt margin left and right */
            text-align: center;
-           font-weight: 500;
-           text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+           font-weight: 400;
        }
 
-       h1 { display: none; } /* Header removed */
+       h1 { display: none; }
 
        @media (max-width: 850px) {
            .image-option {
-               width: 270px; /* Scaled down proportionally */
+               width: 270px;
                height: 270px;
            }
            
            .or-separator {
-               margin: 0 25px; /* Adjusted spacing */
+               margin: 0 25px;
            }
            
            .result-wrapper {
@@ -203,13 +189,13 @@
            }
            
            .personality-type {
-               font-size: 28px;
-               margin: 25px 30px 20px;
+               font-size: 18px;
+               margin: 20px 25px 20px;
            }
            
            .personality-description {
-               font-size: 16px;
-               margin: 0 30px;
+               font-size: 14px;
+               margin: 0 25px;
            }
        }
 
@@ -223,7 +209,7 @@
            }
 
            .image-option {
-               width: 250px; /* Scaled down for mobile */
+               width: 250px;
                height: 250px;
            }
 
@@ -238,12 +224,12 @@
            }
            
            .personality-type {
-               font-size: 24px;
-               margin: 20px 25px 15px;
+               font-size: 16px;
+               margin: 15px 25px 15px;
            }
            
            .personality-description {
-               font-size: 14px;
+               font-size: 12px;
                margin: 0 25px;
            }
            
@@ -263,7 +249,6 @@
        <div class="page-break"></div>
 
        <div class="result-wrapper" id="resultWrapper">
-           <img src="https://dvaughan111.github.io/Jotform-Image-Selection/images/Personality_Guess.png" alt="Header Image" class="result-top-image">
            <div class="result-container" id="resultContainer">
            </div>
        </div>
@@ -340,7 +325,6 @@
                otherElement.classList.remove('selected');
            }
 
-           // Modified to work with button click instead of automatic
            guessButton.addEventListener('click', function() {
                const selectedOptions = document.querySelectorAll('.image-option.selected');
                
