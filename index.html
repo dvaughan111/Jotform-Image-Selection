@@ -14,14 +14,14 @@
 
        body {
            font-family: 'Montserrat', sans-serif;
-           background: #000000;
+           background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); /* Pink gradient for demo */
            min-height: 100vh;
            display: flex;
            flex-direction: column;
            align-items: center;
            justify-content: center;
            padding: 20px;
-           color: #ffffff;
+           color: #fff;
        }
 
        .container {
@@ -79,18 +79,18 @@
            font-family: 'Futura', 'Montserrat', sans-serif;
            font-weight: bold;
            font-size: 18pt;
-           color: #ffffff;
+           color: #ffffff; /* White text */
            margin: 0 20px;
            padding: 0 10px;
            flex-shrink: 0;
-           text-shadow: none;
+           text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
        }
 
        .page-break {
            width: 100%;
            height: 1px;
            margin: 30px 0;
-           border-top: 2px dashed #C71585;
+           border-top: 2px dashed #ffffff; /* White dashed line */
        }
 
        .result-wrapper {
@@ -104,35 +104,44 @@
            display: block;
        }
 
+       .result-top-image {
+           width: 100%;
+           height: auto;
+           display: block;
+           border-radius: 15px 15px 0 0;
+       }
+
        .result-container {
            text-align: center;
            padding: 40px;
-           background: #000000;
-           border-radius: 15px;
+           background: transparent; /* Transparent background */
+           border-radius: 0 0 15px 15px;
            width: 650px;
-           min-height: 500px;
+           height: 650px;
            display: flex;
            flex-direction: column;
            justify-content: center;
            align-items: center;
            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-           border: 3px solid #C71585;
+           margin-top: -5px;
+           border: 3px solid #ffffff; /* White border */
        }
 
        .personality-type {
            font-family: 'Futura', 'Montserrat', sans-serif;
            font-weight: 900;
            font-size: 36px;
-           color: #ffffff;
+           color: #ffffff; /* White text */
            margin: 30px 40px 25px;
            text-align: center;
            line-height: 1.2;
            text-transform: uppercase;
            letter-spacing: 1px;
+           text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
        }
 
        .personality-description {
-           color: #ffffff;
+           color: #ffffff; /* White text */
            font-family: 'Futura', 'Montserrat', sans-serif;
            font-size: 18px;
            line-height: 1.6;
@@ -140,26 +149,10 @@
            margin: 0 40px;
            text-align: center;
            font-weight: 500;
+           text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
        }
 
        h1 { display: none; }
-
-       .submit-btn {
-           margin-top: 30px;
-           padding: 12px 25px;
-           background-color: #C71585;
-           color: #ffffff;
-           border: none;
-           border-radius: 8px;
-           font-size: 18px;
-           font-weight: 600;
-           cursor: pointer;
-           transition: background-color 0.3s ease;
-       }
-
-       .submit-btn:hover {
-           background-color: #a0116c;
-       }
 
        @media (max-width: 850px) {
            .image-option {
@@ -174,6 +167,7 @@
            
            .result-container {
                width: 95vw;
+               height: auto;
                min-height: 500px;
                max-width: 500px;
            }
@@ -209,6 +203,7 @@
            
            .result-container {
                width: 95vw;
+               height: auto;
                min-height: 400px;
            }
            
@@ -230,26 +225,23 @@
 </head>
 <body>
    <div class="container">
-       <div class="widget-container" id="widget"></div>
-
-       <div style="text-align: center;">
-           <button class="submit-btn" id="submitBtn">Guess my vibe!</button>
+       <div class="widget-container" id="widget">
        </div>
 
        <div class="page-break"></div>
 
        <div class="result-wrapper" id="resultWrapper">
-           <!-- Removed broken header image -->
-           <div class="result-container" id="resultContainer"></div>
+           <img src="https://dvaughan111.github.io/Jotform-Image-Selection/images/or.png" alt="Header Image" class="result-top-image">
+           <div class="result-container" id="resultContainer">
+           </div>
        </div>
    </div>
 
    <script>
-       document.addEventListener('DOMContentLoaded', function () {
+       document.addEventListener('DOMContentLoaded', function() {
            const widgetContainer = document.getElementById('widget');
            const resultContainer = document.getElementById('resultContainer');
            const resultWrapper = document.getElementById('resultWrapper');
-           const submitBtn = document.getElementById('submitBtn');
 
            const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
 
@@ -295,12 +287,14 @@
                image2.dataset.value = image2Number;
                image2.innerHTML = `<img src="${baseImageUrl}${image2Number}.png" alt="Option ${image2Number}">`;
 
-               image1.addEventListener('click', function () {
+               image1.addEventListener('click', function() {
                    selectOption(this, image2);
+                   checkAllSelected();
                });
 
-               image2.addEventListener('click', function () {
+               image2.addEventListener('click', function() {
                    selectOption(this, image1);
+                   checkAllSelected();
                });
 
                row.appendChild(image1);
@@ -317,11 +311,10 @@
 
            function checkAllSelected() {
                const selectedOptions = document.querySelectorAll('.image-option.selected');
-
+               
                if (selectedOptions.length === 8) {
                    const selectedValues = Array.from(selectedOptions).map(option =>
-                       parseInt(option.dataset.value)
-                   );
+                       parseInt(option.dataset.value));
 
                    const personality = analyzeSelections(selectedValues);
 
@@ -332,8 +325,6 @@
                    resultWrapper.classList.add('show');
 
                    resultWrapper.scrollIntoView({ behavior: 'smooth' });
-               } else {
-                   alert("Please select one option from each row before submitting.");
                }
            }
 
@@ -355,13 +346,16 @@
                if (adventurousScore >= 3) {
                    personalityType = "THE THRILL SEEKER";
                    description = "You're drawn to excitement and new experiences! Whether it's outdoor adventures, spontaneous travel, or trying something completely different, you thrive on variety and stimulation. You're not afraid to step outside your comfort zone and often inspire others to be more adventurous too.";
-               } else if (sophisticatedScore >= 2) {
+               }
+               else if (sophisticatedScore >= 2) {
                    personalityType = "THE REFINED ENTHUSIAST";
                    description = "You have a taste for the finer things in life and appreciate quality over quantity. You enjoy cultural experiences, elegant settings, and meaningful conversations. You know how to balance sophistication with fun, and you bring a touch of class to everything you do.";
-               } else if (homebodyScore >= 4) {
+               }
+               else if (homebodyScore >= 4) {
                    personalityType = "THE COMFORT CONNOISSEUR";
                    description = "You find joy in life's simple pleasures and value comfort and coziness above all else. You prefer intimate gatherings over big crowds and know that the best moments often happen in familiar, comfortable spaces. You're the friend everyone turns to for a relaxing, stress-free good time.";
-               } else {
+               }
+               else {
                    personalityType = "THE BALANCED EXPLORER";
                    description = "You're wonderfully adaptable and open to different experiences. You can appreciate both quiet nights in and exciting adventures out. You're social yet introspective, practical yet fun-loving. Your friends love that they can count on you for any kind of activity - you truly go with the flow!";
                }
@@ -371,8 +365,6 @@
                    description: description
                };
            }
-
-           submitBtn.addEventListener('click', checkAllSelected);
        });
    </script>
 </body>
