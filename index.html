@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Selection Widget</title>
-    <link href="https://fonts.googleapis.com/css2?family=Futura:wght@700&display=swap" rel="stylesheet">
+    <title>What's Your Vibe? Personality Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
         }
         
         body {
-            font-family: 'Futura', Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background: transparent;
             min-height: 100vh;
             display: flex;
@@ -21,45 +21,49 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: transparent;
+            overflow: hidden;
         }
         
         .widget-container {
             background: transparent;
-            width: 100%;
-            max-width: 1000px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 20px 0;
         }
         
         .image-row {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             width: 100%;
         }
         
         .image-option {
-            width: 256px;
-            height: 256px;
-            border-radius: 12px;
+            width: 200px;
+            height: 200px;
+            border-radius: 15px;
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            border: 2px solid transparent;
+            border: 3px solid transparent;
             flex-shrink: 0;
         }
         
         .image-option:hover {
             transform: translateY(-5px);
-            border-color: #3498db;
+            border-color: #ff6b6b;
         }
         
         .image-option.selected {
-            transform: scale(1.02);
-            border: 2px solid #3498db;
+            transform: scale(1.03);
+            border: 3px solid #ff6b6b;
         }
         
         .image-option img {
@@ -70,20 +74,77 @@
         }
         
         .or-separator {
-            font-family: 'Futura', Arial, sans-serif;
-            font-weight: 700;
-            font-size: 20pt;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 18pt;
             color: #ffffff;
             margin: 0 20px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
             padding: 0 10px;
             flex-shrink: 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 220px;
+            margin: 40px auto 20px;
+            padding: 16px;
+            background: linear-gradient(to right, #ff6b6b, #ff9e9e);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .result-container {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(255, 245, 245, 0.9);
+            border-radius: 15px;
+        }
+        
+        .personality-type {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+        
+        .personality-description {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .personality-image {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 20px auto;
+            border: 4px solid #ff6b6b;
         }
         
         @media (max-width: 850px) {
             .image-option {
-                width: 220px;
-                height: 220px;
+                width: 180px;
+                height: 180px;
             }
         }
         
@@ -104,28 +165,35 @@
     </style>
 </head>
 <body>
-    <div class="widget-container" id="widget">
-        <!-- Image pairs will be generated here -->
+    <div class="container">
+        <div class="widget-container" id="widget">
+            <!-- Image pairs will be generated here -->
+        </div>
+        
+        <button class="submit-btn" id="submitBtn">What's My Vibe?</button>
+        
+        <div class="result-container" id="resultContainer">
+            <!-- Results will be displayed here -->
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const widgetContainer = document.getElementById('widget');
+            const submitBtn = document.getElementById('submitBtn');
+            const resultContainer = document.getElementById('resultContainer');
             
             // Base URL for your images
             const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
             
-            // Generate 7 rows of image pairs (1-2, 3-4, 5-6, etc.)
-            for (let i = 0; i < 7; i++) {
+            // Generate 8 rows of image pairs (from 1.png to 16.png)
+            for (let i = 0; i < 8; i++) {
                 const row = document.createElement('div');
                 row.className = 'image-row';
                 
-                // Calculate image numbers for proper pairing
-                // This creates pairs: (1,2), (3,4), (5,6), (7,8), (9,10), (11,12), (13,14)
-                const image1Number = (i * 2) + 1;
-                const image2Number = (i * 2) + 2;
-                
-                console.log(`Creating pair: ${image1Number}.png and ${image2Number}.png`);
+                // Calculate image numbers (1-16)
+                const image1Number = i * 2 + 1;
+                const image2Number = i * 2 + 2;
                 
                 // First image
                 const image1 = document.createElement('div');
@@ -167,6 +235,62 @@
                 selectedElement.classList.add('selected');
                 otherElement.classList.remove('selected');
             }
+            
+            // Fun personality descriptions for US women 18-45
+            const personalityTypes = {
+                'The Cozy Queen': {
+                    description: 'You\'re all about comfort and good vibes. Your ideal Friday night involves fuzzy socks, a glass of wine, and binge-watching your favorite shows. You might seem low-key, but you know how to have a good time—especially when it involves a comfortable surface and someone to cuddle with. You believe the best relationships start with "Netflix and chill" literally.',
+                    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80'
+                },
+                'The Adventure Babe': {
+                    description: 'Spontaneous is your middle name! You\'re always down for trying new things, especially if they get your adrenaline pumping. From last-minute road trips to trying that weird position you saw on TikTok, you\'re all about experiences. Your motto: "Why choose between the bed and the car when you can try both?"',
+                    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80'
+                },
+                'The Classy & Sassy': {
+                    description: 'You appreciate the finer things in life but know how to let loose when the time is right. You can discuss wine pairings at a fancy dinner and then crush espresso martinis at the club later. You believe in balance: a little Bach, a little rave, and knowing which vibe to bring to the bedroom (or backseat).',
+                    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80'
+                },
+                'The No-Fuss Fun-Seeker': {
+                    description: 'You keep it real and don\'t overcomplicate things. Why choose between a puppy and kitten when you can have both? Why decide between Love Island and Bachelor when reality TV trash is reality TV trash? You\'re equally happy with a hotdog or a salad, depending on whether you\'re feeling "health queen" or "hangry queen" that day.',
+                    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80'
+                },
+                'The Party Starter': {
+                    description: 'You\'re the friend who always knows where the good time is—whether that\'s at a rave, a bar, or creating your own party between the sheets (or car seats). You believe life\'s too short for bad wine, boring sex, and choosing between a martini and beer (why not both?). You bring the energy wherever you go!',
+                    image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80'
+                },
+                'The Refined Rebel': {
+                    description: 'You\'re a delicious contradiction—you can appreciate the symphony but also get down at a rave. You enjoy camping but wouldn\'t say no to a luxury hotel. In the bedroom (or car), you\'re open to adventure but appreciate the classics too. You keep people guessing, and you love it that way!',
+                    image: 'https://images.unsplash.com/photo-1519764622345-23439dd774f7?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80'
+                }
+            };
+            
+            // Submit button handler
+            submitBtn.addEventListener('click', function() {
+                // Check if all pairs have a selection
+                const selectedOptions = document.querySelectorAll('.image-option.selected');
+                
+                if (selectedOptions.length === 8) {
+                    // Determine personality type based on selections
+                    // For demonstration, we'll randomly assign a type
+                    const typeNames = Object.keys(personalityTypes);
+                    const randomType = typeNames[Math.floor(Math.random() * typeNames.length)];
+                    const personality = personalityTypes[randomType];
+                    
+                    // Display results
+                    resultContainer.innerHTML = `
+                        <h2 class="personality-type">${randomType}</h2>
+                        <img src="${personality.image}" alt="${randomType}" class="personality-image">
+                        <p class="personality-description">${personality.description}</p>
+                    `;
+                    resultContainer.style.display = 'block';
+                    
+                    // Scroll to results
+                    resultContainer.scrollIntoView({ behavior: 'smooth' });
+                    
+                } else {
+                    alert('Please make a selection for each pair before finding out your vibe!');
+                }
+            });
         });
     </script>
 </body>
