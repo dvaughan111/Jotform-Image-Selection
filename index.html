@@ -192,8 +192,8 @@
                 row.className = 'image-row';
                 
                 // Calculate image numbers (1-16)
-                const image1Number = i * 2 + 1;
-                const image2Number = i * 2 + 2;
+                const image1Number = i + 1;
+                const image2Number = i + 9; // This ensures pairs: 1-9, 2-10, 3-11, etc.
                 
                 // First image
                 const image1 = document.createElement('div');
