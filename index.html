@@ -14,7 +14,7 @@
         
         body {
             font-family: 'Futura', Arial, sans-serif;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background: transparent;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -23,36 +23,10 @@
             padding: 20px;
         }
         
-        .container {
-            width: 800px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-            overflow: hidden;
-            padding: 30px;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        
-        .instructions {
-            color: #7f8c8d;
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
         .widget-container {
             background: transparent;
-            padding: 20px 0;
+            width: 100%;
+            max-width: 800px;
         }
         
         .image-row {
@@ -64,8 +38,8 @@
         }
         
         .image-option {
-            width: 320px;
-            height: 320px;
+            width: 256px; /* Reduced by 20% from 320px */
+            height: 256px; /* Reduced by 20% from 320px */
             border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
@@ -101,31 +75,6 @@
             padding: 0 10px;
         }
         
-        .submit-btn {
-            display: block;
-            width: 200px;
-            margin: 30px auto 10px;
-            padding: 15px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Futura', Arial, sans-serif;
-        }
-        
-        .submit-btn:hover {
-            background: #2980b9;
-            transform: translateY(-3px);
-        }
-        
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-        
         .completion-message {
             text-align: center;
             font-size: 1.2rem;
@@ -135,22 +84,10 @@
             height: 30px;
         }
         
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-        }
-        
         @media (max-width: 850px) {
-            .container {
-                width: 95%;
-                padding: 20px;
-            }
-            
             .image-option {
-                width: 280px;
-                height: 280px;
+                width: 220px;
+                height: 220px;
             }
         }
         
@@ -164,36 +101,20 @@
             }
             
             .image-option {
-                width: 240px;
-                height: 240px;
+                width: 200px;
+                height: 200px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Image Selection Widget</h1>
-            <p class="instructions">Select your preference from each pair of images. Click on the image you prefer.</p>
-        </header>
-        
-        <div class="widget-container" id="widget">
-            <!-- Image pairs will be generated here -->
-        </div>
-        
-        <button class="submit-btn" id="submitBtn">Submit Selections</button>
-        <div class="completion-message" id="completionMessage"></div>
+    <div class="widget-container" id="widget">
+        <!-- Image pairs will be generated here -->
     </div>
-    
-    <footer>
-        <p>Created for JotForm | Hosted on GitHub</p>
-    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const widgetContainer = document.getElementById('widget');
-            const submitBtn = document.getElementById('submitBtn');
-            const completionMessage = document.getElementById('completionMessage');
             
             // Base URL for your images
             const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
@@ -247,42 +168,6 @@
                 selectedElement.classList.add('selected');
                 otherElement.classList.remove('selected');
             }
-            
-            // Submit button handler
-            submitBtn.addEventListener('click', function() {
-                // Check if all pairs have a selection
-                const selectedOptions = document.querySelectorAll('.image-option.selected');
-                
-                if (selectedOptions.length === 4) {
-                    completionMessage.textContent = 'Thank you for completing all selections!';
-                    completionMessage.style.color = '#27ae60';
-                    submitBtn.textContent = 'Completed!';
-                    submitBtn.style.background = '#27ae60';
-                    submitBtn.disabled = true;
-                    
-                    // Prepare data for submission
-                    const selections = [];
-                    selectedOptions.forEach(option => {
-                        selections.push(option.dataset.choice);
-                    });
-                    
-                    console.log('User selections:', selections);
-                } else {
-                    completionMessage.textContent = 'Please make a selection for each pair.';
-                    completionMessage.style.color = '#e74c3c';
-                    
-                    // Shake animation for feedback
-                    completionMessage.animate([
-                        { transform: 'translateX(0)' },
-                        { transform: 'translateX(-10px)' },
-                        { transform: 'translateX(10px)' },
-                        { transform: 'translateX(0)' }
-                    ], {
-                        duration: 300,
-                        iterations: 1
-                    });
-                }
-            });
         });
     </script>
 </body>
