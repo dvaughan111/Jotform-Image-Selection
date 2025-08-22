@@ -112,17 +112,17 @@
         document.addEventListener('DOMContentLoaded', function() {
             const widgetContainer = document.getElementById('widget');
             
-            // Base URL for your images
+            // Base URL for your images - updated to use images 1-14
             const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
             
-            // Generate 7 rows of image pairs (from 2.png to 15.png)
+            // Generate 7 rows of image pairs (from 1.png to 14.png)
             for (let i = 0; i < 7; i++) {
                 const row = document.createElement('div');
                 row.className = 'image-row';
                 
-                // Calculate image numbers (2-15)
-                const image1Number = i * 2 + 2;
-                const image2Number = i * 2 + 3;
+                // Calculate image numbers (1-14)
+                const image1Number = i * 2 + 1;
+                const image2Number = i * 2 + 2;
                 
                 // First image
                 const image1 = document.createElement('div');
