@@ -49,36 +49,36 @@
            width: 100%;
        }
 
-      .image-option {
-    width: 300px;
-    height: 300px;
-    border-radius: 15px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    border: 3px solid #ffffff;  /* Changed from 2px to 3px */
-    flex-shrink: 0;
-    background: transparent;
-}
+       .image-option {
+           width: 300px;
+           height: 300px;
+           border-radius: 15px;
+           overflow: hidden;
+           cursor: pointer;
+           transition: all 0.3s ease;
+           position: relative;
+           border: 2px solid #ffffff;
+           flex-shrink: 0;
+           background: transparent; /* Already transparent as requested */
+       }
 
-.image-option:hover {
-    transform: translateY(-5px);
-    border-color: #ffffff;
-}
+       .image-option:hover {
+           transform: translateY(-5px);
+           border-color: #ffffff;
+       }
 
-.image-option.selected {
-    transform: scale(1.03);
-    border: 3px solid #8f118d;  /* Changed from 2px to 3px and color to purple */
-}
+       .image-option.selected {
+           transform: scale(1.03);
+           border: 3px solid #8f118d; /* Changed to 3px border with #8f118d color */
+       }
 
-.image-option img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    background: transparent;
-}
+       .image-option img {
+           width: 100%;
+           height: 100%;
+           object-fit: cover;
+           display: block;
+           background: transparent;
+       }
 
        .or-separator {
            font-family: 'Futura', 'Montserrat', sans-serif;
@@ -175,29 +175,16 @@
 
        h1 { display: none; }
 
-     @media (max-width: 850px) {
-    .image-option {
-        width: 270px;
-        height: 270px;
-        border: 3px solid #ffffff;  /* Changed from 2px to 3px */
-    }
+       @media (max-width: 850px) {
+           .image-option {
+               width: 270px;
+               height: 270px;
+               border: 2px solid #ffffff;
+           }
 
-    .image-option.selected {
-        border: 3px solid #8f118d;  /* Changed from 2px to 3px and color to purple */
-    }
-}
-
-@media (max-width: 768px) {
-    .image-option {
-        width: 250px;
-        height: 250px;
-        border: 3px solid #ffffff;  /* Changed from 2px to 3px */
-    }
-
-    .image-option.selected {
-        border: 3px solid #8f118d;  /* Changed from 2px to 3px and color to purple */
-    }
-}
+           .image-option.selected {
+               border: 3px solid #8f118d; /* Updated for mobile */
+           }
            
            .or-separator {
                margin: 0 25px;
@@ -243,7 +230,7 @@
            }
 
            .image-option.selected {
-               border: 2px solid #c51f3b;
+               border: 3px solid #8f118d; /* Updated for mobile */
            }
 
            .result-wrapper {
@@ -428,4 +415,3 @@
    </script>
 </body>
 </html>
-
