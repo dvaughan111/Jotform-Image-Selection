@@ -57,19 +57,19 @@
            cursor: pointer;
            transition: all 0.3s ease;
            position: relative;
-           border: 2px solid ##c51f3b; /* 2px border around all image containers */
+           border: 2px solid #ffffff;
            flex-shrink: 0;
-           background: transparent; /* Transparent image containers */
+           background: transparent;
        }
 
        .image-option:hover {
            transform: translateY(-5px);
-           border-color: ##c51f3b;
+           border-color: #ffffff;
        }
 
        .image-option.selected {
            transform: scale(1.03);
-           border: 2px solid ##c51f3b; /* Keep 2px border when selected */
+           border: 2px solid #c51f3b; /* Red border when selected */
        }
 
        .image-option img {
@@ -148,7 +148,7 @@
        .personality-type {
            font-family: 'Futura', sans-serif;
            font-weight: 700;
-           font-size: 20px;
+           font-size: 45px; /* Increased to 45px */
            color: #000000;
            margin: 25px 25px 25px;
            text-align: center;
@@ -160,8 +160,8 @@
        .personality-description {
            color: #000000;
            font-family: 'Futura', sans-serif;
-           font-size: 16px;
-           line-height: 1.6;
+           font-size: 30px; /* Increased to 30px */
+           line-height: 1.4; /* Reduced line-height to help fit */
            max-width: 600px;
            margin: 0 25px;
            text-align: center;
@@ -174,7 +174,11 @@
            .image-option {
                width: 270px;
                height: 270px;
-               border: 2px solid #ffffff; /* Maintain 2px border on mobile */
+               border: 2px solid #ffffff;
+           }
+
+           .image-option.selected {
+               border: 2px solid #c51f3b; /* Maintain red border on mobile */
            }
            
            .or-separator {
@@ -194,12 +198,12 @@
            }
            
            .personality-type {
-               font-size: 18px;
+               font-size: 35px;
                margin: 20px 25px 20px;
            }
            
            .personality-description {
-               font-size: 14px;
+               font-size: 24px;
                margin: 0 25px;
            }
        }
@@ -216,7 +220,11 @@
            .image-option {
                width: 250px;
                height: 250px;
-               border: 2px solid #ffffff; /* Maintain 2px border on mobile */
+               border: 2px solid #ffffff;
+           }
+
+           .image-option.selected {
+               border: 2px solid #c51f3b; /* Maintain red border on mobile */
            }
 
            .result-wrapper {
@@ -230,12 +238,12 @@
            }
            
            .personality-type {
-               font-size: 16px;
+               font-size: 28px;
                margin: 15px 25px 15px;
            }
            
            .personality-description {
-               font-size: 12px;
+               font-size: 20px;
                margin: 0 25px;
            }
            
