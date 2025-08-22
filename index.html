@@ -1,23 +1,458 @@
-@media (max-width: 850px) {
-    .image-option {
-        width: 270px;
-        height: 270px;
-        border: 3px solid #ffffff;  /* Changed from 2px to 3px */
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>What's Your Vibe? Personality Quiz v2</title>
+   <link href="https://fonts.googleapis.com/css2?family=Futura:wght@400;700&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+   <style>
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
 
-    .image-option.selected {
-        border: 3px solid #8f118d;  /* Changed from 2px to 3px and color to purple */
-    }
-}
+       body {
+           font-family: 'Montserrat', sans-serif;
+           background: linear-gradient(135deg, #6e48aa, #9d50bb);
+           min-height: 100vh;
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: center;
+           padding: 20px;
+           color: #fff;
+       }
 
-@media (max-width: 768px) {
-    .image-option {
-        width: 250px;
-        height: 250px;
-        border: 3px solid #ffffff;  /* Changed from 2px to 3px */
-    }
+       .container {
+           width: 100%;
+           max-width: 800px;
+           background: rgba(0, 0, 0, 0.4);
+           overflow: hidden;
+           border-radius: 15px;
+           padding: 20px;
+           backdrop-filter: blur(10px);
+           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+       }
 
-    .image-option.selected {
-        border: 3px solid #8f118d;  /* Changed from 2px to 3px and color to purple */
-    }
-}
+       .widget-container {
+           background: transparent;
+           padding: 20px 0;
+       }
+
+       .image-row {
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           margin-bottom: 35px;
+           width: 100%;
+       }
+
+       .image-option {
+           width: 300px;
+           height: 300px;
+           border-radius: 15px;
+           overflow: hidden;
+           cursor: pointer;
+           transition: all 0.3s ease;
+           position: relative;
+           border: 2px solid rgba(255, 255, 255, 0.7);
+           flex-shrink: 0;
+           background: transparent;
+       }
+
+       .image-option:hover {
+           transform: translateY(-5px);
+           border-color: #ffffff;
+           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+       }
+
+       .image-option.selected {
+           transform: scale(1.03);
+           border: 3px solid #8f118d !important;
+           box-shadow: 0 0 20px rgba(143, 17, 141, 0.5);
+       }
+
+       .image-option img {
+           width: 100%;
+           height: 100%;
+           object-fit: cover;
+           display: block;
+           background: transparent;
+       }
+
+       .or-separator {
+           font-family: 'Futura', 'Montserrat', sans-serif;
+           font-weight: bold;
+           font-size: 18pt;
+           color: #ffffff;
+           margin: 0 30px;
+           padding: 0 10px;
+           flex-shrink: 0;
+           text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+       }
+
+       .guess-button {
+           font-family: 'Futura', 'Montserrat', sans-serif;
+           font-weight: 700;
+           font-size: 20px;
+           color: #ffffff;
+           background: rgba(143, 17, 141, 0.7);
+           border: 2px solid #ffffff;
+           border-radius: 30px;
+           padding: 15px 40px;
+           cursor: pointer;
+           transition: all 0.3s ease;
+           text-transform: uppercase;
+           letter-spacing: 1px;
+           margin: 30px auto;
+           display: block;
+       }
+
+       .guess-button:hover {
+           transform: translateY(-3px);
+           background: rgba(143, 17, 141, 1);
+           box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+       }
+
+       .page-break {
+           width: 100%;
+           height: 1px;
+           margin: 30px 0;
+           border-top: 2px dashed rgba(255, 255, 255, 0.5);
+       }
+
+       /* Hide the quiz content when result is shown */
+       .quiz-content.hidden {
+           display: none;
+       }
+
+       .result-wrapper {
+           position: relative;
+           display: none;
+           margin: 40px auto;
+           width: 650px;
+       }
+
+       .result-wrapper.show {
+           display: block;
+       }
+
+       .result-container {
+           text-align: center;
+           padding: 40px;
+           background: white;
+           border-radius: 0;
+           width: 650px;
+           height: 650px;
+           display: flex;
+           flex-direction: column;
+           justify-content: center;
+           align-items: center;
+           margin: 0 auto;
+       }
+
+       .personality-type {
+           font-family: 'Futura', sans-serif;
+           font-weight: 700;
+           font-size: 60px;
+           color: #000000;
+           margin: 25px 25px 25px;
+           text-align: center;
+           line-height: 1.2;
+           text-transform: uppercase;
+           letter-spacing: 1px;
+       }
+
+       .personality-description {
+           color: #000000;
+           font-family: 'Futura', sans-serif;
+           font-size: 30px;
+           line-height: 1.4;
+           max-width: 600px;
+           margin: 0 25px;
+           text-align: center;
+           font-weight: 400;
+       }
+
+       h1 { 
+           display: block; 
+           text-align: center;
+           font-family: 'Futura', sans-serif;
+           margin-bottom: 20px;
+           color: #fff;
+           text-transform: uppercase;
+           letter-spacing: 2px;
+           font-size: 2.5rem;
+           text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+       }
+
+       @media (max-width: 850px) {
+           .image-option {
+               width: 270px;
+               height: 270px;
+               border: 2px solid rgba(255, 255, 255, 0.7);
+           }
+
+           .image-option.selected {
+               border: 3px solid #8f118d !important;
+           }
+           
+           .or-separator {
+               margin: 0 25px;
+           }
+           
+           .result-wrapper {
+               width: 95vw;
+               max-width: 500px;
+           }
+           
+           .result-container {
+               width: 95vw;
+               height: auto;
+               min-height: 500px;
+               max-width: 500px;
+               border-radius: 0;
+           }
+           
+           .personality-type {
+               font-size: 45px;
+               margin: 20px 25px 20px;
+           }
+           
+           .personality-description {
+               font-size: 24px;
+               margin: 0 25px;
+           }
+       }
+
+       @media (max-width: 768px) {
+           .image-row {
+               flex-direction: column;
+           }
+
+           .or-separator {
+               margin: 15px 0;
+           }
+
+           .image-option {
+               width: 250px;
+               height: 250px;
+               border: 2px solid rgba(255, 255, 255, 0.7);
+           }
+
+           .image-option.selected {
+               border: 3px solid #8f118d !important;
+           }
+
+           .result-wrapper {
+               width: 95vw;
+           }
+           
+           .result-container {
+               width: 95vw;
+               height: auto;
+               min-height: 400px;
+               border-radius: 0;
+           }
+           
+           .personality-type {
+               font-size: 35px;
+               margin: 15px 25px 15px;
+           }
+           
+           .personality-description {
+               font-size: 20px;
+               margin: 0 25px;
+           }
+           
+           .result-container {
+               padding: 30px 20px;
+           }
+           
+           h1 {
+               font-size: 2rem;
+           }
+       }
+   </style>
+</head>
+<body>
+   <h1>What's Your Vibe?</h1>
+   <div class="container">
+       <div class="quiz-content" id="quizContent">
+           <div class="widget-container" id="widget">
+           </div>
+
+           <button class="guess-button" id="guessButton">Guess my vibe!</button>
+
+           <div class="page-break"></div>
+       </div>
+
+       <div class="result-wrapper" id="resultWrapper">
+           <div class="result-container" id="resultContainer">
+           </div>
+       </div>
+   </div>
+
+   <script>
+       document.addEventListener('DOMContentLoaded', function() {
+           const widgetContainer = document.getElementById('widget');
+           const resultContainer = document.getElementById('resultContainer');
+           const resultWrapper = document.getElementById('resultWrapper');
+           const guessButton = document.getElementById('guessButton');
+           const quizContent = document.getElementById('quizContent');
+
+           // Using placeholder images with transparent backgrounds
+           const baseImageUrl = 'https://placehold.co/300x300/transparent/white?text=Image+';
+           
+           // Alternative: Using SVG-based images with transparent backgrounds
+           const svgImages = [
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><rect x="50" y="50" width="200" height="200" fill="#6a11cb" opacity="0.8" rx="20"/><circle cx="150" cy="150" r="60" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><circle cx="150" cy="150" r="120" fill="#2575fc" opacity="0.8"/><rect x="100" y="100" width="100" height="100" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><polygon points="150,50 250,250 50,250" fill="#ff9966" opacity="0.8"/><circle cx="150" cy="150" r="40" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><rect x="20" y="20" width="260" height="260" fill="#38ef7d" opacity="0.8" rx="30"/><rect x="80" y="80" width="140" height="140" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><circle cx="150" cy="150" r="130" fill="#ff5e62" opacity="0.8"/><polygon points="150,80 180,150 150,220 120,150" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><rect x="50" y="50" width="200" height="200" fill="#11998e" opacity="0.8" rx="40"/><circle cx="150" cy="150" r="50" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><path d="M150,50 Q250,80 250,150 Q220,250 150,250 Q50,220 50,150 Q80,50 150,50Z" fill="#a8ff78" opacity="0.8"/><rect x="100" y="100" width="100" height="100" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><circle cx="100" cy="100" r="70" fill="#ff512f" opacity="0.8"/><circle cx="200" cy="200" r="70" fill="#dd2476" opacity="0.8"/><rect x="120" y="120" width="60" height="60" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><rect x="30" y="30" width="240" height="240" fill="#f857a6" opacity="0.8" rx="40"/><circle cx="150" cy="150" r="60" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><polygon points="150,50 250,120 220,250 80,250 50,120" fill="#36d1dc" opacity="0.8"/><rect x="100" y="120" width="100" height="60" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><circle cx="150" cy="150" r="130" fill="#5614b0" opacity="0.8"/><rect x="100" y="100" width="100" height="100" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><rect x="50" y="50" width="200" height="200" fill="#ff9966" opacity="0.8" rx="100"/><circle cx="150" cy="150" r="50" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><path d="M50,150 Q80,50 150,50 Q250,80 250,150 Q220,250 150,250 Q50,220 50,150Z" fill="#00c9ff" opacity="0.8"/><rect x="100" y="100" width="100" height="100" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><circle cx="100" cy="100" r="60" fill="#f46b45" opacity="0.8"/><circle cx="200" cy="200" r="60" fill="#eea849" opacity="0.8"/><rect x="120" y="120" width="60" height="60" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><rect x="50" y="50" width="200" height="200" fill="#8e2de2" opacity="0.8" rx="30"/><circle cx="150" cy="150" r="50" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><polygon points="150,50 250,100 230,220 70,220 50,100" fill="#f857a6" opacity="0.8"/><rect x="110" y="120" width="80" height="60" fill="white" rx="10"/></svg>'
+           ];
+
+           const imageMeanings = {
+               1: "Introverted, homebody, enjoys quiet time",
+               2: "Social, enjoys entertainment, external stimulation",
+               3: "Adventurous, nature-loving, spontaneous",
+               4: "Comfort-seeking, luxury-loving, practical",
+               5: "Energetic, social, thrill-seeking",
+               6: "Sophisticated, cultured, refined tastes",
+               7: "Casual, comfort-focused, indulgent",
+               8: "Health-conscious, disciplined, mindful",
+               9: "Dramatic, romantic, enjoys relationship dynamics",
+               10: "Fun-loving, enjoys social connections, lighthearted",
+               11: "Sophisticated, enjoys elevated experiences",
+               12: "Easygoing, social, enjoys casual fun",
+               13: "Animal lover, nurturing, affectionate",
+               14: "Playful, loyal, energetic",
+               15: "Comfort-focused, traditional, values intimacy",
+               16: "Adventurous, spontaneous, thrill-seeking"
+           };
+
+           for (let i = 0; i < 8; i++) {
+               const row = document.createElement('div');
+               row.className = 'image-row';
+
+               const image1Number = (i * 2) + 1;
+               const image2Number = (i * 2) + 2;
+
+               const image1 = document.createElement('div');
+               image1.className = 'image-option';
+               image1.dataset.choice = `option${image1Number}`;
+               image1.dataset.value = image1Number;
+               // Using SVG images with transparent backgrounds
+               image1.innerHTML = svgImages[image1Number - 1];
+
+               const orSeparator = document.createElement('div');
+               orSeparator.className = 'or-separator';
+               orSeparator.textContent = 'OR';
+
+               const image2 = document.createElement('div');
+               image2.className = 'image-option';
+               image2.dataset.choice = `option${image2Number}`;
+               image2.dataset.value = image2Number;
+               // Using SVG images with transparent backgrounds
+               image2.innerHTML = svgImages[image2Number - 1];
+
+               image1.addEventListener('click', function() {
+                   selectOption(this, image2);
+               });
+
+               image2.addEventListener('click', function() {
+                   selectOption(this, image1);
+               });
+
+               row.appendChild(image1);
+               row.appendChild(orSeparator);
+               row.appendChild(image2);
+
+               widgetContainer.appendChild(row);
+           }
+
+           function selectOption(selectedElement, otherElement) {
+               selectedElement.classList.add('selected');
+               otherElement.classList.remove('selected');
+           }
+
+           guessButton.addEventListener('click', function() {
+               const selectedOptions = document.querySelectorAll('.image-option.selected');
+               
+               if (selectedOptions.length === 8) {
+                   const selectedValues = Array.from(selectedOptions).map(option =>
+                       parseInt(option.dataset.value));
+
+                   const personality = analyzeSelections(selectedValues);
+
+                   resultContainer.innerHTML = `
+                       <h2 class="personality-type">${personality.type}</h2>
+                       <p class="personality-description">${personality.description}</p>
+                   `;
+                   
+                   // Hide the quiz content and show the result
+                   quizContent.classList.add('hidden');
+                   resultWrapper.classList.add('show');
+
+                   // Scroll to top to show the result nicely
+                   window.scrollTo({ top: 0, behavior: 'smooth' });
+               } else {
+                   alert('Please select one option from each pair before guessing your vibe!');
+               }
+           });
+
+           function analyzeSelections(selectedValues) {
+               let homebodyScore = 0;
+               let adventurousScore = 0;
+               let sophisticatedScore = 0;
+               let casualScore = 0;
+
+               selectedValues.forEach(value => {
+                   if ([1, 4, 7, 15].includes(value)) homebodyScore++;
+                   if ([3, 5, 16].includes(value)) adventurousScore++;
+                   if ([6, 11].includes(value)) sophisticatedScore++;
+                   if ([2, 8, 10, 12, 13, 14].includes(value)) casualScore++;
+               });
+
+               let personalityType, description;
+
+               if (adventurousScore >= 3) {
+                   personalityType = "THE THRILL SEEKER";
+                   description = "You're drawn to excitement and new experiences! Whether it's outdoor adventures, spontaneous travel, or trying something completely different, you thrive on variety and stimulation. You're not afraid to step outside your comfort zone and often inspire others to be more adventurous too.";
+               }
+               else if (sophisticatedScore >= 2) {
+                   personalityType = "THE REFINED ENTHUSIAST";
+                   description = "You have a taste for the finer things in life and appreciate quality over quantity. You enjoy cultural experiences, elegant settings, and meaningful conversations. You know how to balance sophistication with fun, and you bring a touch of class to everything you do.";
+               }
+               else if (homebodyScore >= 4) {
+                   personalityType = "THE COMFORT CONNOISSEUR";
+                   description = "You find joy in life's simple pleasures and value comfort and coziness above all else. You prefer intimate gatherings over big crowds and know that the best moments often happen in familiar, comfortable spaces. You're the friend everyone turns to for a relaxing, stress-free good time.";
+               }
+               else {
+                   personalityType = "THE BALANCED EXPLORER";
+                   description = "You're wonderfully adaptable and open to different experiences. You can appreciate both quiet nights in and exciting adventures out. You're social yet introspective, practical yet fun-loving. Your friends love that they can count on you for any kind of activity - you truly go with the flow!";
+               }
+
+               return {
+                   type: personalityType,
+                   description: description
+               };
+           }
+       });
+   </script>
+</body>
+</html>
