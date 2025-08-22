@@ -120,6 +120,11 @@
            border-top: 2px dashed #ffffff;
        }
 
+       /* Hide the quiz content when result is shown */
+       .quiz-content.hidden {
+           display: none;
+       }
+
        .result-wrapper {
            position: relative;
            display: none;
@@ -135,7 +140,7 @@
            text-align: center;
            padding: 40px;
            background: white;
-           border-radius: 27px;
+           border-radius: 0; /* Changed from 27px to 0 for squared corners */
            width: 650px;
            height: 650px;
            display: flex;
@@ -148,7 +153,7 @@
        .personality-type {
            font-family: 'Futura', sans-serif;
            font-weight: 700;
-           font-size: 45px; /* Increased to 45px */
+           font-size: 60px; /* Increased from 45px to 60px */
            color: #000000;
            margin: 25px 25px 25px;
            text-align: center;
@@ -160,8 +165,8 @@
        .personality-description {
            color: #000000;
            font-family: 'Futura', sans-serif;
-           font-size: 30px; /* Increased to 30px */
-           line-height: 1.4; /* Reduced line-height to help fit */
+           font-size: 30px;
+           line-height: 1.4;
            max-width: 600px;
            margin: 0 25px;
            text-align: center;
@@ -178,7 +183,7 @@
            }
 
            .image-option.selected {
-               border: 2px solid #c51f3b; /* Maintain red border on mobile */
+               border: 2px solid #c51f3b;
            }
            
            .or-separator {
@@ -195,10 +200,11 @@
                height: auto;
                min-height: 500px;
                max-width: 500px;
+               border-radius: 0; /* Squared corners on mobile too */
            }
            
            .personality-type {
-               font-size: 35px;
+               font-size: 45px; /* Scaled down for mobile */
                margin: 20px 25px 20px;
            }
            
@@ -224,7 +230,7 @@
            }
 
            .image-option.selected {
-               border: 2px solid #c51f3b; /* Maintain red border on mobile */
+               border: 2px solid #c51f3b;
            }
 
            .result-wrapper {
@@ -235,10 +241,11 @@
                width: 95vw;
                height: auto;
                min-height: 400px;
+               border-radius: 0; /* Squared corners on mobile too */
            }
            
            .personality-type {
-               font-size: 28px;
+               font-size: 35px; /* Scaled down for mobile */
                margin: 15px 25px 15px;
            }
            
@@ -255,12 +262,14 @@
 </head>
 <body>
    <div class="container">
-       <div class="widget-container" id="widget">
+       <div class="quiz-content" id="quizContent">
+           <div class="widget-container" id="widget">
+           </div>
+
+           <button class="guess-button" id="guessButton">Guess my vibe!</button>
+
+           <div class="page-break"></div>
        </div>
-
-       <button class="guess-button" id="guessButton">Guess my vibe!</button>
-
-       <div class="page-break"></div>
 
        <div class="result-wrapper" id="resultWrapper">
            <div class="result-container" id="resultContainer">
@@ -274,6 +283,7 @@
            const resultContainer = document.getElementById('resultContainer');
            const resultWrapper = document.getElementById('resultWrapper');
            const guessButton = document.getElementById('guessButton');
+           const quizContent = document.getElementById('quizContent'); // Added reference to quiz content
 
            const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
 
@@ -352,9 +362,13 @@
                        <h2 class="personality-type">${personality.type}</h2>
                        <p class="personality-description">${personality.description}</p>
                    `;
+                   
+                   // Hide the quiz content and show the result
+                   quizContent.classList.add('hidden');
                    resultWrapper.classList.add('show');
 
-                   resultWrapper.scrollIntoView({ behavior: 'smooth' });
+                   // Scroll to top to show the result nicely
+                   window.scrollTo({ top: 0, behavior: 'smooth' });
                } else {
                    alert('Please select one option from each pair before guessing your vibe!');
                }
