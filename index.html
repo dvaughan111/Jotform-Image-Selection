@@ -15,7 +15,7 @@
 
        body {
            font-family: 'Montserrat', sans-serif;
-           background: transparent;
+           background: linear-gradient(135deg, #6e48aa, #9d50bb);
            min-height: 100vh;
            display: flex;
            flex-direction: column;
@@ -25,15 +25,15 @@
            color: #fff;
        }
 
-       html {
-           background: transparent;
-       }
-
        .container {
            width: 100%;
            max-width: 800px;
-           background: transparent;
+           background: rgba(0, 0, 0, 0.4);
            overflow: hidden;
+           border-radius: 15px;
+           padding: 20px;
+           backdrop-filter: blur(10px);
+           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
        }
 
        .widget-container {
@@ -57,19 +57,21 @@
            cursor: pointer;
            transition: all 0.3s ease;
            position: relative;
-           border: 2px solid #ffffff;
+           border: 2px solid rgba(255, 255, 255, 0.7);
            flex-shrink: 0;
-           background: transparent; /* Already transparent as requested */
+           background: transparent;
        }
 
        .image-option:hover {
            transform: translateY(-5px);
            border-color: #ffffff;
+           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
        }
 
        .image-option.selected {
            transform: scale(1.03);
-           border: 3px solid #8f118d; /* Changed to 3px border with #8f118d color */
+           border: 3px solid #8f118d !important;
+           box-shadow: 0 0 20px rgba(143, 17, 141, 0.5);
        }
 
        .image-option img {
@@ -96,7 +98,7 @@
            font-weight: 700;
            font-size: 20px;
            color: #ffffff;
-           background: transparent;
+           background: rgba(143, 17, 141, 0.7);
            border: 2px solid #ffffff;
            border-radius: 30px;
            padding: 15px 40px;
@@ -110,14 +112,15 @@
 
        .guess-button:hover {
            transform: translateY(-3px);
-           background: rgba(255, 255, 255, 0.1);
+           background: rgba(143, 17, 141, 1);
+           box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
        }
 
        .page-break {
            width: 100%;
            height: 1px;
            margin: 30px 0;
-           border-top: 2px dashed #ffffff;
+           border-top: 2px dashed rgba(255, 255, 255, 0.5);
        }
 
        /* Hide the quiz content when result is shown */
@@ -140,7 +143,7 @@
            text-align: center;
            padding: 40px;
            background: white;
-           border-radius: 0; /* Changed from 27px to 0 for squared corners */
+           border-radius: 0;
            width: 650px;
            height: 650px;
            display: flex;
@@ -153,7 +156,7 @@
        .personality-type {
            font-family: 'Futura', sans-serif;
            font-weight: 700;
-           font-size: 60px; /* Increased from 45px to 60px */
+           font-size: 60px;
            color: #000000;
            margin: 25px 25px 25px;
            text-align: center;
@@ -173,17 +176,27 @@
            font-weight: 400;
        }
 
-       h1 { display: none; }
+       h1 { 
+           display: block; 
+           text-align: center;
+           font-family: 'Futura', sans-serif;
+           margin-bottom: 20px;
+           color: #fff;
+           text-transform: uppercase;
+           letter-spacing: 2px;
+           font-size: 2.5rem;
+           text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+       }
 
        @media (max-width: 850px) {
            .image-option {
                width: 270px;
                height: 270px;
-               border: 2px solid #ffffff;
+               border: 2px solid rgba(255, 255, 255, 0.7);
            }
 
            .image-option.selected {
-               border: 3px solid #8f118d; /* Updated for mobile */
+               border: 3px solid #8f118d !important;
            }
            
            .or-separator {
@@ -200,11 +213,11 @@
                height: auto;
                min-height: 500px;
                max-width: 500px;
-               border-radius: 0; /* Squared corners on mobile too */
+               border-radius: 0;
            }
            
            .personality-type {
-               font-size: 45px; /* Scaled down for mobile */
+               font-size: 45px;
                margin: 20px 25px 20px;
            }
            
@@ -226,11 +239,11 @@
            .image-option {
                width: 250px;
                height: 250px;
-               border: 2px solid #ffffff;
+               border: 2px solid rgba(255, 255, 255, 0.7);
            }
 
            .image-option.selected {
-               border: 3px solid #8f118d; /* Updated for mobile */
+               border: 3px solid #8f118d !important;
            }
 
            .result-wrapper {
@@ -241,11 +254,11 @@
                width: 95vw;
                height: auto;
                min-height: 400px;
-               border-radius: 0; /* Squared corners on mobile too */
+               border-radius: 0;
            }
            
            .personality-type {
-               font-size: 35px; /* Scaled down for mobile */
+               font-size: 35px;
                margin: 15px 25px 15px;
            }
            
@@ -257,10 +270,15 @@
            .result-container {
                padding: 30px 20px;
            }
+           
+           h1 {
+               font-size: 2rem;
+           }
        }
    </style>
 </head>
 <body>
+   <h1>What's Your Vibe?</h1>
    <div class="container">
        <div class="quiz-content" id="quizContent">
            <div class="widget-container" id="widget">
@@ -283,9 +301,30 @@
            const resultContainer = document.getElementById('resultContainer');
            const resultWrapper = document.getElementById('resultWrapper');
            const guessButton = document.getElementById('guessButton');
-           const quizContent = document.getElementById('quizContent'); // Added reference to quiz content
+           const quizContent = document.getElementById('quizContent');
 
-           const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
+           // Using placeholder images with transparent backgrounds
+           const baseImageUrl = 'https://placehold.co/300x300/transparent/white?text=Image+';
+           
+           // Alternative: Using SVG-based images with transparent backgrounds
+           const svgImages = [
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><rect x="50" y="50" width="200" height="200" fill="#6a11cb" opacity="0.8" rx="20"/><circle cx="150" cy="150" r="60" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><circle cx="150" cy="150" r="120" fill="#2575fc" opacity="0.8"/><rect x="100" y="100" width="100" height="100" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><polygon points="150,50 250,250 50,250" fill="#ff9966" opacity="0.8"/><circle cx="150" cy="150" r="40" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><rect x="20" y="20" width="260" height="260" fill="#38ef7d" opacity="0.8" rx="30"/><rect x="80" y="80" width="140" height="140" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><circle cx="150" cy="150" r="130" fill="#ff5e62" opacity="0.8"/><polygon points="150,80 180,150 150,220 120,150" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><rect x="50" y="50" width="200" height="200" fill="#11998e" opacity="0.8" rx="40"/><circle cx="150" cy="150" r="50" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><path d="M150,50 Q250,80 250,150 Q220,250 150,250 Q50,220 50,150 Q80,50 150,50Z" fill="#a8ff78" opacity="0.8"/><rect x="100" y="100" width="100" height="100" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><circle cx="100" cy="100" r="70" fill="#ff512f" opacity="0.8"/><circle cx="200" cy="200" r="70" fill="#dd2476" opacity="0.8"/><rect x="120" y="120" width="60" height="60" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><rect x="30" y="30" width="240" height="240" fill="#f857a6" opacity="0.8" rx="40"/><circle cx="150" cy="150" r="60" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><polygon points="150,50 250,120 220,250 80,250 50,120" fill="#36d1dc" opacity="0.8"/><rect x="100" y="120" width="100" height="60" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><circle cx="150" cy="150" r="130" fill="#5614b0" opacity="0.8"/><rect x="100" y="100" width="100" height="100" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><rect x="50" y="50" width="200" height="200" fill="#ff9966" opacity="0.8" rx="100"/><circle cx="150" cy="150" r="50" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><path d="M50,150 Q80,50 150,50 Q250,80 250,150 Q220,250 150,250 Q50,220 50,150Z" fill="#00c9ff" opacity="0.8"/><rect x="100" y="100" width="100" height="100" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><circle cx="100" cy="100" r="60" fill="#f46b45" opacity="0.8"/><circle cx="200" cy="200" r="60" fill="#eea849" opacity="0.8"/><rect x="120" y="120" width="60" height="60" fill="white" rx="10"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><rect x="50" y="50" width="200" height="200" fill="#8e2de2" opacity="0.8" rx="30"/><circle cx="150" cy="150" r="50" fill="white"/></svg>',
+               '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300"><polygon points="150,50 250,100 230,220 70,220 50,100" fill="#f857a6" opacity="0.8"/><rect x="110" y="120" width="80" height="60" fill="white" rx="10"/></svg>'
+           ];
 
            const imageMeanings = {
                1: "Introverted, homebody, enjoys quiet time",
@@ -317,7 +356,8 @@
                image1.className = 'image-option';
                image1.dataset.choice = `option${image1Number}`;
                image1.dataset.value = image1Number;
-               image1.innerHTML = `<img src="${baseImageUrl}${image1Number}.png" alt="Option ${image1Number}">`;
+               // Using SVG images with transparent backgrounds
+               image1.innerHTML = svgImages[image1Number - 1];
 
                const orSeparator = document.createElement('div');
                orSeparator.className = 'or-separator';
@@ -327,7 +367,8 @@
                image2.className = 'image-option';
                image2.dataset.choice = `option${image2Number}`;
                image2.dataset.value = image2Number;
-               image2.innerHTML = `<img src="${baseImageUrl}${image2Number}.png" alt="Option ${image2Number}">`;
+               // Using SVG images with transparent backgrounds
+               image2.innerHTML = svgImages[image2Number - 1];
 
                image1.addEventListener('click', function() {
                    selectOption(this, image2);
