@@ -14,14 +14,14 @@
 
        body {
            font-family: 'Montserrat', sans-serif;
-           background: white;
+           background: #000000;
            min-height: 100vh;
            display: flex;
            flex-direction: column;
            align-items: center;
            justify-content: center;
            padding: 20px;
-           color: #333;
+           color: #ffffff;
        }
 
        .container {
@@ -86,91 +86,80 @@
            text-shadow: none;
        }
 
-       .submit-btn {
-           display: block;
-           width: 220px;
-           margin: 40px auto 20px;
-           padding: 16px;
-           background: #C71585;
-           color: white;
-           border: none;
-           border-radius: 50px;
-           font-size: 16px;
-           font-weight: bold;
-           cursor: pointer;
-           transition: all 0.3s ease;
-           font-family: 'Futura', 'Montserrat', sans-serif;
-       }
-
-       .submit-btn:hover {
-           transform: translateY(-3px);
-       }
-
-       .submit-btn:active {
-           transform: translateY(0);
+       .page-break {
+           width: 100%;
+           height: 1px;
+           margin: 30px 0;
+           border-top: 2px dashed #C71585;
        }
 
        .result-wrapper {
            position: relative;
            display: none;
            margin: 40px auto;
-           width: 680px;
+           width: 650px;
        }
 
        .result-wrapper.show {
            display: block;
        }
 
-       .result-top-image {
-           width: 100%;
-           height: auto;
-           display: block;
-           border-radius: 15px 15px 0 0;
-       }
-
        .result-container {
            text-align: center;
            padding: 40px;
-           border-radius: 0 0 15px 15px;
-           width: 100%;
+           background: #000000;
+           border-radius: 15px;
+           width: 650px;
            min-height: 500px;
            display: flex;
            flex-direction: column;
            justify-content: center;
            align-items: center;
            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-           margin-top: -5px;
-           /* Background image for results */
-           background-image: url('https://dvaughan111.github.io/Jotform-Image-Selection/Personality_Guess.png');
-           background-size: cover;
-           background-position: center;
-           color: #000; /* Black text color */
+           border: 3px solid #C71585;
        }
 
        .personality-type {
            font-family: 'Futura', 'Montserrat', sans-serif;
-           font-weight: 900; /* Extra bold for title */
-           font-size: 36px; /* Larger font size */
-           color: #000000; /* Black color */
-           margin: 30px 40px 25px; /* Wide margins */
+           font-weight: 900;
+           font-size: 36px;
+           color: #ffffff;
+           margin: 30px 40px 25px;
            text-align: center;
            line-height: 1.2;
-           text-transform: uppercase; /* All caps like your example */
+           text-transform: uppercase;
            letter-spacing: 1px;
        }
 
        .personality-description {
-           color: #000000; /* Black color */
+           color: #ffffff;
            font-family: 'Futura', 'Montserrat', sans-serif;
            font-size: 18px;
            line-height: 1.6;
            max-width: 500px;
-           margin: 0 40px; /* Wide margins */
+           margin: 0 40px;
            text-align: center;
            font-weight: 500;
        }
 
        h1 { display: none; }
+
+       .submit-btn {
+           margin-top: 30px;
+           padding: 12px 25px;
+           background-color: #C71585;
+           color: #ffffff;
+           border: none;
+           border-radius: 8px;
+           font-size: 18px;
+           font-weight: 600;
+           cursor: pointer;
+           transition: background-color 0.3s ease;
+       }
+
+       .submit-btn:hover {
+           background-color: #a0116c;
+       }
 
        @media (max-width: 850px) {
            .image-option {
@@ -180,6 +169,12 @@
            
            .result-wrapper {
                width: 95vw;
+               max-width: 500px;
+           }
+           
+           .result-container {
+               width: 95vw;
+               min-height: 500px;
                max-width: 500px;
            }
            
@@ -212,6 +207,11 @@
                width: 95vw;
            }
            
+           .result-container {
+               width: 95vw;
+               min-height: 400px;
+           }
+           
            .personality-type {
                font-size: 24px;
                margin: 20px 25px 15px;
@@ -224,31 +224,32 @@
            
            .result-container {
                padding: 30px 20px;
-               min-height: 400px;
            }
        }
    </style>
 </head>
 <body>
    <div class="container">
-       <div class="widget-container" id="widget">
+       <div class="widget-container" id="widget"></div>
+
+       <div style="text-align: center;">
+           <button class="submit-btn" id="submitBtn">Guess my vibe!</button>
        </div>
 
-       <button class="submit-btn" id="submitBtn">What's My Vibe?</button>
+       <div class="page-break"></div>
 
        <div class="result-wrapper" id="resultWrapper">
-           <img src="https://dvaughan111.github.io/Jotform-Image-Selection/images/or.png" alt="Header Image" class="result-top-image">
-           <div class="result-container" id="resultContainer">
-           </div>
+           <!-- Removed broken header image -->
+           <div class="result-container" id="resultContainer"></div>
        </div>
    </div>
 
    <script>
-       document.addEventListener('DOMContentLoaded', function() {
+       document.addEventListener('DOMContentLoaded', function () {
            const widgetContainer = document.getElementById('widget');
-           const submitBtn = document.getElementById('submitBtn');
            const resultContainer = document.getElementById('resultContainer');
            const resultWrapper = document.getElementById('resultWrapper');
+           const submitBtn = document.getElementById('submitBtn');
 
            const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
 
@@ -294,11 +295,11 @@
                image2.dataset.value = image2Number;
                image2.innerHTML = `<img src="${baseImageUrl}${image2Number}.png" alt="Option ${image2Number}">`;
 
-               image1.addEventListener('click', function() {
+               image1.addEventListener('click', function () {
                    selectOption(this, image2);
                });
 
-               image2.addEventListener('click', function() {
+               image2.addEventListener('click', function () {
                    selectOption(this, image1);
                });
 
@@ -314,12 +315,13 @@
                otherElement.classList.remove('selected');
            }
 
-           submitBtn.addEventListener('click', function() {
+           function checkAllSelected() {
                const selectedOptions = document.querySelectorAll('.image-option.selected');
 
                if (selectedOptions.length === 8) {
                    const selectedValues = Array.from(selectedOptions).map(option =>
-                       parseInt(option.dataset.value));
+                       parseInt(option.dataset.value)
+                   );
 
                    const personality = analyzeSelections(selectedValues);
 
@@ -330,11 +332,10 @@
                    resultWrapper.classList.add('show');
 
                    resultWrapper.scrollIntoView({ behavior: 'smooth' });
-
                } else {
-                   alert('Please make a selection for each pair before finding out your vibe!');
+                   alert("Please select one option from each row before submitting.");
                }
-           });
+           }
 
            function analyzeSelections(selectedValues) {
                let homebodyScore = 0;
@@ -354,16 +355,13 @@
                if (adventurousScore >= 3) {
                    personalityType = "THE THRILL SEEKER";
                    description = "You're drawn to excitement and new experiences! Whether it's outdoor adventures, spontaneous travel, or trying something completely different, you thrive on variety and stimulation. You're not afraid to step outside your comfort zone and often inspire others to be more adventurous too.";
-               }
-               else if (sophisticatedScore >= 2) {
+               } else if (sophisticatedScore >= 2) {
                    personalityType = "THE REFINED ENTHUSIAST";
                    description = "You have a taste for the finer things in life and appreciate quality over quantity. You enjoy cultural experiences, elegant settings, and meaningful conversations. You know how to balance sophistication with fun, and you bring a touch of class to everything you do.";
-               }
-               else if (homebodyScore >= 4) {
+               } else if (homebodyScore >= 4) {
                    personalityType = "THE COMFORT CONNOISSEUR";
                    description = "You find joy in life's simple pleasures and value comfort and coziness above all else. You prefer intimate gatherings over big crowds and know that the best moments often happen in familiar, comfortable spaces. You're the friend everyone turns to for a relaxing, stress-free good time.";
-               }
-               else {
+               } else {
                    personalityType = "THE BALANCED EXPLORER";
                    description = "You're wonderfully adaptable and open to different experiences. You can appreciate both quiet nights in and exciting adventures out. You're social yet introspective, practical yet fun-loving. Your friends love that they can count on you for any kind of activity - you truly go with the flow!";
                }
@@ -373,8 +371,9 @@
                    description: description
                };
            }
+
+           submitBtn.addEventListener('click', checkAllSelected);
        });
    </script>
 </body>
 </html>
-
