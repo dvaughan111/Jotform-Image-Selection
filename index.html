@@ -23,8 +23,8 @@
             justify-content: center;
             padding: 20px;
             color: #333;
-            /* Height will be managed by JavaScript */
-            height: auto;
+            /* Initial height set to 3400px as requested */
+            height: 3400px;
             overflow: visible;
         }
 
@@ -242,6 +242,7 @@
             const quizPage = document.getElementById('quizPage');
             const resultPage = document.getElementById('resultPage');
             const nextButton = document.getElementById('nextButton');
+            const body = document.body;
 
             // Using your original image URL
             const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
@@ -322,7 +323,10 @@
                     
                     quizPage.style.display = 'none';
                     resultPage.style.display = 'block';
-
+                    
+                    // Resize the body to 800px as requested
+                    body.style.height = '800px';
+                    
                     // After displaying the results, resize the parent frame to fit the new content
                     // A small delay is added to ensure the new content has rendered completely
                     setTimeout(resizeParentFrame, 100);
