@@ -16,7 +16,7 @@
         body {
             font-family: 'Montserrat', sans-serif;
             background: transparent;
-            min-height: 100vh;
+            /* Removed min-height: 100vh to allow the body to shrink to content height */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -30,6 +30,9 @@
             max-width: 800px;
             background: transparent;
             overflow: hidden;
+            /* Added max-height and overflow-y to the main container */
+            max-height: 1000px; 
+            overflow-y: auto;
         }
 
         .widget-container {
@@ -53,7 +56,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            border: 4px solid transparent; /* Default to no visible border */
+            border: 4px solid transparent;
             flex-shrink: 0;
             background: transparent;
         }
@@ -66,8 +69,8 @@
 
         .image-option.selected {
             transform: scale(1.03);
-            border: 20px solid #41afba !important; /* Increased border to 20px and changed color */
-            box-shadow: 0 0 20px rgba(65, 175, 186, 0.5); /* Updated shadow color to match */
+            border: 20px solid #41afba !important;
+            box-shadow: 0 0 20px rgba(65, 175, 186, 0.5);
         }
 
         .image-option img {
@@ -75,6 +78,9 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            /* To make the image itself transparent if it's not a transparent PNG */
+            /* You can adjust the opacity to your liking */
+            /* opacity: 0.8; */ 
             background: transparent;
         }
 
@@ -125,7 +131,7 @@
             display: none;
             text-align: center;
             width: 100%;
-            max-height: 1000px;
+            /* Removed max-height here as it's now on the parent container */
             overflow-y: auto;
         }
 
