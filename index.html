@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #8f118d 0%, #41afba 100%);
+            background: transparent);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -29,16 +29,16 @@
         .container {
             width: 100%;
             max-width: 800px;
-            background: white;
+            background: transparent;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: none;
             position: relative;
         }
 
         .widget-container {
             background: transparent;
-            padding: 20px 0;
+            padding: 0px 0;
             min-height: 3400px;
         }
 
@@ -132,8 +132,7 @@
         
         .result-container {
             text-align: center;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.95);
+            background: transparent;
             border-radius: 15px;
             width: 100%;
             display: flex;
@@ -141,7 +140,7 @@
             justify-content: center;
             align-items: center;
             margin: 0 auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: none;
             border: 1px solid #eee;
             min-height: 500px;
         }
@@ -330,7 +329,7 @@
                         <div class="result-container">
                             <h2 class="personality-type">${personality.type}</h2>
                             <p class="personality-description">${personality.description}</p>
-                            <button class="reset-button" id="resetButton">Take Again</button>
+                            
                         </div>
                     `;
                     
@@ -408,3 +407,4 @@
     </script>
 </body>
 </html>
+
