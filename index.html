@@ -14,47 +14,32 @@
 
        body {
            font-family: 'Montserrat', sans-serif;
-           background: transparent; /* Transparent background */
+           background: transparent;
            min-height: 100vh;
            display: flex;
            flex-direction: column;
            align-items: center;
            justify-content: center;
            padding: 20px;
-           color: #333; /* Changed back to dark text for better contrast */
+           color: #333;
+           padding-top: 0 !important;
        }
 
-     .container {
-    width: 100%;
-    max-width: 900px;
-    background: transparent;
-    overflow: hidden;
-    margin: 0 auto; /* This centers the container */
-}
+       .container {
+           width: 100%;
+           max-width: 900px;
+           background: transparent;
+           overflow: hidden;
+           margin: 0 auto;
+           padding-top: 0 !important;
+           margin-top: 0 !important;
+       }
 
-     .widget-container {
-    background: transparent;
-    padding: 0 !important; /* Remove all padding */
-    margin: 0 !important; /* Remove all margins */
-}
-      .image-row:first-child {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-}
-      .form-all .widget-container,
-.form-form .widget-container,
-.form-section .widget-container {
-    padding: 0 !important;
-    margin: 0 !important;
-}
-      body {
-    padding-top: 0 !important;
-}
-
-.container {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-}
+       .widget-container {
+           background: transparent;
+           padding: 0 !important;
+           margin: 0 !important;
+       }
 
        .image-row {
            display: flex;
@@ -62,6 +47,11 @@
            align-items: center;
            margin-bottom: 35px;
            width: 100%;
+       }
+
+       .image-row:first-child {
+           margin-top: 0 !important;
+           padding-top: 0 !important;
        }
 
        .image-option {
@@ -74,7 +64,7 @@
            position: relative;
            border: 3px solid transparent;
            flex-shrink: 0;
-           background: white; /* White background for image containers */
+           background: white;
        }
 
        .image-option:hover {
@@ -100,7 +90,7 @@
            font-family: 'Montserrat', sans-serif;
            font-weight: bold;
            font-size: 18pt;
-           color: #333; /* Dark text for better contrast */
+           color: #333;
            margin: 0 20px;
            padding: 0 10px;
            flex-shrink: 0;
@@ -110,7 +100,7 @@
            width: 100%;
            height: 1px;
            margin: 30px 0;
-           border-top: 2px dashed #ccc; /* Changed to neutral color */
+           border-top: 2px dashed #ccc;
        }
 
        .result-wrapper {
@@ -127,7 +117,7 @@
        .result-container {
            text-align: center;
            padding: 40px;
-           background: white; /* White background for results */
+           background: white;
            border-radius: 15px;
            width: 650px;
            display: flex;
@@ -135,14 +125,14 @@
            justify-content: center;
            align-items: center;
            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-           border: 1px solid #ddd; /* Subtle border */
+           border: 1px solid #ddd;
        }
 
        .personality-type {
            font-family: 'Montserrat', sans-serif;
            font-weight: 900;
            font-size: 36px;
-           color: #8f118d; /* Purple color for personality type */
+           color: #8f118d;
            margin: 30px 40px 25px;
            text-align: center;
            line-height: 1.2;
@@ -151,7 +141,7 @@
        }
 
        .personality-description {
-           color: #333; /* Dark text for readability */
+           color: #333;
            font-family: 'Montserrat', sans-serif;
            font-size: 18px;
            line-height: 1.6;
@@ -229,6 +219,14 @@
            .result-container {
                padding: 30px 20px;
            }
+       }
+
+       /* JotForm specific overrides */
+       .form-all .widget-container,
+       .form-form .widget-container,
+       .form-section .widget-container {
+           padding: 0 !important;
+           margin: 0 !important;
        }
    </style>
 </head>
@@ -373,6 +371,3 @@
    </script>
 </body>
 </html>
-
-
-
