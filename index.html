@@ -14,14 +14,14 @@
 
        body {
            font-family: 'Montserrat', sans-serif;
-           background: transparent;
+           background: transparent; /* Transparent background */
            min-height: 100vh;
            display: flex;
            flex-direction: column;
            align-items: center;
-           justify-content: flex-start;
-           padding: 0;
-           color: #333;
+           justify-content: center;
+           padding: 20px;
+           color: #333; /* Changed back to dark text for better contrast */
        }
 
        .container {
@@ -33,31 +33,28 @@
 
        .widget-container {
            background: transparent;
-           padding: 0;
+           padding: 20px 0;
        }
 
        .image-row {
-           display: flex !important;
-           flex-direction: row !important;
-           justify-content: center !important;
-           align-items: center !important;
-           margin-bottom: 35px !important;
-           width: 100% !important;
-           flex-wrap: nowrap !important;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           margin-bottom: 35px;
+           width: 100%;
        }
 
        .image-option {
-           width: 200px !important;
-           height: 200px !important;
+           width: 200px;
+           height: 200px;
            border-radius: 15px;
            overflow: hidden;
            cursor: pointer;
            transition: all 0.3s ease;
            position: relative;
            border: 3px solid transparent;
-           flex-shrink: 0 !important;
-           background: white;
-           display: inline-block !important;
+           flex-shrink: 0;
+           background: white; /* White background for image containers */
        }
 
        .image-option:hover {
@@ -68,7 +65,7 @@
 
        .image-option.selected {
            transform: scale(1.03);
-           border: 10px solid #2F4F4F;
+           border: 3px solid #C71585;
            box-shadow: none;
        }
 
@@ -83,18 +80,17 @@
            font-family: 'Montserrat', sans-serif;
            font-weight: bold;
            font-size: 18pt;
-           color: #333;
-           margin: 0 20px !important;
+           color: #333; /* Dark text for better contrast */
+           margin: 0 20px;
            padding: 0 10px;
-           flex-shrink: 0 !important;
-           display: inline-block !important;
+           flex-shrink: 0;
        }
 
        .page-break {
            width: 100%;
            height: 1px;
            margin: 30px 0;
-           border-top: 2px dashed #ccc;
+           border-top: 2px dashed #ccc; /* Changed to neutral color */
        }
 
        .result-wrapper {
@@ -111,7 +107,7 @@
        .result-container {
            text-align: center;
            padding: 40px;
-           background: white;
+           background: white; /* White background for results */
            border-radius: 15px;
            width: 650px;
            display: flex;
@@ -119,14 +115,14 @@
            justify-content: center;
            align-items: center;
            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-           border: 1px solid #ddd;
+           border: 1px solid #ddd; /* Subtle border */
        }
 
        .personality-type {
            font-family: 'Montserrat', sans-serif;
            font-weight: 900;
            font-size: 36px;
-           color: #8f118d;
+           color: #8f118d; /* Purple color for personality type */
            margin: 30px 40px 25px;
            text-align: center;
            line-height: 1.2;
@@ -135,7 +131,7 @@
        }
 
        .personality-description {
-           color: #333;
+           color: #333; /* Dark text for readability */
            font-family: 'Montserrat', sans-serif;
            font-size: 18px;
            line-height: 1.6;
@@ -147,16 +143,10 @@
 
        h1 { display: none; }
 
-       /* Force row layout on ALL screen sizes */
        @media (max-width: 850px) {
-           .image-row {
-               display: flex !important;
-               flex-direction: row !important;
-           }
-           
            .image-option {
-               width: 180px !important;
-               height: 180px !important;
+               width: 180px;
+               height: 180px;
            }
            
            .result-wrapper {
@@ -182,20 +172,18 @@
            }
        }
 
-       @media (max-width: 650px) {
+       @media (max-width: 768px) {
            .image-row {
-               display: flex !important;
-               flex-direction: row !important;
-           }
-           
-           .image-option {
-               width: 140px !important;
-               height: 140px !important;
+               flex-direction: column;
            }
 
            .or-separator {
-               margin: 0 10px !important;
-               font-size: 14pt;
+               margin: 15px 0;
+           }
+
+           .image-option {
+               width: 200px;
+               height: 200px;
            }
 
            .result-wrapper {
@@ -220,18 +208,6 @@
            
            .result-container {
                padding: 30px 20px;
-           }
-       }
-
-       @media (max-width: 400px) {
-           .image-option {
-               width: 120px !important;
-               height: 120px !important;
-           }
-
-           .or-separator {
-               margin: 0 5px !important;
-               font-size: 12pt;
            }
        }
    </style>
@@ -261,14 +237,6 @@
            for (let i = 0; i < 10; i++) {
                const row = document.createElement('div');
                row.className = 'image-row';
-               
-               // Force inline styles as backup
-               row.style.display = 'flex';
-               row.style.flexDirection = 'row';
-               row.style.justifyContent = 'center';
-               row.style.alignItems = 'center';
-               row.style.marginBottom = '35px';
-               row.style.width = '100%';
 
                const image1Number = (i * 2) + 1;
                const image2Number = (i * 2) + 2;
