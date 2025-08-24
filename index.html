@@ -4,7 +4,7 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>What's Your Vibe? Personality Quiz</title>
-   <link href="https://fonts.googleapis.com/css2?family=Futura:wght@300;400;600&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
    <style>
        * {
            margin: 0;
@@ -13,14 +13,14 @@
        }
 
        body {
-           font-family: 'Futura', sans-serif;
+           font-family: 'Montserrat', sans-serif;
            background: transparent; /* Transparent background */
            min-height: 100vh;
            display: flex;
            flex-direction: column;
            align-items: center;
            justify-content: center;
-          /* padding: 20px;*/
+           padding: 20px;
            color: #333; /* Changed back to dark text for better contrast */
        }
 
@@ -33,14 +33,14 @@
 
        .widget-container {
            background: transparent;
-        /*   padding: 20px 0;*/
+           padding: 20px 0;
        }
 
        .image-row {
            display: flex;
            justify-content: center;
            align-items: center;
-          /* margin-bottom: 35px; */
+           margin-bottom: 35px;
            width: 100%;
        }
 
@@ -52,7 +52,7 @@
            cursor: pointer;
            transition: all 0.3s ease;
            position: relative;
-        /*   border: 3px solid transparent; */
+           border: 3px solid transparent;
            flex-shrink: 0;
            background: white; /* White background for image containers */
        }
@@ -77,26 +77,26 @@
        }
 
        .or-separator {
-           font-family: 'Futura', sans-serif;
+           font-family: 'Montserrat', sans-serif;
            font-weight: bold;
            font-size: 18pt;
-           color: #FFFFFF; /* Dark text for better contrast */
-       /*    margin: 0 20px;
-           padding: 0 10px; */
+           color: #333; /* Dark text for better contrast */
+           margin: 0 20px;
+           padding: 0 10px;
            flex-shrink: 0;
        }
 
        .page-break {
            width: 100%;
            height: 1px;
-        /*   margin: 30px 0; */
+           margin: 30px 0;
            border-top: 2px dashed #ccc; /* Changed to neutral color */
        }
 
        .result-wrapper {
            position: relative;
            display: none;
-       /*    margin: 40px auto; */
+           margin: 40px auto;
            width: 650px;
        }
 
@@ -106,7 +106,7 @@
 
        .result-container {
            text-align: center;
-         /*  padding: 40px; */
+           padding: 40px;
            background: white; /* White background for results */
            border-radius: 15px;
            width: 650px;
@@ -114,16 +114,16 @@
            flex-direction: column;
            justify-content: center;
            align-items: center;
-           box-shadow: none;
+           box-shadow: 0 4px 20px rgba(0,0,0,0.1);
            border: 1px solid #ddd; /* Subtle border */
        }
 
        .personality-type {
-           font-family: 'Futura', sans-serif;
+           font-family: 'Montserrat', sans-serif;
            font-weight: 900;
            font-size: 36px;
            color: #8f118d; /* Purple color for personality type */
-          /* margin: 30px 40px 25px; */
+           margin: 30px 40px 25px;
            text-align: center;
            line-height: 1.2;
            text-transform: uppercase;
@@ -132,7 +132,7 @@
 
        .personality-description {
            color: #333; /* Dark text for readability */
-           font-family: 'Futura', sans-serif;
+           font-family: 'Montserrat', sans-serif;
            font-size: 18px;
            line-height: 1.6;
            max-width: 500px;
