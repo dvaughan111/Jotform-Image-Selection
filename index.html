@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Futura:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* This is the CSS you should place in your style tags */
         * {
             margin: 0;
             padding: 0;
@@ -17,7 +16,8 @@
         body {
             font-family: 'Montserrat', sans-serif;
             background: transparent;
-            min-height: 100vh;
+            max-height: 1000px;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -31,15 +31,11 @@
             max-width: 800px;
             background: transparent;
             overflow: hidden;
-            /* Removed max-height and overflow-y from here */
         }
 
         .widget-container {
             background: transparent;
             padding: 20px 0;
-            /* Added max-height and overflow-y here for quiz content */
-            max-height: 1000px;
-            overflow-y: auto;
         }
 
         .image-row {
@@ -123,15 +119,14 @@
         }
 
         .quiz-page {
-            /* This can stay as a container for quiz content */
+            height: 100%;
         }
-        
+
         .result-page {
             display: none;
             text-align: center;
             width: 100%;
-            /* Added max-height and overflow-y here for results content */
-            max-height: 1000px;
+            height: 100%;
             overflow-y: auto;
         }
 
@@ -182,15 +177,15 @@
             .image-option.selected {
                 border: 20px solid #41afba !important;
             }
-            
+
             .or-separator {
                 margin: 0 25px;
             }
-            
+
             .personality-type {
                 font-size: 36px;
             }
-            
+
             .personality-description {
                 font-size: 18px;
             }
@@ -213,15 +208,15 @@
             .image-option.selected {
                 border: 20px solid #41afba !important;
             }
-            
+
             .personality-type {
                 font-size: 30px;
             }
-            
+
             .personality-description {
                 font-size: 16px;
             }
-            
+
             .result-container {
                 padding: 30px 20px;
             }
@@ -248,8 +243,10 @@
             const resultPage = document.getElementById('resultPage');
             const nextButton = document.getElementById('nextButton');
 
+            // Using your original image URL
             const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
 
+            // Create image selection pairs (now 10 pairs for 20 images)
             for (let i = 0; i < 10; i++) {
                 const row = document.createElement('div');
                 row.className = 'image-row';
@@ -261,6 +258,7 @@
                 image1.className = 'image-option';
                 image1.dataset.choice = `option${image1Number}`;
                 image1.dataset.value = image1Number;
+                // Using your original images
                 image1.innerHTML = `<img src="${baseImageUrl}${image1Number}.png" alt="Option ${image1Number}">`;
 
                 const orSeparator = document.createElement('div');
@@ -271,6 +269,7 @@
                 image2.className = 'image-option';
                 image2.dataset.choice = `option${image2Number}`;
                 image2.dataset.value = image2Number;
+                // Using your original images
                 image2.innerHTML = `<img src="${baseImageUrl}${image2Number}.png" alt="Option ${image2Number}">`;
 
                 image1.addEventListener('click', function() {
@@ -314,9 +313,11 @@
                         <p class="personality-description">${personality.description}</p>
                     `;
                     
+                    // Switch to the result page
                     quizPage.style.display = 'none';
                     resultPage.style.display = 'block';
 
+                    // Scroll to top to show the result nicely
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             });
@@ -332,42 +333,56 @@
                 let financialScore = 0;
 
                 selectedValues.forEach(value => {
+                    // Existing categories
                     if ([1, 4, 7, 15].includes(value)) homebodyScore++;
                     if ([3, 5, 16].includes(value)) adventurousScore++;
                     if ([6, 11].includes(value)) sophisticatedScore++;
                     if ([2, 8, 10, 12, 13, 14].includes(value)) casualScore++;
                     
+                    // Rule-breaker tendencies
                     if ([3, 5, 9, 16].includes(value)) rulebreakerScore++;
                     
+                    // Independent tendencies
                     if ([1, 8, 13, 15].includes(value)) independentScore++;
                     
+                    // NEW: Rebellious tendencies (devil duck)
                     if ([17].includes(value)) rebelliousScore++;
                     
+                    // NEW: Financial tendencies (credit cards vs cash)
                     if ([19].includes(value)) financialScore++;
                     if ([20].includes(value)) financialScore--;
                 });
 
                 let personalityType, description;
 
+                // Rebellious type (devil duck)
                 if (rebelliousScore >= 1) {
                     personalityType = "THE REBEL";
                     description = "You challenge conventions and aren't afraid to go against the grain. You question authority and traditional norms, preferring to carve your own path. Your rebellious spirit makes you a natural innovator who isn't afraid to break rules when they don't make sense.";
-                } else if (rulebreakerScore >= 3) {
+                }
+                // Rule Breaker type
+                else if (rulebreakerScore >= 3) {
                     personalityType = "THE RULE BREAKER";
                     description = "You march to the beat of your own drum and aren't afraid to challenge conventions. You see rules as suggestions rather than commandments and often find creative ways around obstacles. Your independent thinking and willingness to question authority make you a natural innovator and change-maker.";
-                } else if (independentScore >= 3) {
+                }
+                // Independent Spirit type
+                else if (independentScore >= 3) {
                     personalityType = "THE INDEPENDENT SPIRIT";
                     description = "You value your autonomy above all else and thrive when following your own path. You're self-reliant, capable, and comfortable in your own company. While you can work well with others, you never lose sight of your own goals and values. Your self-sufficiency is both admirable and inspiring to those around you.";
-                } else if (adventurousScore >= 3) {
+                }
+                else if (adventurousScore >= 3) {
                     personalityType = "THE THRILL SEEKER";
                     description = "You're drawn to excitement and new experiences! Whether it's outdoor adventures, spontaneous travel, or trying something completely different, you thrive on variety and stimulation. You're not afraid to step outside your comfort zone and often inspire others to be more adventurous too.";
-                } else if (sophisticatedScore >= 2) {
+                }
+                else if (sophisticatedScore >= 2) {
                     personalityType = "THE REFINED ENTHUSIAST";
                     description = "You have a taste for the finer things in life and appreciate quality over quantity. You enjoy cultural experiences, elegant settings, and meaningful conversations. You know how to balance sophistication with fun, and you bring a touch of class to everything you do.";
-                } else if (homebodyScore >= 4) {
+                }
+                else if (homebodyScore >= 4) {
                     personalityType = "THE COMFORT CONNOISSEUR";
                     description = "You find joy in life's simple pleasures and value comfort and coziness above all else. You prefer intimate gatherings over big crowds and know that the best moments often happen in familiar, comfortable spaces. You're the friend everyone turns to for a relaxing, stress-free good time.";
-                } else {
+                }
+                else {
                     personalityType = "THE BALANCED EXPLORER";
                     description = "You're wonderfully adaptable and open to different experiences. You can appreciate both quiet nights in and exciting adventures out. You're social yet introspective, practical yet fun-loving. Your friends love that they can count on you for any kind of activity - you truly go with the flow!";
                 }
