@@ -33,11 +33,12 @@
 
        .widget-container {
            background: transparent;
-           padding: 20px 0;
+           padding: 0; /* Removed top/bottom padding */
        }
 
        .image-row {
            display: flex;
+           flex-direction: row !important; /* Force row layout */
            justify-content: center;
            align-items: center;
            margin-bottom: 35px;
@@ -173,16 +174,7 @@
            }
        }
 
-       /* Fixed the media query to only apply column layout on smaller screens */
        @media (max-width: 650px) {
-           .image-row {
-               flex-direction: column;
-           }
-
-           .or-separator {
-               margin: 15px 0;
-           }
-
            .image-option {
                width: 200px;
                height: 200px;
