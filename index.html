@@ -32,10 +32,29 @@
     margin: 0 auto; /* This centers the container */
 }
 
-       .widget-container {
-           background: transparent;
-           padding: 5px 0 20px 0;
-       }
+     .widget-container {
+    background: transparent;
+    padding: 0 !important; /* Remove all padding */
+    margin: 0 !important; /* Remove all margins */
+}
+      .image-row:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+      .form-all .widget-container,
+.form-form .widget-container,
+.form-section .widget-container {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+      body {
+    padding-top: 0 !important;
+}
+
+.container {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
 
        .image-row {
            display: flex;
@@ -354,5 +373,6 @@
    </script>
 </body>
 </html>
+
 
 
