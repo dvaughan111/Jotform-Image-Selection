@@ -255,10 +255,6 @@
                 }, '*');
             }
 
-            // Initial resize when the page loads, and on any window resize
-            window.addEventListener('load', resizeParentFrame);
-            window.addEventListener('resize', resizeParentFrame);
-
             // Create image selection pairs (10 pairs for 20 images)
             for (let i = 0; i < 10; i++) {
                 const row = document.createElement('div');
