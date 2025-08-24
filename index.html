@@ -22,7 +22,6 @@
            justify-content: center;
            padding: 20px;
            color: #333;
-           padding-top: 0 !important;
        }
 
        .container {
@@ -31,32 +30,24 @@
            background: transparent;
            overflow: hidden;
            margin: 0 auto;
-           padding-top: 0 !important;
-           margin-top: 0 !important;
        }
 
        .widget-container {
            background: transparent;
-           padding: 0 !important;
-           margin: 0 !important;
+           padding: 10px 0;
        }
 
        .image-row {
            display: flex;
            justify-content: center;
            align-items: center;
-           margin-bottom: 35px;
+           margin-bottom: 30px;
            width: 100%;
        }
 
-       .image-row:first-child {
-           margin-top: 0 !important;
-           padding-top: 0 !important;
-       }
-
        .image-option {
-           width: 200px;
-           height: 200px;
+           width: 300px;
+           height: 300px;
            border-radius: 15px;
            overflow: hidden;
            cursor: pointer;
@@ -70,13 +61,11 @@
        .image-option:hover {
            transform: translateY(-5px);
            border-color: #C71585;
-           box-shadow: none;
        }
 
        .image-option.selected {
            transform: scale(1.03);
            border: 3px solid #C71585;
-           box-shadow: none;
        }
 
        .image-option img {
@@ -91,7 +80,7 @@
            font-weight: bold;
            font-size: 18pt;
            color: #333;
-           margin: 0 20px;
+           margin: 0 25px;
            padding: 0 10px;
            flex-shrink: 0;
        }
@@ -155,8 +144,8 @@
 
        @media (max-width: 850px) {
            .image-option {
-               width: 180px;
-               height: 180px;
+               width: 250px;
+               height: 250px;
            }
            
            .result-wrapper {
@@ -192,8 +181,8 @@
            }
 
            .image-option {
-               width: 200px;
-               height: 200px;
+               width: 280px;
+               height: 280px;
            }
 
            .result-wrapper {
@@ -219,14 +208,6 @@
            .result-container {
                padding: 30px 20px;
            }
-       }
-
-       /* JotForm specific overrides */
-       .form-all .widget-container,
-       .form-form .widget-container,
-       .form-section .widget-container {
-           padding: 0 !important;
-           margin: 0 !important;
        }
    </style>
 </head>
