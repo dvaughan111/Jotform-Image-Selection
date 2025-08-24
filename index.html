@@ -22,7 +22,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            color: #fff;
+            color: #333;
         }
 
         .container {
@@ -53,14 +53,14 @@
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            border: 2px solid rgba(255, 255, 255, 0.7);
+            border: 2px solid rgba(0, 0, 0, 0.3);
             flex-shrink: 0;
             background: transparent;
         }
 
         .image-option:hover {
             transform: translateY(-5px);
-            border-color: #ffffff;
+            border-color: #8f118d;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
@@ -82,20 +82,19 @@
             font-family: 'Futura', 'Montserrat', sans-serif;
             font-weight: bold;
             font-size: 18pt;
-            color: #ffffff;
+            color: #333;
             margin: 0 30px;
             padding: 0 10px;
             flex-shrink: 0;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .next-button {
             font-family: 'Futura', 'Montserrat', sans-serif;
             font-weight: 700;
             font-size: 20px;
-            color: #ffffff;
-            background: rgba(143, 17, 141, 0.7);
-            border: 2px solid #ffffff;
+            color: #fff;
+            background: #8f118d;
+            border: 2px solid #8f118d;
             border-radius: 30px;
             padding: 15px 40px;
             cursor: pointer;
@@ -108,8 +107,8 @@
 
         .next-button:hover {
             transform: translateY(-3px);
-            background: rgba(143, 17, 141, 1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: #6d0c6b;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .next-button:disabled {
@@ -127,7 +126,7 @@
         .result-container {
             text-align: center;
             padding: 40px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             width: 100%;
             display: flex;
@@ -135,7 +134,8 @@
             justify-content: center;
             align-items: center;
             margin: 0 auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #eee;
         }
 
         .personality-type {
@@ -165,8 +165,8 @@
             font-family: 'Futura', 'Montserrat', sans-serif;
             font-weight: 700;
             font-size: 18px;
-            color: #ffffff;
-            background: rgba(143, 17, 141, 0.7);
+            color: #fff;
+            background: #8f118d;
             border: 2px solid #8f118d;
             border-radius: 30px;
             padding: 12px 30px;
@@ -179,7 +179,7 @@
 
         .restart-button:hover {
             transform: translateY(-3px);
-            background: rgba(143, 17, 141, 1);
+            background: #6d0c6b;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
@@ -264,25 +264,6 @@
 
             // Using your original image URL
             const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
-
-            const imageMeanings = {
-                1: "Introverted, homebody, enjoys quiet time",
-                2: "Social, enjoys entertainment, external stimulation",
-                3: "Adventurous, nature-loving, spontaneous",
-                4: "Comfort-seeking, luxury-loving, practical",
-                5: "Energetic, social, thrill-seeking",
-                6: "Sophisticated, cultured, refined tastes",
-                7: "Casual, comfort-focused, indulgent",
-                8: "Health-conscious, disciplined, mindful",
-                9: "Dramatic, romantic, enjoys relationship dynamics",
-                10: "Fun-loving, enjoys social connections, lighthearted",
-                11: "Sophisticated, enjoys elevated experiences",
-                12: "Easygoing, social, enjoys casual fun",
-                13: "Animal lover, nurturing, affectionate",
-                14: "Playful, loyal, energetic",
-                15: "Comfort-focused, traditional, values intimacy",
-                16: "Adventurous, spontaneous, thrill-seeking"
-            };
 
             // Create image selection pairs
             for (let i = 0; i < 8; i++) {
