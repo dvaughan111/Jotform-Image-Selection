@@ -53,7 +53,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            border: 2px solid rgba(0, 0, 0, 0.3);
+            border: 4px solid rgba(0, 0, 0, 0.3); /* Doubled border size */
             flex-shrink: 0;
             background: transparent;
         }
@@ -92,9 +92,9 @@
             font-family: 'Futura', 'Montserrat', sans-serif;
             font-weight: 700;
             font-size: 20px;
-            color: #fff;
-            background: #8f118d;
-            border: 2px solid #8f118d;
+            color: #ffffff; /* White text */
+            background: transparent; /* Transparent background */
+            border: 2px solid #ffffff; /* White outline */
             border-radius: 30px;
             padding: 15px 40px;
             cursor: pointer;
@@ -107,7 +107,7 @@
 
         .next-button:hover {
             transform: translateY(-3px);
-            background: #6d0c6b;
+            background: rgba(255, 255, 255, 0.2); /* Slight white background on hover */
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
@@ -225,7 +225,7 @@
         <!-- Quiz Page -->
         <div class="quiz-page" id="quizPage">
             <div class="widget-container" id="widget"></div>
-            <button class="next-button" id="nextButton" disabled>See Results</button>
+            <button class="next-button" id="nextButton" disabled>Guess My Vibe</button>
         </div>
 
         <!-- Result Page -->
@@ -245,8 +245,8 @@
             // Using your original image URL
             const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
 
-            // Create image selection pairs
-            for (let i = 0; i < 8; i++) {
+            // Create image selection pairs (now 10 pairs for 20 images)
+            for (let i = 0; i < 10; i++) {
                 const row = document.createElement('div');
                 row.className = 'image-row';
 
@@ -295,13 +295,13 @@
 
             function checkAllSelected() {
                 const selectedOptions = document.querySelectorAll('.image-option.selected');
-                nextButton.disabled = selectedOptions.length !== 8;
+                nextButton.disabled = selectedOptions.length !== 10;
             }
 
             nextButton.addEventListener('click', function() {
                 const selectedOptions = document.querySelectorAll('.image-option.selected');
                 
-                if (selectedOptions.length === 8) {
+                if (selectedOptions.length === 10) {
                     const selectedValues = Array.from(selectedOptions).map(option =>
                         parseInt(option.dataset.value));
 
@@ -328,6 +328,8 @@
                 let casualScore = 0;
                 let rulebreakerScore = 0;
                 let independentScore = 0;
+                let rebelliousScore = 0;
+                let financialScore = 0;
 
                 selectedValues.forEach(value => {
                     // Existing categories
@@ -336,21 +338,33 @@
                     if ([6, 11].includes(value)) sophisticatedScore++;
                     if ([2, 8, 10, 12, 13, 14].includes(value)) casualScore++;
                     
-                    // NEW: Rule-breaker tendencies
+                    // Rule-breaker tendencies
                     if ([3, 5, 9, 16].includes(value)) rulebreakerScore++;
                     
-                    // NEW: Independent tendencies
+                    // Independent tendencies
                     if ([1, 8, 13, 15].includes(value)) independentScore++;
+                    
+                    // NEW: Rebellious tendencies (devil duck)
+                    if ([17].includes(value)) rebelliousScore++;
+                    
+                    // NEW: Financial tendencies (credit cards vs cash)
+                    if ([19].includes(value)) financialScore++;
+                    if ([20].includes(value)) financialScore--;
                 });
 
                 let personalityType, description;
 
-                // NEW: Rule Breaker type
-                if (rulebreakerScore >= 3) {
+                // Rebellious type (devil duck)
+                if (rebelliousScore >= 1) {
+                    personalityType = "THE REBEL";
+                    description = "You challenge conventions and aren't afraid to go against the grain. You question authority and traditional norms, preferring to carve your own path. Your rebellious spirit makes you a natural innovator who isn't afraid to break rules when they don't make sense.";
+                }
+                // Rule Breaker type
+                else if (rulebreakerScore >= 3) {
                     personalityType = "THE RULE BREAKER";
                     description = "You march to the beat of your own drum and aren't afraid to challenge conventions. You see rules as suggestions rather than commandments and often find creative ways around obstacles. Your independent thinking and willingness to question authority make you a natural innovator and change-maker.";
                 }
-                // NEW: Independent Spirit type
+                // Independent Spirit type
                 else if (independentScore >= 3) {
                     personalityType = "THE INDEPENDENT SPIRIT";
                     description = "You value your autonomy above all else and thrive when following your own path. You're self-reliant, capable, and comfortable in your own company. While you can work well with others, you never lose sight of your own goals and values. Your self-sufficiency is both admirable and inspiring to those around you.";
