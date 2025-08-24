@@ -121,6 +121,8 @@
             display: none;
             text-align: center;
             width: 100%;
+            max-height: 800px;
+            overflow-y: auto;
         }
 
         .result-container {
@@ -136,6 +138,8 @@
             margin: 0 auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             border: 1px solid #eee;
+            max-height: 700px;
+            overflow-y: auto;
         }
 
         .personality-type {
@@ -159,28 +163,6 @@
             margin: 0 0 30px;
             text-align: center;
             font-weight: 400;
-        }
-
-        .restart-button {
-            font-family: 'Futura', 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 18px;
-            color: #fff;
-            background: #8f118d;
-            border: 2px solid #8f118d;
-            border-radius: 30px;
-            padding: 12px 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 20px;
-        }
-
-        .restart-button:hover {
-            transform: translateY(-3px);
-            background: #6d0c6b;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         @media (max-width: 850px) {
@@ -249,7 +231,6 @@
         <!-- Result Page -->
         <div class="result-page" id="resultPage">
             <div class="result-container" id="resultContainer"></div>
-            <button class="restart-button" id="restartButton">Take Again</button>
         </div>
     </div>
 
@@ -260,7 +241,6 @@
             const quizPage = document.getElementById('quizPage');
             const resultPage = document.getElementById('resultPage');
             const nextButton = document.getElementById('nextButton');
-            const restartButton = document.getElementById('restartButton');
 
             // Using your original image URL
             const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
@@ -339,17 +319,6 @@
                     // Scroll to top to show the result nicely
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
-            });
-
-            restartButton.addEventListener('click', function() {
-                // Clear all selections
-                const selectedOptions = document.querySelectorAll('.image-option.selected');
-                selectedOptions.forEach(option => option.classList.remove('selected'));
-                
-                // Switch back to the quiz page
-                resultPage.style.display = 'none';
-                quizPage.style.display = 'block';
-                nextButton.disabled = true;
             });
 
             function analyzeSelections(selectedValues) {
