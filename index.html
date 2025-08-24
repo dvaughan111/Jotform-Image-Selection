@@ -37,18 +37,10 @@
         .widget-container {
             background: transparent;
             padding: 20px 0;
-            /* This is the crucial fix for the height issue. It forces the container to expand. */
-            height: auto !important;
-            overflow: visible !important;
+            /* This will be handled by JavaScript on button click */
+            transition: all 0.5s ease-in-out;
         }
         
-        /* Apply a max-height to the outer widget frame if your environment supports it. */
-        /* If the above fix doesn't work, try adding this to your main form's CSS: */
-        .custom-field-frame.widget-frame {
-            max-height: 1000px !important;
-            overflow-y: auto !important;
-        }
-
         .image-row {
             display: flex;
             justify-content: center;
@@ -326,6 +318,10 @@
                     // Switch to the result page
                     quizPage.style.display = 'none';
                     resultPage.style.display = 'block';
+
+                    // Dynamically adjust the height of the container to fit the new content
+                    document.body.style.height = 'auto'; 
+                    document.body.style.overflowY = 'visible';
 
                     // Scroll to top to show the result nicely
                     window.scrollTo({ top: 0, behavior: 'smooth' });
