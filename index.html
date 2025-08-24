@@ -53,7 +53,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            border: 4px solid rgba(0, 0, 0, 0.3);
+            border: 4px solid transparent; /* Default to no visible border */
             flex-shrink: 0;
             background: transparent;
         }
@@ -66,8 +66,8 @@
 
         .image-option.selected {
             transform: scale(1.03);
-            border: 5px solid #8f118d !important;
-            box-shadow: 0 0 20px rgba(143, 17, 141, 0.5);
+            border: 20px solid #41afba !important; /* Increased border to 20px and changed color */
+            box-shadow: 0 0 20px rgba(65, 175, 186, 0.5); /* Updated shadow color to match */
         }
 
         .image-option img {
@@ -94,7 +94,7 @@
             font-size: 20px;
             color: #ffffff;
             background: transparent;
-            border: 3px solid #ffffff; /* Changed from 2px to 3px */
+            border: 3px solid #ffffff;
             border-radius: 30px;
             padding: 15px 40px;
             cursor: pointer;
@@ -118,14 +118,14 @@
         }
 
         .quiz-page {
-            max-height: 1000px; /* New rule to limit height of quiz page if needed */
+            max-height: 1000px;
         }
         
         .result-page {
             display: none;
             text-align: center;
             width: 100%;
-            max-height: 1000px; /* New rule for max height of the result page */
+            max-height: 1000px;
             overflow-y: auto;
         }
 
@@ -174,7 +174,7 @@
             }
 
             .image-option.selected {
-                border: 5px solid #8f118d !important;
+                border: 20px solid #41afba !important;
             }
             
             .or-separator {
@@ -205,7 +205,7 @@
             }
 
             .image-option.selected {
-                border: 5px solid #8f118d !important;
+                border: 20px solid #41afba !important;
             }
             
             .personality-type {
