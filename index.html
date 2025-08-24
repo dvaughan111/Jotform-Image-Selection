@@ -37,8 +37,7 @@
         .widget-container {
             background: transparent;
             padding: 20px 0;
-            /* This will be handled by JavaScript on button click */
-            transition: all 0.5s ease-in-out;
+            /* Height is handled by JavaScript */
         }
         
         .image-row {
@@ -122,14 +121,14 @@
         }
 
         .quiz-page {
-            /* We let this page's height be determined by its content */
+            /* Handled by JS */
         }
         
         .result-page {
             display: none;
             text-align: center;
             width: 100%;
-            /* Let this page's height be determined by its content */
+            /* Handled by JS */
         }
 
         .result-container {
@@ -319,10 +318,11 @@
                     quizPage.style.display = 'none';
                     resultPage.style.display = 'block';
 
-                    // Dynamically adjust the height of the container to fit the new content
-                    document.body.style.height = 'auto'; 
-                    document.body.style.overflowY = 'visible';
-
+                    // Dynamically adjust the height of the widget's container to fit the new content
+                    // This is the key fix to override external CSS.
+                    quizPage.style.height = 'auto';
+                    resultPage.style.height = 'auto';
+                    
                     // Scroll to top to show the result nicely
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
