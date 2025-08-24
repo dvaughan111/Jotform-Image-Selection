@@ -19,8 +19,8 @@
            display: flex;
            flex-direction: column;
            align-items: center;
-           justify-content: center;
-           padding: 20px;
+           justify-content: flex-start;
+           padding: 0;
            color: #333;
        }
 
@@ -37,25 +37,27 @@
        }
 
        .image-row {
-           display: flex;
-           flex-direction: row;
-           justify-content: center;
-           align-items: center;
-           margin-bottom: 35px;
-           width: 100%;
+           display: flex !important;
+           flex-direction: row !important;
+           justify-content: center !important;
+           align-items: center !important;
+           margin-bottom: 35px !important;
+           width: 100% !important;
+           flex-wrap: nowrap !important;
        }
 
        .image-option {
-           width: 200px;
-           height: 200px;
+           width: 200px !important;
+           height: 200px !important;
            border-radius: 15px;
            overflow: hidden;
            cursor: pointer;
            transition: all 0.3s ease;
            position: relative;
            border: 3px solid transparent;
-           flex-shrink: 0;
+           flex-shrink: 0 !important;
            background: white;
+           display: inline-block !important;
        }
 
        .image-option:hover {
@@ -82,9 +84,10 @@
            font-weight: bold;
            font-size: 18pt;
            color: #333;
-           margin: 0 20px;
+           margin: 0 20px !important;
            padding: 0 10px;
-           flex-shrink: 0;
+           flex-shrink: 0 !important;
+           display: inline-block !important;
        }
 
        .page-break {
@@ -144,10 +147,16 @@
 
        h1 { display: none; }
 
+       /* Force row layout on ALL screen sizes */
        @media (max-width: 850px) {
+           .image-row {
+               display: flex !important;
+               flex-direction: row !important;
+           }
+           
            .image-option {
-               width: 180px;
-               height: 180px;
+               width: 180px !important;
+               height: 180px !important;
            }
            
            .result-wrapper {
@@ -174,14 +183,19 @@
        }
 
        @media (max-width: 650px) {
+           .image-row {
+               display: flex !important;
+               flex-direction: row !important;
+           }
+           
            .image-option {
-               width: 150px;
-               height: 150px;
+               width: 140px !important;
+               height: 140px !important;
            }
 
            .or-separator {
-               margin: 0 15px;
-               font-size: 16pt;
+               margin: 0 10px !important;
+               font-size: 14pt;
            }
 
            .result-wrapper {
@@ -206,6 +220,18 @@
            
            .result-container {
                padding: 30px 20px;
+           }
+       }
+
+       @media (max-width: 400px) {
+           .image-option {
+               width: 120px !important;
+               height: 120px !important;
+           }
+
+           .or-separator {
+               margin: 0 5px !important;
+               font-size: 12pt;
            }
        }
    </style>
@@ -235,6 +261,14 @@
            for (let i = 0; i < 10; i++) {
                const row = document.createElement('div');
                row.className = 'image-row';
+               
+               // Force inline styles as backup
+               row.style.display = 'flex';
+               row.style.flexDirection = 'row';
+               row.style.justifyContent = 'center';
+               row.style.alignItems = 'center';
+               row.style.marginBottom = '35px';
+               row.style.width = '100%';
 
                const image1Number = (i * 2) + 1;
                const image2Number = (i * 2) + 2;
