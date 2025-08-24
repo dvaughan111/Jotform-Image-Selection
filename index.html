@@ -38,6 +38,8 @@
         .widget-container {
             background: transparent;
             padding: 20px 0;
+            /* Set initial height for widget container */
+            min-height: 3400px;
         }
 
         .image-row {
@@ -324,7 +326,8 @@
                     quizPage.style.display = 'none';
                     resultPage.style.display = 'block';
                     
-                    // Resize the body to 800px as requested
+                    // Resize the widget container to 800px as requested
+                    widgetContainer.style.minHeight = '800px';
                     body.style.height = '800px';
                     
                     // After displaying the results, resize the parent frame to fit the new content
@@ -372,7 +375,7 @@
                     description = "You're drawn to excitement and new experiences! Whether it's outdoor adventures, spontaneous travel, or trying something completely different, you thrive on variety and stimulation. You're not afraid to step outside your comfort zone and often inspire others to be more adventurous too.";
                 } else if (sophisticatedScore >= 2) {
                     personalityType = "THE REFINED ENTHUSIAST";
-                    description = "You have a taste for the finer things in life and appreciate quality over quantity. You enjoy cultural experiences, elegant settings, and meaningful conversations. You know how to balance sophistication with fun, and you bring a touch of class to everything you do.";
+                    description = "You have a taste for the finer things in life and appreciate quality over quantity. You enjoy cultural experiences, elegant settings and meaningful conversations. You know how to balance sophistication with fun, and you bring a touch of class to everything you do.";
                 } else if (homebodyScore >= 4) {
                     personalityType = "THE COMFORT CONNOISSEUR";
                     description = "You find joy in life's simple pleasures and value comfort and coziness above all else. You prefer intimate gatherings over big crowds and know that the best moments often happen in familiar, comfortable spaces. You're the friend everyone turns to for a relaxing, stress-free good time.";
