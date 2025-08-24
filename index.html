@@ -16,8 +16,7 @@
         body {
             font-family: 'Montserrat', sans-serif;
             background: transparent;
-            max-height: 1000px;
-            overflow-y: auto;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -31,6 +30,12 @@
             max-width: 800px;
             background: transparent;
             overflow: hidden;
+        }
+        
+        /* This is the new wrapper for the quiz and results content */
+        .content-wrapper {
+            max-height: 1000px;
+            overflow-y: auto;
         }
 
         .widget-container {
@@ -118,16 +123,14 @@
             transform: none;
         }
 
-        .quiz-page {
-            height: 100%;
+        .quiz-page, .result-page {
+            /* No height constraints here to allow content to grow */
+            width: 100%;
         }
 
         .result-page {
             display: none;
             text-align: center;
-            width: 100%;
-            height: 100%;
-            overflow-y: auto;
         }
 
         .result-container {
@@ -225,13 +228,15 @@
 </head>
 <body>
     <div class="container">
-        <div class="quiz-page" id="quizPage">
-            <div class="widget-container" id="widget"></div>
-            <button class="next-button" id="nextButton" disabled>What's my vibe?</button>
-        </div>
+        <div class="content-wrapper">
+            <div class="quiz-page" id="quizPage">
+                <div class="widget-container" id="widget"></div>
+                <button class="next-button" id="nextButton" disabled>What's my vibe?</button>
+            </div>
 
-        <div class="result-page" id="resultPage">
-            <div class="result-container" id="resultContainer"></div>
+            <div class="result-page" id="resultPage">
+                <div class="result-container" id="resultContainer"></div>
+            </div>
         </div>
     </div>
 
@@ -301,7 +306,7 @@
 
             nextButton.addEventListener('click', function() {
                 const selectedOptions = document.querySelectorAll('.image-option.selected');
-                
+
                 if (selectedOptions.length === 10) {
                     const selectedValues = Array.from(selectedOptions).map(option =>
                         parseInt(option.dataset.value));
@@ -312,7 +317,7 @@
                         <h2 class="personality-type">${personality.type}</h2>
                         <p class="personality-description">${personality.description}</p>
                     `;
-                    
+
                     // Switch to the result page
                     quizPage.style.display = 'none';
                     resultPage.style.display = 'block';
@@ -338,16 +343,16 @@
                     if ([3, 5, 16].includes(value)) adventurousScore++;
                     if ([6, 11].includes(value)) sophisticatedScore++;
                     if ([2, 8, 10, 12, 13, 14].includes(value)) casualScore++;
-                    
+
                     // Rule-breaker tendencies
                     if ([3, 5, 9, 16].includes(value)) rulebreakerScore++;
-                    
+
                     // Independent tendencies
                     if ([1, 8, 13, 15].includes(value)) independentScore++;
-                    
+
                     // NEW: Rebellious tendencies (devil duck)
                     if ([17].includes(value)) rebelliousScore++;
-                    
+
                     // NEW: Financial tendencies (credit cards vs cash)
                     if ([19].includes(value)) financialScore++;
                     if ([20].includes(value)) financialScore--;
