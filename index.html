@@ -23,7 +23,7 @@
             justify-content: center;
             padding: 20px;
             color: #333;
-            /* This height will be controlled by JS now */
+            /* Height will be managed by JavaScript */
             height: auto;
             overflow: visible;
         }
@@ -121,7 +121,7 @@
         }
 
         .quiz-page {
-            /* This will be handled by JS */
+            /* Handled by JS */
         }
         
         .result-page {
@@ -246,7 +246,7 @@
             // Using your original image URL
             const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
 
-            // Function to resize the parent frame
+            // Function to resize the parent frame, which is the most reliable way to force height changes
             function resizeParentFrame() {
                 const totalHeight = document.body.scrollHeight;
                 window.parent.postMessage({
@@ -255,11 +255,11 @@
                 }, '*');
             }
 
-            // Initial resize when the page loads
+            // Initial resize when the page loads, and on any window resize
             window.addEventListener('load', resizeParentFrame);
             window.addEventListener('resize', resizeParentFrame);
 
-            // Create image selection pairs (now 10 pairs for 20 images)
+            // Create image selection pairs (10 pairs for 20 images)
             for (let i = 0; i < 10; i++) {
                 const row = document.createElement('div');
                 row.className = 'image-row';
@@ -328,6 +328,7 @@
                     resultPage.style.display = 'block';
 
                     // After displaying the results, resize the parent frame to fit the new content
+                    // A small delay is added to ensure the new content has rendered completely
                     setTimeout(resizeParentFrame, 100);
                     
                     window.scrollTo({ top: 0, behavior: 'smooth' });
