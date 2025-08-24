@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: transparent;
+            background: linear-gradient(135deg, #6e48aa, #9d50bb);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -28,8 +28,11 @@
         .container {
             width: 100%;
             max-width: 800px;
-            background: transparent;
+            background: rgba(255, 255, 255, 0.1);
             overflow: hidden;
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(5px);
         }
 
         .widget-container {
@@ -66,7 +69,7 @@
 
         .image-option.selected {
             transform: scale(1.03);
-            border: 3px solid #8f118d !important;
+            border: 5px solid #8f118d !important;
             box-shadow: 0 0 20px rgba(143, 17, 141, 0.5);
         }
 
@@ -89,6 +92,100 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
+        .next-button {
+            font-family: 'Futura', 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: #ffffff;
+            background: rgba(143, 17, 141, 0.7);
+            border: 2px solid #ffffff;
+            border-radius: 30px;
+            padding: 15px 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 30px auto;
+            display: block;
+        }
+
+        .next-button:hover {
+            transform: translateY(-3px);
+            background: rgba(143, 17, 141, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .next-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-page {
+            display: none;
+            text-align: center;
+            width: 100%;
+        }
+
+        .result-container {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .personality-type {
+            font-family: 'Futura', sans-serif;
+            font-weight: 700;
+            font-size: 42px;
+            color: #8f118d;
+            margin: 25px 0;
+            text-align: center;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .personality-description {
+            color: #333;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 0 30px;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .restart-button {
+            font-family: 'Futura', 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: #ffffff;
+            background: rgba(143, 17, 141, 0.7);
+            border: 2px solid #8f118d;
+            border-radius: 30px;
+            padding: 12px 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        .restart-button:hover {
+            transform: translateY(-3px);
+            background: rgba(143, 17, 141, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
         @media (max-width: 850px) {
             .image-option {
                 width: 270px;
@@ -96,11 +193,19 @@
             }
 
             .image-option.selected {
-                border: 3px solid #8f118d !important;
+                border: 5px solid #8f118d !important;
             }
             
             .or-separator {
                 margin: 0 25px;
+            }
+            
+            .personality-type {
+                font-size: 36px;
+            }
+            
+            .personality-description {
+                font-size: 18px;
             }
         }
 
@@ -119,22 +224,68 @@
             }
 
             .image-option.selected {
-                border: 3px solid #8f118d !important;
+                border: 5px solid #8f118d !important;
+            }
+            
+            .personality-type {
+                font-size: 30px;
+            }
+            
+            .personality-description {
+                font-size: 16px;
+            }
+            
+            .result-container {
+                padding: 30px 20px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="widget-container" id="widget"></div>
+        <!-- Quiz Page -->
+        <div class="quiz-page" id="quizPage">
+            <div class="widget-container" id="widget"></div>
+            <button class="next-button" id="nextButton" disabled>See Results</button>
+        </div>
+
+        <!-- Result Page -->
+        <div class="result-page" id="resultPage">
+            <div class="result-container" id="resultContainer"></div>
+            <button class="restart-button" id="restartButton">Take Again</button>
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const widgetContainer = document.getElementById('widget');
+            const resultContainer = document.getElementById('resultContainer');
+            const quizPage = document.getElementById('quizPage');
+            const resultPage = document.getElementById('resultPage');
+            const nextButton = document.getElementById('nextButton');
+            const restartButton = document.getElementById('restartButton');
 
             // Using your original image URL
             const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
+
+            const imageMeanings = {
+                1: "Introverted, homebody, enjoys quiet time",
+                2: "Social, enjoys entertainment, external stimulation",
+                3: "Adventurous, nature-loving, spontaneous",
+                4: "Comfort-seeking, luxury-loving, practical",
+                5: "Energetic, social, thrill-seeking",
+                6: "Sophisticated, cultured, refined tastes",
+                7: "Casual, comfort-focused, indulgent",
+                8: "Health-conscious, disciplined, mindful",
+                9: "Dramatic, romantic, enjoys relationship dynamics",
+                10: "Fun-loving, enjoys social connections, lighthearted",
+                11: "Sophisticated, enjoys elevated experiences",
+                12: "Easygoing, social, enjoys casual fun",
+                13: "Animal lover, nurturing, affectionate",
+                14: "Playful, loyal, energetic",
+                15: "Comfort-focused, traditional, values intimacy",
+                16: "Adventurous, spontaneous, thrill-seeking"
+            };
 
             // Create image selection pairs
             for (let i = 0; i < 8; i++) {
@@ -164,10 +315,12 @@
 
                 image1.addEventListener('click', function() {
                     selectOption(this, image2);
+                    checkAllSelected();
                 });
 
                 image2.addEventListener('click', function() {
                     selectOption(this, image1);
+                    checkAllSelected();
                 });
 
                 row.appendChild(image1);
@@ -180,6 +333,102 @@
             function selectOption(selectedElement, otherElement) {
                 selectedElement.classList.add('selected');
                 otherElement.classList.remove('selected');
+            }
+
+            function checkAllSelected() {
+                const selectedOptions = document.querySelectorAll('.image-option.selected');
+                nextButton.disabled = selectedOptions.length !== 8;
+            }
+
+            nextButton.addEventListener('click', function() {
+                const selectedOptions = document.querySelectorAll('.image-option.selected');
+                
+                if (selectedOptions.length === 8) {
+                    const selectedValues = Array.from(selectedOptions).map(option =>
+                        parseInt(option.dataset.value));
+
+                    const personality = analyzeSelections(selectedValues);
+
+                    resultContainer.innerHTML = `
+                        <h2 class="personality-type">${personality.type}</h2>
+                        <p class="personality-description">${personality.description}</p>
+                    `;
+                    
+                    // Switch to the result page
+                    quizPage.style.display = 'none';
+                    resultPage.style.display = 'block';
+
+                    // Scroll to top to show the result nicely
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+
+            restartButton.addEventListener('click', function() {
+                // Clear all selections
+                const selectedOptions = document.querySelectorAll('.image-option.selected');
+                selectedOptions.forEach(option => option.classList.remove('selected'));
+                
+                // Switch back to the quiz page
+                resultPage.style.display = 'none';
+                quizPage.style.display = 'block';
+                nextButton.disabled = true;
+            });
+
+            function analyzeSelections(selectedValues) {
+                let homebodyScore = 0;
+                let adventurousScore = 0;
+                let sophisticatedScore = 0;
+                let casualScore = 0;
+                let rulebreakerScore = 0;
+                let independentScore = 0;
+
+                selectedValues.forEach(value => {
+                    // Existing categories
+                    if ([1, 4, 7, 15].includes(value)) homebodyScore++;
+                    if ([3, 5, 16].includes(value)) adventurousScore++;
+                    if ([6, 11].includes(value)) sophisticatedScore++;
+                    if ([2, 8, 10, 12, 13, 14].includes(value)) casualScore++;
+                    
+                    // NEW: Rule-breaker tendencies
+                    if ([3, 5, 9, 16].includes(value)) rulebreakerScore++;
+                    
+                    // NEW: Independent tendencies
+                    if ([1, 8, 13, 15].includes(value)) independentScore++;
+                });
+
+                let personalityType, description;
+
+                // NEW: Rule Breaker type
+                if (rulebreakerScore >= 3) {
+                    personalityType = "THE RULE BREAKER";
+                    description = "You march to the beat of your own drum and aren't afraid to challenge conventions. You see rules as suggestions rather than commandments and often find creative ways around obstacles. Your independent thinking and willingness to question authority make you a natural innovator and change-maker.";
+                }
+                // NEW: Independent Spirit type
+                else if (independentScore >= 3) {
+                    personalityType = "THE INDEPENDENT SPIRIT";
+                    description = "You value your autonomy above all else and thrive when following your own path. You're self-reliant, capable, and comfortable in your own company. While you can work well with others, you never lose sight of your own goals and values. Your self-sufficiency is both admirable and inspiring to those around you.";
+                }
+                else if (adventurousScore >= 3) {
+                    personalityType = "THE THRILL SEEKER";
+                    description = "You're drawn to excitement and new experiences! Whether it's outdoor adventures, spontaneous travel, or trying something completely different, you thrive on variety and stimulation. You're not afraid to step outside your comfort zone and often inspire others to be more adventurous too.";
+                }
+                else if (sophisticatedScore >= 2) {
+                    personalityType = "THE REFINED ENTHUSIAST";
+                    description = "You have a taste for the finer things in life and appreciate quality over quantity. You enjoy cultural experiences, elegant settings, and meaningful conversations. You know how to balance sophistication with fun, and you bring a touch of class to everything you do.";
+                }
+                else if (homebodyScore >= 4) {
+                    personalityType = "THE COMFORT CONNOISSEUR";
+                    description = "You find joy in life's simple pleasures and value comfort and coziness above all else. You prefer intimate gatherings over big crowds and know that the best moments often happen in familiar, comfortable spaces. You're the friend everyone turns to for a relaxing, stress-free good time.";
+                }
+                else {
+                    personalityType = "THE BALANCED EXPLORER";
+                    description = "You're wonderfully adaptable and open to different experiences. You can appreciate both quiet nights in and exciting adventures out. You're social yet introspective, practical yet fun-loving. Your friends love that they can count on you for any kind of activity - you truly go with the flow!";
+                }
+
+                return {
+                    type: personalityType,
+                    description: description
+                };
             }
         });
     </script>
