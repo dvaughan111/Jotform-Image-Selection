@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What's Your Vibe? Personality Quiz</title>
+    <title>Personality Quiz</title>
     <link href="https://fonts.googleapis.com/css2?family=Futura:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -89,25 +89,6 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        .instructions {
-            text-align: center;
-            color: #fff;
-            margin-bottom: 20px;
-            font-size: 18px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        h1 { 
-            text-align: center;
-            font-family: 'Futura', sans-serif;
-            margin-bottom: 20px;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
         @media (max-width: 850px) {
             .image-option {
                 width: 270px;
@@ -140,78 +121,11 @@
             .image-option.selected {
                 border: 3px solid #8f118d !important;
             }
-            
-            h1 {
-                font-size: 2rem;
-            }
-        }
-
-        /* Background elements to show transparency */
-        .background-elements {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        .bg-circle {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.2;
-            animation: float 15s infinite ease-in-out;
-        }
-        
-        .bg-circle:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            background: #ff9966;
-            top: 10%;
-            left: 5%;
-            animation-delay: 0s;
-        }
-        
-        .bg-circle:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            background: #38ef7d;
-            top: 60%;
-            left: 15%;
-            animation-delay: -5s;
-        }
-        
-        .bg-circle:nth-child(3) {
-            width: 250px;
-            height: 250px;
-            background: #8e2de2;
-            top: 30%;
-            right: 10%;
-            animation-delay: -10s;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-20px) rotate(10deg);
-            }
         }
     </style>
 </head>
 <body>
-    <div class="background-elements">
-        <div class="bg-circle"></div>
-        <div class="bg-circle"></div>
-        <div class="bg-circle"></div>
-    </div>
-
     <div class="container">
-        <h1>What's Your Vibe?</h1>
-        <p class="instructions">Select one image from each pair to discover your personality vibe</p>
-        
         <div class="widget-container" id="widget"></div>
     </div>
 
@@ -219,22 +133,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             const widgetContainer = document.getElementById('widget');
 
-            // Using placeholder images with transparent backgrounds
-            const baseImageUrl = 'https://placehold.co/300x300/transparent/white?text=Image+';
-            
-            const imageMeanings = {
-                1: "Introverted, homebody, enjoys quiet time",
-                2: "Social, enjoys entertainment, external stimulation",
-                3: "Adventurous, nature-loving, spontaneous",
-                4: "Comfort-seeking, luxury-loving, practical",
-                5: "Energetic, social, thrill-seeking",
-                6: "Sophisticated, cultured, refined tastes",
-                7: "Casual, comfort-focused, indulgent",
-                8: "Health-conscious, disciplined, mindful"
-            };
+            // Using your original image URL
+            const baseImageUrl = 'https://dvaughan111.github.io/Jotform-Image-Selection/images/';
 
             // Create image selection pairs
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < 8; i++) {
                 const row = document.createElement('div');
                 row.className = 'image-row';
 
@@ -245,7 +148,8 @@
                 image1.className = 'image-option';
                 image1.dataset.choice = `option${image1Number}`;
                 image1.dataset.value = image1Number;
-                image1.innerHTML = `<img src="${baseImageUrl}${image1Number}" alt="Option ${image1Number}">`;
+                // Using your original images
+                image1.innerHTML = `<img src="${baseImageUrl}${image1Number}.png" alt="Option ${image1Number}">`;
 
                 const orSeparator = document.createElement('div');
                 orSeparator.className = 'or-separator';
@@ -255,7 +159,8 @@
                 image2.className = 'image-option';
                 image2.dataset.choice = `option${image2Number}`;
                 image2.dataset.value = image2Number;
-                image2.innerHTML = `<img src="${baseImageUrl}${image2Number}" alt="Option ${image2Number}">`;
+                // Using your original images
+                image2.innerHTML = `<img src="${baseImageUrl}${image2Number}.png" alt="Option ${image2Number}">`;
 
                 image1.addEventListener('click', function() {
                     selectOption(this, image2);
@@ -275,28 +180,6 @@
             function selectOption(selectedElement, otherElement) {
                 selectedElement.classList.add('selected');
                 otherElement.classList.remove('selected');
-                
-                // Check if all pairs have been selected
-                checkAllSelected();
-            }
-
-            function checkAllSelected() {
-                const selectedOptions = document.querySelectorAll('.image-option.selected');
-                
-                if (selectedOptions.length === 4) {
-                    // All pairs have been selected
-                    const selectedValues = Array.from(selectedOptions).map(option =>
-                        parseInt(option.dataset.value));
-
-                    // In a real implementation, this would submit the form
-                    // or navigate to the next page with the results
-                    console.log("Selected values:", selectedValues);
-                    
-                    // Show a message (in a real implementation, this would be handled by the form)
-                    setTimeout(() => {
-                        alert("All selections complete! Click the form's next button to see your results.");
-                    }, 500);
-                }
             }
         });
     </script>
