@@ -7,21 +7,24 @@
    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
    <style>
        * {
-           margin: 0;
-           padding: 0;
+           margin: 0 !important;
+           padding: 0 !important;
            box-sizing: border-box;
+       }
+
+       html, body {
+           margin: 0 !important;
+           padding: 0 !important;
+           height: auto !important;
+           min-height: auto !important;
        }
 
        body {
            font-family: 'Montserrat', sans-serif;
-           background: transparent; /* Transparent background */
-           min-height: 100vh;
-           display: flex;
-           flex-direction: column;
-           align-items: center;
-           justify-content: center;
-           padding: 20px;
-           color: #333; /* Changed back to dark text for better contrast */
+           background: transparent;
+           display: block;
+           color: #333;
+           line-height: 1;
        }
 
        .container {
@@ -29,32 +32,44 @@
            max-width: 900px;
            background: transparent;
            overflow: hidden;
+           margin: 0 !important;
+           padding: 0 !important;
        }
 
        .widget-container {
            background: transparent;
-           padding: 20px 0;
+           padding: 0 !important;
+           margin: 0 !important;
        }
 
        .image-row {
-           display: flex;
-           justify-content: center;
-           align-items: center;
-           margin-bottom: 35px;
-           width: 100%;
+           display: flex !important;
+           flex-direction: row !important;
+           justify-content: center !important;
+           align-items: center !important;
+           margin-bottom: 35px !important;
+           margin-top: 0 !important;
+           width: 100% !important;
+           flex-wrap: nowrap !important;
+       }
+
+       .image-row:first-child {
+           margin-top: 0 !important;
+           padding-top: 0 !important;
        }
 
        .image-option {
-           width: 200px;
-           height: 200px;
+           width: 280px !important; /* Increased by 40% from 200px */
+           height: 280px !important; /* Increased by 40% from 200px */
            border-radius: 15px;
            overflow: hidden;
            cursor: pointer;
            transition: all 0.3s ease;
            position: relative;
            border: 3px solid transparent;
-           flex-shrink: 0;
-           background: white; /* White background for image containers */
+           flex-shrink: 0 !important;
+           background: white;
+           display: inline-block !important;
        }
 
        .image-option:hover {
@@ -65,7 +80,7 @@
 
        .image-option.selected {
            transform: scale(1.03);
-           border: 3px solid #C71585;
+           border: 10px solid #C71585 !important; /* Purple color matching next button */
            box-shadow: none;
        }
 
@@ -78,19 +93,20 @@
 
        .or-separator {
            font-family: 'Montserrat', sans-serif;
-           font-weight: bold;
+           font-weight: bold !important;
            font-size: 18pt;
-           color: #333; /* Dark text for better contrast */
-           margin: 0 20px;
+           color: white !important; /* Changed to white */
+           margin: 0 20px !important;
            padding: 0 10px;
-           flex-shrink: 0;
+           flex-shrink: 0 !important;
+           display: inline-block !important;
        }
 
        .page-break {
            width: 100%;
            height: 1px;
            margin: 30px 0;
-           border-top: 2px dashed #ccc; /* Changed to neutral color */
+           border-top: 2px dashed #ccc;
        }
 
        .result-wrapper {
@@ -107,7 +123,7 @@
        .result-container {
            text-align: center;
            padding: 40px;
-           background: white; /* White background for results */
+           background: white;
            border-radius: 15px;
            width: 650px;
            display: flex;
@@ -115,14 +131,14 @@
            justify-content: center;
            align-items: center;
            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-           border: 1px solid #ddd; /* Subtle border */
+           border: 1px solid #ddd;
        }
 
        .personality-type {
            font-family: 'Montserrat', sans-serif;
            font-weight: 900;
            font-size: 36px;
-           color: #8f118d; /* Purple color for personality type */
+           color: #8f118d;
            margin: 30px 40px 25px;
            text-align: center;
            line-height: 1.2;
@@ -131,7 +147,7 @@
        }
 
        .personality-description {
-           color: #333; /* Dark text for readability */
+           color: #333;
            font-family: 'Montserrat', sans-serif;
            font-size: 18px;
            line-height: 1.6;
@@ -143,10 +159,16 @@
 
        h1 { display: none; }
 
+       /* Force row layout on ALL screen sizes */
        @media (max-width: 850px) {
+           .image-row {
+               display: flex !important;
+               flex-direction: row !important;
+           }
+           
            .image-option {
-               width: 180px;
-               height: 180px;
+               width: 252px !important; /* 40% increase from 180px */
+               height: 252px !important;
            }
            
            .result-wrapper {
@@ -172,18 +194,20 @@
            }
        }
 
-       @media (max-width: 768px) {
+       @media (max-width: 650px) {
            .image-row {
-               flex-direction: column;
+               display: flex !important;
+               flex-direction: row !important;
+           }
+           
+           .image-option {
+               width: 196px !important; /* 40% increase from 140px */
+               height: 196px !important;
            }
 
            .or-separator {
-               margin: 15px 0;
-           }
-
-           .image-option {
-               width: 200px;
-               height: 200px;
+               margin: 0 10px !important;
+               font-size: 14pt;
            }
 
            .result-wrapper {
@@ -208,6 +232,18 @@
            
            .result-container {
                padding: 30px 20px;
+           }
+       }
+
+       @media (max-width: 400px) {
+           .image-option {
+               width: 168px !important; /* 40% increase from 120px */
+               height: 168px !important;
+           }
+
+           .or-separator {
+               margin: 0 5px !important;
+               font-size: 12pt;
            }
        }
    </style>
@@ -237,6 +273,16 @@
            for (let i = 0; i < 10; i++) {
                const row = document.createElement('div');
                row.className = 'image-row';
+               
+               // Force inline styles as backup
+               row.style.display = 'flex';
+               row.style.flexDirection = 'row';
+               row.style.justifyContent = 'center';
+               row.style.alignItems = 'center';
+               row.style.marginBottom = '35px';
+               row.style.marginTop = '0';
+               row.style.paddingTop = '0';
+               row.style.width = '100%';
 
                const image1Number = (i * 2) + 1;
                const image2Number = (i * 2) + 2;
